@@ -25,6 +25,10 @@ class Default:
         self.data = {} ## put payload here.
         self.history = []
 
+        self.context_size = 1 
+        self.images_size = 3 
+        self.history_size = 1 
+
         self.visual = visual ## visual or not visual
         self.streaming = streaming ## streaming or not streaming
         self.chat = chat ## chat or generate
