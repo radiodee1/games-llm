@@ -48,7 +48,7 @@ class Default:
         return encoded_string
         
     def make_headers(self):
-        if not self.api_key == None:
+        if self.api_key is not None:
             self.headers = {
                 "Content-Type": "application/json",
                 "Authorization": str("Bearer " + self.api_key ) 
@@ -239,3 +239,9 @@ class Default:
             #sys.exit()
         self.result = xx 
         pass 
+
+    def do(self, image=None, context=None, text=None):
+        self.payload(image=image, context=context, text=text)
+        self.query()
+        return self.result
+
