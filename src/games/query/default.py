@@ -53,23 +53,68 @@ class Default:
             self.text = text
 
         if self.chat:
-            self.history += [{
-                "role": "system",
-                "content": self.text,
-                "images" : self.images
-            }]
-
-            self.data  = {
-                "model": self.model,
-                "messages": self.history,
-                "stream": self.streaming
-            }
+            if self.visual:
+                self.payload_visual_chat()
+            else:
+                self.payload_text_chat()
         else:
-            self.data = {
-                "model": self.model,
-                "prompt": self.text,
-                "images": self.images,
-                "context": self.context,
-                "stream": self.streaming
-            }
+            if self.visual:
+                self.payload_visual_generate()
+            else:
+                self.payload_text_generate()
+
+        p = self.payload_overload()
+        if len(p) > 0:
+            self.data = p 
+
+
+    def payload_visual_chat(self):
+        self.history += [{
+            "role": "system",
+            "content": self.text,
+            "images" : self.images
+        }]
+
+        self.data  = {
+            "model": self.model,
+            "messages": self.history,
+            "stream": self.streaming
+        }
+        pass 
+
+    def payload_visual_generate(self):
+        self.data = {
+            "model": self.model,
+            "prompt": self.text,
+            "images": self.images,
+            "context": self.context,
+            "stream": self.streaming
+        }
+        pass 
+
+    def payload_text_chat(self):
+        self.history += [{
+            "role": "system",
+            "content": self.text,
+        }]
+
+        self.data  = {
+            "model": self.model,
+            "messages": self.history,
+            "stream": self.streaming
+        }
+ 
+        pass
+
+    def payload_text_generate(self):
+        self.data = {
+            "model": self.model,
+            "prompt": self.text,
+            "context": self.context,
+            "stream": self.streaming
+        }
+        pass
+
+    def payload_overload(self):
+        return {}
 
