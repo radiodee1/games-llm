@@ -72,7 +72,7 @@ class Default:
         elapsed_sec = (self.time_end - self.time_start) - elapsed_min * 60
         elapsed_sec = '0000' + str(int(elapsed_sec))
         elapsed_sec = elapsed_sec[-2:]
-        print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+        self.print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
 
 
     def make_headers(self):
@@ -196,7 +196,7 @@ class Default:
                 chunk_message = chunk.get('message', {})
                 self.r_temp += chunk_message.get('content', '')
                 self.think_temp += chunk_message.get('thinking', '')
-                print(chunk)
+                self.print(chunk)
                 self.r_temp += chunk.get('response', '')
                 self.think_temp += chunk.get('thinking','')
                 
@@ -211,7 +211,7 @@ class Default:
                 chunk = json.loads(lines)
                 if 'context' in chunk:
                     self.context = chunk['context']
-                print(chunk)
+                self.print(chunk)
                 self.r_temp += chunk.get('response', '')
                 self.think_temp += chunk.get('thinking','')
                 
@@ -224,7 +224,7 @@ class Default:
     def query_chat(self):
         x = self.raw_result
         xx = ''
-        print('x', x)
+        self.print('x', x)
         if 'message' in x and 'content' in x['message']:
             xx = x['message']['content']
             ## xx = scrape(xx)
@@ -239,13 +239,13 @@ class Default:
             else:
                 commands.append(xx)
             '''
-            print(xx, self.history)
+            self.print(xx, self.history)
         else:
             xx = ''
 
         if 'done' in x and x['done'] == False:
-            print('not done!!')
-            print(x)
+            self.print('not done!!')
+            self.print(x)
         self.result = xx 
         pass
 
@@ -257,7 +257,7 @@ class Default:
             ## pygame.display.set_caption('Partial ' + str(num // skip + 1))   
             #continue  ## skip next part
             if 'response' in x and len(x['response']) > 0:
-                print(x['response'])
+                self.print(x['response'])
             x['response'] = ''
             xx = ''
         
@@ -273,7 +273,7 @@ class Default:
         else:
             pass 
             #cc = '' # keep the context from last pass 
-            print(x)
+            self.print(x)
             #sys.exit()
         self.result = xx 
         pass 
@@ -281,13 +281,13 @@ class Default:
     def trim(self):
         if self.images_size > -1 and self.images_size < len(self.images):
             self.images = self.images[ - self.images_size : ]
-            print('len images', len(self.images))
+            self.print('len images', len(self.images))
         if self.context_size > -1 and self.context_size < len(self.context):
             self.context = self.context[ - self.context_size : ]
-            print('len context', len(self.context))
+            self.print('len context', len(self.context))
         if self.history_size > -1 and self.history_size < len(self.history):
             self.history = self.history[ - self.history_size : ]
-            print('len history', len(self.history))
+            self.print('len history', len(self.history))
 
     def do(self, image=None, context=None, text=None):
         self.payload(image=image, context=context, text=text)
