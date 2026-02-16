@@ -41,6 +41,7 @@ class Default:
         self.r_temp = ''
         self.think_temp = ''
 
+        print('Default')
         pass
 
     def set_url(self, url):
@@ -87,11 +88,13 @@ class Default:
         self.start_time()
         
         if self.chat:
+            self.url += 'chat'
             if self.visual:
                 self.payload_visual_chat()
             else:
                 self.payload_text_chat()
         else:
+            self.url += 'generate'
             if self.visual:
                 self.payload_visual_generate()
             else:
@@ -167,7 +170,7 @@ class Default:
             pass
         else:
             self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming)
-            self.raw_result = self.raw_result.json()
+            #self.raw_result = self.raw_result.json() ## <-- use me??
             if self.chat:
                 self.query_chat()
             else:
@@ -212,6 +215,7 @@ class Default:
     def query_chat(self):
         x = self.raw_result
         xx = ''
+        print('x', x)
         if 'message' in x and 'content' in x['message']:
             xx = x['message']['content']
             ## xx = scrape(xx)

@@ -12,6 +12,8 @@ import requests
 import base64
 import argparse 
 import math
+from query import Default
+
 from dotenv import load_dotenv 
 
 load_dotenv()
@@ -93,6 +95,7 @@ image_series = False
 arrow_surface = None ## for arrow...
 
 model = "qwen3-vl:2b"
+model_class = Default(model)
 
 pygame.display.set_caption('Pong')
 
@@ -411,6 +414,7 @@ def parse():
     global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
+    global model_class 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -446,7 +450,8 @@ def parse():
     if args.sudden_death >= -1:
         sudden_death_score = args.sudden_death
     if len(args.model) > 0:
-        model = args.model 
+        model = args.model
+        model_class =  Default(model)
     if args.skip >= -1:
         skip = args.skip
     if args.compress >= -1:
@@ -666,6 +671,12 @@ if __name__ == "__main__":
                     z = encode_image_to_base64(f)
                     queue.append(z)
                     i = 0 
+                    
+                    xx = model_class.do(image=queue, context=None, text=m )
+                    print(xx)
+                    sys.exit()
+                    
+
                     while len(queue) > queue_len and i < 10:
                         queue.pop(0)
                         print('pop img', len(queue))
