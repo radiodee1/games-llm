@@ -36,6 +36,8 @@ class Default:
         self.chat = chat ## chat or generate
         self.think = True ## think or not think
         self.url = 'http://localhost:11434/api/'
+        self.url_ending_chat = 'chat'
+        self.url_ending_generate = 'generate'
         self.api_key = key 
 
         self.r_temp = ''
@@ -88,13 +90,13 @@ class Default:
         self.start_time()
         
         if self.chat:
-            self.url += 'chat'
+            self.url += self.url_ending_chat
             if self.visual:
                 self.payload_visual_chat()
             else:
                 self.payload_text_chat()
         else:
-            self.url += 'generate'
+            self.url += self.url_ending_generate
             if self.visual:
                 self.payload_visual_generate()
             else:
