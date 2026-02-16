@@ -42,8 +42,9 @@ class Default:
 
         self.r_temp = ''
         self.think_temp = ''
+        self.print_to_screen = True
 
-        print('Default')
+        self.print('Default', model)
         pass
 
     def set_url(self, url):
@@ -51,6 +52,10 @@ class Default:
 
     def get_url(self):
         return self.url
+
+    def print(self, *args):
+        if self.print_to_screen:
+            print(*args)
 
     def image_to_string(self, image_path):
         with open(image_path, "rb") as image_file:
@@ -79,10 +84,12 @@ class Default:
 
     def payload(self, image=None, context=None, text=None):
         if image is not None and isinstance(image, str):
+            if not image.startswith('data:image/png;base64,'):
+                image = "data:image/png;base64," + image
             self.images.append(image)
         if image is not None and isinstance(image, list):
             self.images += image
-        if context is not None and isinstance(context, list):
+        if context is not None and isinstance(context, list) and not self.chat:
             self.context = context
         if text is not None and isinstance(text, str):
             self.text = text
