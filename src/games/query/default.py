@@ -172,7 +172,7 @@ class Default:
             pass
         else:
             self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming)
-            self.raw_result = self.raw_result.json() ## <-- use me??
+            self.raw_result = self.raw_result.json() 
             if self.chat:
                 self.query_chat()
             else:
