@@ -24,6 +24,8 @@ class Default:
         self.headers = {}
         self.data = {} ## put payload here.
         self.history = []
+        self.time_start = -1
+        self.time_end = -1
 
         self.context_size = 1 
         self.images_size = 3 
@@ -38,6 +40,7 @@ class Default:
 
         self.r_temp = ''
         self.think_temp = ''
+
         pass
 
     def set_url(self, url):
@@ -51,6 +54,19 @@ class Default:
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         return encoded_string
         
+    def start_time(self):
+        self.time_start = time.perf_counter()
+
+    def end_time(self):
+        self.time_end = time.perf_counter()
+        #end_time = time.perf_counter()
+        elapsed_min = (self.time_end - self.time_start) // 60 
+        elapsed_sec = (self.time_end - self.time_start) - elapsed_min * 60
+        elapsed_sec = '0000' + str(int(elapsed_sec))
+        elapsed_sec = elapsed_sec[-2:]
+        print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+
+
     def make_headers(self):
         if self.api_key is not None:
             self.headers = {
@@ -61,11 +77,15 @@ class Default:
     def payload(self, image=None, context=None, text=None):
         if image is not None and isinstance(image, str):
             self.images.append(image)
+        if image is not None and isinstance(image, list):
+            self.images += image
         if context is not None and isinstance(context, list):
             self.context = context
         if text is not None and isinstance(text, str):
             self.text = text
-
+        
+        self.start_time()
+        
         if self.chat:
             if self.visual:
                 self.payload_visual_chat()
@@ -153,8 +173,9 @@ class Default:
             else:
                 self.query_generate()
             pass
+        self.end_time()
         pass 
-
+        
     def query_streaming_chat(self, x):
         for lines in x.iter_lines():
             if lines:
@@ -220,7 +241,7 @@ class Default:
         xx = ''
         if 'done' in x and x['done'] == False:
             message = ''
-            pygame.display.set_caption('Partial ' + str(num // skip + 1))   
+            ## pygame.display.set_caption('Partial ' + str(num // skip + 1))   
             #continue  ## skip next part
             if 'response' in x and len(x['response']) > 0:
                 print(x['response'])
@@ -244,8 +265,20 @@ class Default:
         self.result = xx 
         pass 
 
+    def trim(self):
+        if self.images_size > -1 and self.images_size < len(self.images):
+            self.images = self.images[ - self.images_size : ]
+            print('len images', len(self.images))
+        if self.context_size > -1 and self.context_size < len(self.context):
+            self.context = self.context[ - self.context_size : ]
+            print('len context', len(self.context))
+        if self.history_size > -1 and self.history_size < len(self.history):
+            self.history = self.history[ - self.history_size : ]
+            print('len history', len(self.history))
+
     def do(self, image=None, context=None, text=None):
         self.payload(image=image, context=context, text=text)
         self.query()
+        self.trim()
         return self.result
 
