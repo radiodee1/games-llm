@@ -172,7 +172,7 @@ class Default:
             pass
         else:
             self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming)
-            #self.raw_result = self.raw_result.json() ## <-- use me??
+            self.raw_result = self.raw_result.json() ## <-- use me??
             if self.chat:
                 self.query_chat()
             else:
@@ -232,7 +232,7 @@ class Default:
             else:
                 commands.append(xx)
             '''
-            print(xx, history)
+            print(xx, self.history)
         else:
             xx = ''
 
