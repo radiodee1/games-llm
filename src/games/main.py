@@ -451,7 +451,7 @@ def parse():
         sudden_death_score = args.sudden_death
     if len(args.model) > 0:
         model = args.model
-        model_class =  Default(model, streaming=False, chat=False)
+        model_class =  Default(model, streaming=True, chat=False)
     if args.skip >= -1:
         skip = args.skip
     if args.compress >= -1:
@@ -672,6 +672,7 @@ if __name__ == "__main__":
                     queue.append(z)
                     i = 0 
                     
+                    m = prompt_list[0]
                     xx = model_class.do(image=z, context=None, text=m )
                     print(xx)
                     sys.exit()

@@ -84,8 +84,6 @@ class Default:
 
     def payload(self, image=None, context=None, text=None):
         if image is not None and isinstance(image, str):
-            if not image.startswith('data:image/png;base64,'):
-                image = "data:image/png;base64," + image
             self.images.append(image)
         if image is not None and isinstance(image, list):
             self.images += image
