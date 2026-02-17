@@ -41,11 +41,6 @@ class Oai (Default):
 
     def payload_visual_generate(self):
         self.data = {
-            "model": self.model,
-            "prompt": self.text,
-            "images": self.images,
-            "context": self.context,
-            "stream": self.streaming
         }
         pass 
 
@@ -70,10 +65,6 @@ class Oai (Default):
 
     def payload_text_generate(self):
         self.data = {
-            "model": self.model,
-            "prompt": self.text,
-            "context": self.context,
-            "stream": self.streaming
         }
         pass
 
