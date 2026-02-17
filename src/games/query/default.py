@@ -161,6 +161,7 @@ class Default:
         pass
 
     def payload_overload(self):
+        """Overload this function"""
         return {}
 
     def query(self):
@@ -182,7 +183,10 @@ class Default:
                 self.query_chat()
             else:
                 self.query_generate()
-            pass
+
+            q = self.query_overload()
+            if len(q.strip()) > 0:
+                self.result = q
         self.end_time()
         pass 
         
@@ -275,6 +279,10 @@ class Default:
             #sys.exit()
         self.result = xx 
         pass 
+
+    def query_overload(self):
+        """Overload this function"""
+        return ''
 
     def trim(self):
         if self.images_size > -1 and self.images_size < len(self.images):
