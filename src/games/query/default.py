@@ -5,7 +5,6 @@ import requests
 import os 
 import time
 import base64
-import argparse 
 
 from dotenv import load_dotenv
 
