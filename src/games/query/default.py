@@ -27,9 +27,9 @@ class Default:
         self.time_start = -1
         self.time_end = -1
 
-        self.context_size = 1 
+        self.context_size = -1 
         self.images_size = 3 
-        self.history_size = 1 
+        self.history_size = -1 
 
         self.visual = visual ## visual or not visual
         self.streaming = streaming ## streaming or not streaming
