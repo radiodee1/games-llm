@@ -672,7 +672,7 @@ if __name__ == "__main__":
                     queue.append(z)
                     i = 0 
                     
-                    xx = model_class.do(image=queue, context=None, text=m )
+                    xx = model_class.do(image=z, context=None, text=m )
                     print(xx)
                     sys.exit()
                     
