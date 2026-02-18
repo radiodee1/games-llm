@@ -97,6 +97,13 @@ arrow_surface = None ## for arrow...
 model = "qwen3-vl:2b"
 model_class = None 
 
+whitelist = {
+    'qwen3-vl:2b'   : 'Ollama',
+    'qwen3-vl:4b'   : 'Ollama',
+    'gpt-5.2'       : 'Oai',
+    'gpt-4o'        : 'Oai'
+}
+
 pygame.display.set_caption('Pong')
 
 # helper function that spawns a ball, returns a position vector and a velocity vector
@@ -451,8 +458,7 @@ def parse():
         sudden_death_score = args.sudden_death
     if len(args.model) > 0:
         model = args.model
-        model = 'gpt-5.2'
-        model_class =  Oai(model, streaming=False, chat=False, visual=False, key=os.getenv('OPENAI_API_KEY'))
+        #model = 'gpt-5.2'
     if args.skip >= -1:
         skip = args.skip
     if args.compress >= -1:
@@ -484,37 +490,9 @@ def parse():
     if args.image_series:
         image_series = args.image_series
 
+    model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=os.getenv('OPENAI_API_KEY'))
     #####
-    if use_chat:
-        LOCAL_LLM += 'chat'
-    else:
-        LOCAL_LLM += 'generate'
-    if stream_openai:
-        LOCAL_LLM = 'https://api.openai.com/v1/'
-        if use_chat:
-            LOCAL_LLM += 'chat/completions'
-        else:
-            LOCAL_LLM += 'responses'
-        model = os.getenv('OPENAI_MODEL')
-        stream_requests = True 
-        #use_chat = True 
-
-def process_context(cc):
-    global context_size
-
-    if cc.startswith('['):
-        cc = cc[1:]
-    if cc.endswith(']'):
-        cc = cc[:-1] # rm first and last char
-    ctx = cc.split(',')
-    ctx = [ int(x) for x in ctx ]
-    print('ctx:', len(ctx), 'queue:', len(queue), 'error count:', er)
     
-    if context_size > -1 and len(ctx) > context_size:
-        ctx = ctx[ len(ctx) - context_size : ]
-        print('revised ctx:', len(ctx))
-    return ctx 
-
 
 def scrape(xx):
     global paddle2_vel, vel_const
@@ -673,257 +651,38 @@ if __name__ == "__main__":
                     queue.append(z)
                     i = 0 
                     
-                    m = prompt_list[0]
-                    xx = model_class.do(image=z, context=None, text=m )
-                    print(xx)
-                    sys.exit()
+                    #m = prompt_list[0]
+                    #xx = model_class.do(image=z, context=None, text=m )
+                    #print(xx)
+                    #sys.exit()
                     
 
-                    while len(queue) > queue_len and i < 10:
-                        queue.pop(0)
-                        print('pop img', len(queue))
-                        i += 1 
-
-                    if last_code == 200 and use_chat:
-                        history += [{
-                            "role": "system",
-                            "content": m,
-                            "images" : queue
-                        }]
-
-                    print(m)
-                    payload = {}
-                    if stream_openai:
-                        key = str(os.getenv('OPENAI_API_KEY'))
-                        headers = {
-
-                            "Content-Type": "application/json",
-                            "Authorization": str("Bearer " + key ) 
-                        }
-                        content = []
-                        if last_code == 200 and use_chat:
-                            content = [{
-                                'type':'text',
-                                'text': m 
-                            },
-                            *[ 
-                                {
-                                    'type': 'image_url',
-                                    'image_url': {"url": f"data:image/png;base64,{q}", 'detail': 'high' } 
-                                } for q in queue ]
-                              ##
-                              ]
-                            #print(content[1]['image_url'])
-                            openai_messages += [{
-                                "role": 'user',
-                                "content": content, 
-                            }]
-
-                        payload = {
-                            "model": model,
-                            "messages": openai_messages,
-                            "stream": stream_requests
-                        }
-                        if  no_llm > 0 :
-                            print(payload)
-
-                    if use_chat and not stream_openai:
-                        #print(queue)
-                        payload = {
-                            "model": model,
-                            "messages": history,
-                            "stream": stream_requests
-                        }
-                    elif not stream_openai:
-                        payload = {
-                            "model": model,
-                            "prompt": m,
-                            "images": queue,
-                            "context": ctx,
-                            "stream": stream_requests
-                        }
-                    if disable_thinking and not stream_openai :
-                        payload['think'] = False
-
                     if no_llm <= 0:
-                        if not stream_requests:
-                            x = requests.post(LOCAL_LLM, json=payload, stream=False)
+                        #if not stream_requests:
+                        xx = model_class.do(image=z, context=None, text=m )
+ 
                     if no_llm > 0 and step_count > no_llm:
                         sys.exit()
                     elif no_llm > 0:
                         step_count += 1 
                         continue
-                    
-                    if stream_requests:
-                        r = ''
-                        think = ''
-                        context = ''
 
-                        if stream_openai:
-                            #payload = json.dumps(payload)
-                            pass 
+                    xx = scrape(xx)
 
-                        with requests.post(LOCAL_LLM, json=payload, stream=stream_requests, headers=headers) as x:
-                            x.raise_for_status()
-                            
-                            for lines in x.iter_lines():
-                                if lines:
-                                    if stream_openai:
-                                        if lines.startswith(b"data: "):
-                                            json_chunk = lines[6:]
-                                            if json_chunk == b"[DONE]" or not json_chunk:
-                                                break 
-                                            json_chunk = json_chunk.decode('utf-8')
-                                            #print(json_chunk)
-                                            chunk =  json.loads(json_chunk)['choices'][0]['delta']
-                                            #print(chunk)
-                                            r += chunk.get('content', '')
-                                            continue
-                                    else:
-                                        chunk = json.loads(lines)
-                                    if use_chat :
-                                        chunk_message = chunk.get('message', {})
-                                        r += chunk_message.get('content', '')
-                                        think += chunk_message.get('thinking', '')
-                                    elif use_chat == False and 'context' in chunk:
-                                        context = chunk['context']
-                                    print(chunk)
-                                    r += chunk.get('response', '')
-                                    think += chunk.get('thinking','')
-                                    
-                                    if chunk.get('done'):
-                                        #sys.exit()
-                                        break
-                        xx = ''
-                        r = think + '\n---\n' + r + '\n---'
-                        print(r)
-                        xx = scrape(r)
-                        if use_chat and stream_openai:
-                            openai_messages += [{
-                                'role': 'assistant',
-                                'content': xx 
-                            }]
-                            #print(openai_messages)
-                            if step_count > 30:
-                                pass 
-                                #sys.exit()
-                            if context_size > -1 and len(openai_messages) > context_size * 2:
-                                openai_messages = openai_messages[ len(openai_messages) - (context_size * 2) : ]
-                                print('revised openai_messages:', len(openai_messages))
-
-
-
-                        if use_chat and not stream_openai:
-                            history += [{
-                                'role': 'assistant',
-                                'content': xx ,
-                                'images' : queue
-                            }]
-
-                            if context_size > -1 and len(history) > context_size * 2:
-                                history = history[ len(history) - (context_size * 2) : ]
-                                print('revised history:', len(history))
-
-
-                        elif not stream_openai:
-                            if len(context) > 0:
-                                ctx = context #process_context(context)
-                                if context_size > -1 and len(ctx) > context_size:
-                                    ctx = ctx[ len(ctx) - context_size : ]
-                                    print('revised ctx:', len(ctx))
-
-                                #print(ctx)
-                        if len(message) > 0:
-                            commands.append(xx + ' --' + str(message) + '--')
-                        else:
-                            commands.append(xx)
-                        print('[' + str(step_count + 1) + ']', xx)
- 
-                        step_count += 1
-                        message = ''
-                        stats(True)
-
-                        
-                        if step_count >= small_test and small_test > -1 and stream_openai :
-                            sys.exit()
-
-                        continue 
-
-                    print('status_code', x.status_code)
-                    last_code = x.status_code
-                    #x.raise_for_status() ## <-- comment in for diagnostic
-                    if x.status_code != 200:
-                        er += 1 
-                        pygame.display.set_caption('Status ' + str(x.status_code))  
-                        message = ''
-                        continue
-                        pass 
-                    x = x.json()
-                    #print(x)
-                    if not use_chat:
-                        if 'done' in x and x['done'] == False:
-                            message = ''
-                            pygame.display.set_caption('Partial ' + str(num // skip + 1))   
-                            #continue  ## skip next part
-                            if 'response' in x and len(x['response']) > 0:
-                                print(x['response'])
-                            x['response'] = ''
-                            xx = ''
-                        
-                        elif 'response' in x:
-                            xx = x['response']
-                            xx = scrape(xx)
-                            er = 0 
-                        else:
-                            xx = ''
-                        #####
-                        if 'context' in x:
-                            cc = str(x['context'])
-                        else:
-                            pass 
-                            #cc = '' # keep the context from last pass 
-                            print(x)
-                            #sys.exit()
-                        ctx = process_context(cc)
-                        #####
+                    if len(message) > 0:
+                        commands.append(xx + ' --' + str(message) + '--')
                     else:
-                        if 'message' in x and 'content' in x['message']:
-                            xx = x['message']['content']
-                            xx = scrape(xx)
-
-                            history += [{
-                                'role': 'assistant',
-                                'content': xx 
-                            }]
-                            if len(message) > 0:
-                                commands.append(xx + ' --' + str(message) + '--')
-                            else:
-                                commands.append(xx)
-                            print(xx, history)
-                        else:
-                            xx = ''
-
-                        if 'done' in x and x['done'] == False:
-                            print('not done!!')
-                            print(x)
-
-                        if context_size > -1 and len(history) > context_size * 2:
-                            history = history[ len(history) - (context_size * 2) : ]
-                            print('revised history:', len(history))
-
-                    # xx = scrape(xx)
-
-                    if (not 'done' in x) or x['done'] != False:
-                        pygame.display.set_caption('Step: ' + str(step_count + 1)) 
- 
-                    if xx.strip().startswith('>>>'):
-                        xx = xx.strip()[3:]
+                        commands.append(xx)
                     print('[' + str(step_count + 1) + ']', xx)
-                   
+
+                    step_count += 1
+                    message = ''
                     stats(True)
 
-                    message = ''
-                    step_count += 1 
+                    
+                    if step_count >= small_test and small_test > -1 and stream_openai :
+                        sys.exit()
+
 
                 num += 1  
 

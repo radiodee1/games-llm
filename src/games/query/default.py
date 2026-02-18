@@ -12,7 +12,7 @@ load_dotenv()
 
 class Default:
 
-    def __init__(self, model, streaming=False, chat=True, visual=True, key=None) -> None:
+    def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
         self.images = []
         self.context = []
         self.text = ''
@@ -33,7 +33,7 @@ class Default:
         self.visual = visual ## visual or not visual
         self.streaming = streaming ## streaming or not streaming
         self.chat = chat ## chat or generate
-        self.think = True ## think or not think
+        self.think = think ## think or not think
         self.url = 'http://localhost:11434/api/'
         self.url_ending_chat = 'chat'
         self.url_ending_generate = 'generate'
@@ -108,7 +108,11 @@ class Default:
 
         p = self.payload_overload()
         if len(p) > 0:
-            self.data = p 
+            self.data = p
+
+        if self.think:
+            self.data['think'] = True
+
         self.make_headers()
         #self.print(self.headers)
         ## done ##
