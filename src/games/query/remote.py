@@ -41,7 +41,11 @@ class Oai (Default):
 
     def payload_visual_generate(self):
         self.data = {
+            "model": self.model,
+            "input": self.text,
+            "stream": self.streaming
         }
+        self.print(self.data)
         pass 
 
     def payload_text_chat(self):
@@ -65,7 +69,11 @@ class Oai (Default):
 
     def payload_text_generate(self):
         self.data = {
+            "model": self.model,
+            "input": self.text,
+            "stream": self.streaming
         }
+        self.print(self.data)
         pass
 
     def payload_overload(self ):
@@ -106,12 +114,12 @@ class Oai (Default):
 
     def query_chat(self, x):
         print(x)
-        self.result = x['choices'][0]['messages']['content']
+        self.result = x['choices'][0]['message']['content']
         pass
 
     def query_generate(self, x):
         print(x)
-        self.result = x['choices'][0]['text']
+        self.result = x['output'][0]['content'][0]['text']
         pass 
 
     def query_overload(self, x):
