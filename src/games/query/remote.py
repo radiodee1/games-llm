@@ -91,6 +91,7 @@ class Oai (Default):
         for lines in x.iter_lines():
             if lines:
                 chunk = json.loads(lines)
+                self.print(chunk)
                 if 'context' in chunk:
                     self.context = chunk['context']
                 self.print(chunk)
@@ -104,20 +105,13 @@ class Oai (Default):
         pass
 
     def query_chat(self, x):
-        for lines in x.iter_lines():
-            chunk = json.loads(lines)
-            chunk_message = chunk.get('message', {})
-            self.r_temp += chunk_message.get('content', '')
-            self.think_temp += chunk_message.get('thinking', '')
-            print(chunk)
-            self.r_temp += chunk.get('response', '')
-            self.think_temp += chunk.get('thinking','')
-            
-            if chunk.get('done'):
-                #sys.exit()
-                break
+        print(x)
+        self.result = x['choices'][0]['messages']['content']
+        pass
 
     def query_generate(self, x):
+        print(x)
+        self.result = x['choices'][0]['text']
         pass 
 
     def query_overload(self, x):

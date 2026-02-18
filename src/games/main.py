@@ -451,8 +451,8 @@ def parse():
         sudden_death_score = args.sudden_death
     if len(args.model) > 0:
         model = args.model
-        #model = 'gpt-5.2'
-        model_class =  Ollama(model, streaming=True, chat=True, key=os.getenv('OPENAI_API_KEY'))
+        model = 'gpt-5.2'
+        model_class =  Oai(model, streaming=True, chat=True, key=os.getenv('OPENAI_API_KEY'))
     if args.skip >= -1:
         skip = args.skip
     if args.compress >= -1:
