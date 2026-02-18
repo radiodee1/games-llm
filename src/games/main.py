@@ -12,7 +12,7 @@ import requests
 import base64
 import argparse 
 import math
-from query import Default
+from query import  Oai, Default
 
 from dotenv import load_dotenv 
 
@@ -95,7 +95,7 @@ image_series = False
 arrow_surface = None ## for arrow...
 
 model = "qwen3-vl:2b"
-model_class = Default(model)
+model_class = None 
 
 pygame.display.set_caption('Pong')
 
@@ -451,7 +451,8 @@ def parse():
         sudden_death_score = args.sudden_death
     if len(args.model) > 0:
         model = args.model
-        model_class =  Default(model, streaming=True, chat=False)
+        model = 'gpt-5.2'
+        model_class =  Oai(model, streaming=True, chat=True, key=os.getenv('OPENAI_API_KEY'))
     if args.skip >= -1:
         skip = args.skip
     if args.compress >= -1:

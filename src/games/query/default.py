@@ -110,6 +110,7 @@ class Default:
         if len(p) > 0:
             self.data = p 
         self.make_headers()
+        #self.print(self.headers)
         ## done ##
 
     def payload_visual_chat(self):
@@ -167,7 +168,7 @@ class Default:
         self.think_temp = ''
         self.r_temp = ''
         if self.streaming:
-            with requests.post(self.url, json=self.data, stream=self.streaming) as x:
+            with requests.post(self.url, json=self.data, stream=self.streaming, headers=self.headers) as x:
                 x.raise_for_status()
                 if self.chat:
                     self.query_streaming_chat(x)
@@ -176,14 +177,14 @@ class Default:
                 self.result = self.think_temp + '\n---\n' + self.r_temp + '\n---'
             pass
         else:
-            self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming)
+            self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming, headers=self.headers)
             self.raw_result = self.raw_result.json() 
             if self.chat:
-                self.query_chat()
+                self.query_chat(self.raw_result)
             else:
-                self.query_generate()
+                self.query_generate(self.raw_result)
 
-            q = self.query_overload()
+            q = self.query_overload(self.raw_result)
             if len(q.strip()) > 0:
                 self.result = q
         self.end_time()
@@ -222,8 +223,8 @@ class Default:
 
         pass
 
-    def query_chat(self):
-        x = self.raw_result
+    def query_chat(self, x):
+        #x = self.raw_result
         xx = ''
         self.print('x', x)
         if 'message' in x and 'content' in x['message']:
@@ -250,8 +251,8 @@ class Default:
         self.result = xx 
         pass
 
-    def query_generate(self):
-        x = self.raw_result
+    def query_generate(self, x):
+        #x = self.raw_result
         xx = ''
         if 'done' in x and x['done'] == False:
             message = ''
@@ -279,11 +280,11 @@ class Default:
         self.result = xx 
         pass 
 
-    def query_overload(self):
+    def query_overload(self, x):
         """Overload this function"""
         return ''
 
-    def trim(self):
+    def trim_dict(self):
         if self.images_size > -1 and self.images_size < len(self.images):
             self.images = self.images[ - self.images_size : ]
             self.print('len images', len(self.images))
@@ -297,6 +298,6 @@ class Default:
     def do(self, image=None, context=None, text=None):
         self.payload(image=image, context=context, text=text)
         self.query()
-        self.trim()
+        self.trim_dict()
         return self.result
 

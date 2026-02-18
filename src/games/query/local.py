@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import json
-from default import Default
+from .default import Default
 
 
 class Ollama (Default):
