@@ -655,7 +655,7 @@ if __name__ == "__main__":
                     #xx = model_class.do(image=z, context=None, text=m )
                     #print(xx)
                     #sys.exit()
-                    
+                    print(z, m, no_llm, step_count, stream_requests)                
 
                     if no_llm <= 0:
                         #if not stream_requests:

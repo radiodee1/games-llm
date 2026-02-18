@@ -34,6 +34,7 @@ class Default:
         self.streaming = streaming ## streaming or not streaming
         self.chat = chat ## chat or generate
         self.think = think ## think or not think
+        self.url_derived = ''
         self.url = 'http://localhost:11434/api/'
         self.url_ending_chat = 'chat'
         self.url_ending_generate = 'generate'
@@ -88,19 +89,22 @@ class Default:
             self.images += image
         if context is not None and isinstance(context, list) and not self.chat:
             self.context = context
+        else:
+            self.context = []
+
         if text is not None and isinstance(text, str):
             self.text = text
         
         self.start_time()
         
         if self.chat:
-            self.url += self.url_ending_chat
+            self.url_derived = self.url + self.url_ending_chat
             if self.visual:
                 self.payload_visual_chat()
             else:
                 self.payload_text_chat()
         else:
-            self.url += self.url_ending_generate
+            self.url_derived = self.url + self.url_ending_generate
             if self.visual:
                 self.payload_visual_generate()
             else:
@@ -172,7 +176,7 @@ class Default:
         self.think_temp = ''
         self.r_temp = ''
         if self.streaming:
-            with requests.post(self.url, json=self.data, stream=self.streaming, headers=self.headers) as x:
+            with requests.post(self.url_derived, json=self.data, stream=self.streaming, headers=self.headers) as x:
                 x.raise_for_status()
                 if self.chat:
                     self.query_streaming_chat(x)
@@ -181,7 +185,7 @@ class Default:
                 self.result = self.think_temp + '\n---\n' + self.r_temp + '\n---'
             pass
         else:
-            self.raw_result = requests.post(self.url, json=self.data, stream=self.streaming, headers=self.headers)
+            self.raw_result = requests.post(self.url_derived, json=self.data, stream=self.streaming, headers=self.headers)
             self.raw_result = self.raw_result.json() 
             if self.chat:
                 self.query_chat(self.raw_result)
@@ -292,7 +296,7 @@ class Default:
         if self.images_size > -1 and self.images_size < len(self.images):
             self.images = self.images[ - self.images_size : ]
             self.print('len images', len(self.images))
-        if self.context_size > -1 and self.context_size < len(self.context):
+        if self.context and self.context_size > -1 and self.context_size < len(self.context):
             self.context = self.context[ - self.context_size : ]
             self.print('len context', len(self.context))
         if self.history_size > -1 and self.history_size < len(self.history):
