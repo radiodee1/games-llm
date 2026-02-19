@@ -500,6 +500,7 @@ def parse():
     model_class.images_size = queue_len 
     model_class.context_size = context_size
     model_class.history_size = context_size 
+
     #####
     if image_strip > 0 and not video_openai :
         model_class.images_size = 1 

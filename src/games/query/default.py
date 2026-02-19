@@ -292,17 +292,19 @@ class Default:
     def trim_dict(self):
         if self.images_size > -1 and self.images_size < len(self.images):
             self.images = self.images[ - self.images_size : ]
-            self.print('len images', len(self.images))
+            self.print('len images', len(self.images), self.images_size)
         if self.context and self.context_size > -1 and self.context_size < len(self.context):
             self.context = self.context[ - self.context_size : ]
-            self.print('len context', len(self.context))
+            self.print('len context', len(self.context), self.context_size)
         if self.history_size > -1 and self.history_size < len(self.history):
             self.history = self.history[ - self.history_size : ]
-            self.print('len history', len(self.history))
+            self.print('len history', len(self.history), self.history_size)
 
     def do(self, image=None, context=None, text=None):
         self.payload(image=image, context=context, text=text)
-        self.query()
         self.trim_dict()
+        self.print(self.data)
+        self.query()
+        #self.trim_dict()
         return self.result
 

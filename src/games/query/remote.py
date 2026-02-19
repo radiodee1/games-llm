@@ -11,7 +11,6 @@ class Oai (Default):
         self.url ='https://api.openai.com/v1/' 
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
-        self.openai_messages = []
         self.think = False
 
         pass 
@@ -28,14 +27,14 @@ class Oai (Default):
           ##
         ]
         ##
-        self.openai_messages += [{
+        self.history += [{
             "role": 'user',
             "content": content, 
         }]
 
         self.data = {
             "model": self.model,
-            "messages": self.openai_messages,
+            "messages": self.history,
             "stream": self.streaming
         }
         pass 
@@ -46,7 +45,6 @@ class Oai (Default):
             "input": self.text,
             "stream": self.streaming
         }
-        self.print(self.data)
         pass 
 
     def payload_text_chat(self):
@@ -55,14 +53,14 @@ class Oai (Default):
             'text': self.text 
         }]
         ##
-        self.openai_messages += [{
+        self.history += [{
             "role": 'user',
             "content": content, 
         }]
 
         self.data = {
             "model": self.model,
-            "messages": self.openai_messages,
+            "messages": self.history,
             "stream": self.streaming
         } 
  
