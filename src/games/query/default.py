@@ -42,7 +42,7 @@ class Default:
 
         self.r_temp = ''
         self.think_temp = ''
-        self.print_to_screen = True
+        self.print_to_screen = False
 
         self.print('Default', model)
         pass

@@ -579,15 +579,8 @@ if __name__ == "__main__":
         #game loop
         step_count = 0 
         num = 0
-        ctx = []
-        queue = []
-        history = []
-        cc = ''
         er = 0
         last_code = 200 
-        headers = {} 
-        #content = []
-        openai_messages = []
         while True:
             window = pygame.display.set_mode((WIDTH, HEIGHT))
 
@@ -625,10 +618,6 @@ if __name__ == "__main__":
                         print(img)
                     f = './pic/figure_' + str(img) + '.png'
                     
-                    if sudden_death_score != -1 and (l_score >= sudden_death_score or r_score >= sudden_death_score):
-                        print('sudden_death_score', l_score, r_score)
-                        sys.exit()
-
                     print(f)
                     border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
                     border_rect.fill(GRAY)
@@ -664,17 +653,16 @@ if __name__ == "__main__":
                         sys.exit()
 
                     z = encode_image_to_base64(f)
-                    #i = 0 
                     
                     #m = prompt_list[0]
                     #xx = model_class.do(image=z, context=None, text=m )
                     #print(xx)
                     #sys.exit()
 
+                    print(m + '\n---')
+
                     if no_llm <= 0:
-                        #if not stream_requests:
                         xx = model_class.do(image=z, context=None, text=m )
- 
                     if no_llm > 0 and step_count > no_llm:
                         sys.exit()
                     elif no_llm > 0:
@@ -697,6 +685,9 @@ if __name__ == "__main__":
                     if step_count >= small_test and small_test > -1 and stream_openai :
                         sys.exit()
 
+                    if sudden_death_score != -1 and (l_score >= sudden_death_score or r_score >= sudden_death_score):
+                        print('sudden_death_score', l_score, r_score)
+                        sys.exit()
 
                 num += 1  
 
@@ -707,7 +698,7 @@ if __name__ == "__main__":
         print('\nKeyboardInterrupt')
 
     finally:
-        print('-----')
+        print('---')
         stats(False)
         pass 
         
