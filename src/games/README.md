@@ -59,12 +59,18 @@ Locally, I was using a laptop for testing. I would edit code on my desktop, and 
 
 ### OpenAI
 
-The `.env` file should look like this:
+The `.env` file should look like this. Commented lines are not important:
 
 ```
 OPENAI_API_KEY="api-key-here"
-OPENAI_API_KEY_TEST="abcabcabc"
-OPENAI_MODEL="gpt-4o-mini"
+#OPENAI_API_KEY_TEST="abcabcabc"
+#OPENAI_MODEL="gpt-4o-mini"
+
+GEMINI_API_KEY="api-key-here"
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
+
+#GOOGLE_GEMINI_URL="https://generativelanguage.googleapis.com/v1beta/models/"
+#GOOGLE_GEMINI_MODEL="gemini-2.0-flash"
 ```
 
 To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
