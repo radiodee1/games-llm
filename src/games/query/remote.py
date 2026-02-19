@@ -112,7 +112,7 @@ class Oai (Default):
         pass
 
     def query_chat(self, x):
-        print(x)
+        #print(x)
         self.result = x['choices'][0]['message']['content']
         pass
 
