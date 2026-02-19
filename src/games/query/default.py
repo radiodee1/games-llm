@@ -310,7 +310,7 @@ class Default:
 
     def do(self, image=None, context=None, text=None):
         self.payload(image=image, context=context, text=text)
-        self.print(self.data)
+        #self.print(self.data)
         self.query()
         return self.result
 
