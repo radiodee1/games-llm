@@ -492,9 +492,19 @@ def parse():
     if args.image_series:
         image_series = args.image_series
 
+    if model not in whitelist:
+        print('model not in whitelist')
+        sys.exit()
+
     model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=os.getenv('OPENAI_API_KEY'))
+    model_class.images_size = queue_len 
+    model_class.context_size = context_size
+    model_class.history_size = context_size 
     #####
-    
+    if image_strip > 0 and not video_openai :
+        model_class.images_size = 1 
+
+   
 
 def scrape(xx):
     global paddle2_vel, vel_const
@@ -647,11 +657,8 @@ if __name__ == "__main__":
                     if int(img) > small_test and small_test > -1 and not stream_openai :
                         sys.exit()
 
-                    if image_strip > 0 and not video_openai :
-                        queue = []
                     z = encode_image_to_base64(f)
-                    queue.append(z)
-                    i = 0 
+                    #i = 0 
                     
                     #m = prompt_list[0]
                     #xx = model_class.do(image=z, context=None, text=m )
