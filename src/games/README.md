@@ -70,7 +70,7 @@ GEMINI_API_KEY="api-key-here"
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
 #GOOGLE_GEMINI_URL="https://generativelanguage.googleapis.com/v1beta/models/"
-#GOOGLE_GEMINI_MODEL="gemini-2.0-flash"
+#GOOGLE_GEMINI_MODEL="gemini-3-flash-preview"
 ```
 
 To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
