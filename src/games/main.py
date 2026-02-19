@@ -12,7 +12,7 @@ import requests
 import base64
 import argparse 
 import math
-from query import  Oai, Ollama
+from query import  Oai, Ollama, Gem
 
 from dotenv import load_dotenv 
 
@@ -101,7 +101,8 @@ whitelist = {
     'qwen3-vl:2b'   : 'Ollama',
     'qwen3-vl:4b'   : 'Ollama',
     'gpt-5.2'       : 'Oai',
-    'gpt-4o'        : 'Oai'
+    'gpt-4o'        : 'Oai',
+    'gemini-3-flash-preview' : 'Gem'
 }
 
 pygame.display.set_caption('Pong')
@@ -495,8 +496,12 @@ def parse():
     if model not in whitelist:
         print('model not in whitelist')
         sys.exit()
+    
+    model_key = os.getenv('OPENAI_API_KEY')
+    if whitelist[model] == 'Gem':
+        model_key = os.getenv('GEMINI_API_KEY')
 
-    model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=os.getenv('OPENAI_API_KEY'))
+    model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=model_key)
     model_class.images_size = queue_len 
     model_class.context_size = context_size
     model_class.history_size = context_size 

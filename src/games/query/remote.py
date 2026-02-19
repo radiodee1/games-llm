@@ -126,7 +126,7 @@ class Oai (Default):
         return ''
 
 
-class Gem (Default):
+class Gem (Oai):
 
     def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
         super().__init__(model, streaming, chat, visual, think, key)
