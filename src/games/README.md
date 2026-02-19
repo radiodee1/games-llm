@@ -284,3 +284,21 @@ With the first strategy the model had a habit of going in the right direction wi
 The error that the second prompt shows might be what they call hallucinations. If this is so, it might be happenning in both strategies, with the second strategy being the one where the error can actually be pointed out. In other words, it may be happenning in both cases, but is visible only when the 'thinking' is shown to us in the second strategy. What does this mean? Maybe the thing to do is to try another model. At the time of this writing the latest model is 'gpt-5.2'. Maybe use an older model or wait for another one to be released? 
 
 I should note here that I've tried 'gpt-4o-mini' and 'gpt-4o' and they do not give better answers than 'gpt-5.2'. The answers are worse. Also, it could be a long time before OpenAI releases another model in the 'gpt' series. I may just be stuck with the results I have. 
+
+```
+model: gemini-3-flash-preview
+serves_num: 3
+Left-bounces: 1 Right-bounces: 2
+l_score: 0 r_score: 2
+step-count: 57
+Elapsed time: 12:09 minutes
+---
+```
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02/19/26 | 2:50pm | AI | gemini-3-flash-preview | 3 | 2 | 57 | 12:09 | 3 | 0 | 80 |
+
+With this test we win for the first time.
+
+
