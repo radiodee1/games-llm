@@ -285,6 +285,10 @@ The error that the second prompt shows might be what they call hallucinations. I
 
 I should note here that I've tried 'gpt-4o-mini' and 'gpt-4o' and they do not give better answers than 'gpt-5.2'. The answers are worse. Also, it could be a long time before OpenAI releases another model in the 'gpt' series. I may just be stuck with the results I have. 
 
+### Gemini Google Model
+
+It became clear that the Google Gemini model took input in the same format as OpenAI. For this reason coding a python class for Gemini was fast. The model itself takes more time, but performs at the task better.
+
 ```
 model: gemini-3-flash-preview
 serves_num: 3
@@ -292,7 +296,6 @@ Left-bounces: 1 Right-bounces: 2
 l_score: 0 r_score: 2
 step-count: 57
 Elapsed time: 12:09 minutes
----
 ```
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
