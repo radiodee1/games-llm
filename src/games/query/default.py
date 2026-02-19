@@ -74,6 +74,14 @@ class Default:
         elapsed_sec = elapsed_sec[-2:]
         self.print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
 
+    def process_context(self, cc):
+        if cc.startswith('['):
+            cc = cc[1:]
+        if cc.endswith(']'):
+            cc = cc[:-1] # rm first and last char
+        ctx = cc.split(',')
+        ctx = [ int(x) for x in ctx ]
+        return ctx 
 
     def make_headers(self):
         if self.api_key is not None:
@@ -92,6 +100,11 @@ class Default:
         else:
             ## do nothing. context is filled in previous 'self.query'
             pass 
+        if not self.chat:
+            if isinstance(self.context, str):
+                self.context = self.process_context(self.context)
+            if context is not None and isinstance(context, str):
+                self.context = self.process_context(context)
 
         if text is not None and isinstance(text, str):
             self.text = text
