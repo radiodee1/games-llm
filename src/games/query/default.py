@@ -247,7 +247,6 @@ class Default:
 
     def query_chat(self, x):
         xx = ''
-        self.print('x', x)
         if 'message' in x and 'content' in x['message']:
             xx = x['message']['content']
 

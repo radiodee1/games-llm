@@ -334,16 +334,18 @@ def label(i, ii):
 
 def make_message():
     global l_score, r_score, message, commands
-    hint_y = get_hint_y()
+    if use_hinting:
+        hint_y = get_hint_y()
 
     title = 'Turn-based Pong or Tennis game. AI vs computer.'
-    old_controls = ('Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball.'  
+    old_controls = (
+                ' Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side.\n'
+                ' Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball.'  
                 ' The paddle only moves up and down.'
                 ' Enter "control.move.wait" to skip one turn.'        
                 ' The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.'                
                 ' You, the AI, are the right paddle.' 
                 ' Your paddle is blue and green. It is very small.' 
-                ' Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side.\n'
                 ' You move your paddle a small amount from where it already is.\n')
 
     controls = ('\n You, the AI, are the blue and green paddle. Solve this problem in steps: \n'
@@ -355,7 +357,7 @@ def make_message():
                 ' You move your paddle a small amount from where it already is.\n'
                 ' Hit the ball in the MIDDLE of the paddle. If the ball passes the paddle you will lose a point.\n')
     
-    if use_hinting or True:
+    if use_hinting or True: ## hardcode old_controls
         controls = old_controls
 
     controls += ('NOTE:\n'
@@ -364,7 +366,7 @@ def make_message():
                 ' Enter "control.move.wait" to skip one turn.\n'        
                 ' The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.\n'  
                 ' The left paddle moves on its own.\n'
-                ' The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.\n'
+                 #' The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.\n'
                 ' Hit the ball when it comes to you.\n'
                 ' This is the only way to win.\n')
 
@@ -404,7 +406,7 @@ def stats(short=True):
     elapsed_sec = '0000' + str(int(elapsed_sec))
     elapsed_sec = elapsed_sec[-2:]
     print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
-
+    print('---')
     if short:
         return
     num = 0 
@@ -655,7 +657,6 @@ if __name__ == "__main__":
                     #xx = model_class.do(image=z, context=None, text=m )
                     #print(xx)
                     #sys.exit()
-                    print(z, m, no_llm, step_count, stream_requests)                
 
                     if no_llm <= 0:
                         #if not stream_requests:
