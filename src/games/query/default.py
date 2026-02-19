@@ -90,7 +90,8 @@ class Default:
         if context is not None and isinstance(context, list) and not self.chat:
             self.context = context
         else:
-            self.context = []
+            ## do nothing. context is filled in previous 'self.query'
+            pass 
 
         if text is not None and isinstance(text, str):
             self.text = text
@@ -232,23 +233,15 @@ class Default:
         pass
 
     def query_chat(self, x):
-        #x = self.raw_result
         xx = ''
         self.print('x', x)
         if 'message' in x and 'content' in x['message']:
             xx = x['message']['content']
-            ## xx = scrape(xx)
 
             self.history += [{
                 'role': 'assistant',
                 'content': xx 
             }]
-            '''
-            if len(message) > 0:
-                commands.append(xx + ' --' + str(message) + '--')
-            else:
-                commands.append(xx)
-            '''
             self.print(xx, self.history)
         else:
             xx = ''
@@ -260,12 +253,8 @@ class Default:
         pass
 
     def query_generate(self, x):
-        #x = self.raw_result
         xx = ''
         if 'done' in x and x['done'] == False:
-            message = ''
-            ## pygame.display.set_caption('Partial ' + str(num // skip + 1))   
-            #continue  ## skip next part
             if 'response' in x and len(x['response']) > 0:
                 self.print(x['response'])
             x['response'] = ''
@@ -273,8 +262,6 @@ class Default:
         
         elif 'response' in x:
             xx = x['response']
-            ## xx = scrape(xx)
-            #er = 0 
         else:
             xx = ''
         #####
@@ -282,9 +269,7 @@ class Default:
             self.context = str(x['context'])
         else:
             pass 
-            #cc = '' # keep the context from last pass 
             self.print(x)
-            #sys.exit()
         self.result = xx 
         pass 
 
