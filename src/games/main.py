@@ -518,6 +518,7 @@ def scrape(xx):
     xx_up = xx.rfind('control.move.up')
     xx_down = xx.rfind('control.move.down')
     
+    paddle2_vel = 0 
     #print(xx_up, xx_down)
 
     if xx_up != -1 and xx_up > xx_down:
