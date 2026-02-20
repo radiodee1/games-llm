@@ -302,6 +302,24 @@ Elapsed time: 12:09 minutes
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 02/19/26 | 2:50pm | AI | gemini-3-flash-preview | 3 | 2 | 57 | 12:09 | 3 | 0 | 80 |
 
-With this test we win for the first time.
+With this test the AI wins for the first time. This could be a fluke of the random number generator. In the future we will set the threshold to 100. Then we will measure success by the number of steps that the model can continue to take before losing sudden death style.
+
+Keeping track of the elapsed time would be good, but the Gemini model is slower than the OpenAI models. The Ollama models are local, and they are very slow. The best measure of success would be the 'Steps'.
+
+### `--threshold` 100 
+
+We are most interested in testing the Gemini model but we may try out the OpenAI model for one or more of our runs, just for comparison. 
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02/20/26 | 10:40am | Computer | gemini-3-flash-preview | 3 | 2 | 78 | 17:31 | 3 | 0 | 100 |
 
 
+```
+model: gemini-3-flash-preview
+serves_num: 3
+Left-bounces: 3 Right-bounces: 1
+l_score: 2 r_score: 0
+step-count: 78
+Elapsed time: 17:31 minutes
+```

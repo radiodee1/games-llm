@@ -513,7 +513,7 @@ def parse():
    
 
 def scrape(xx):
-    global paddle2_vel, vel_const
+    global paddle2_vel, vel_const, skip, vel_const_right
 
     xx_up = xx.rfind('control.move.up')
     xx_down = xx.rfind('control.move.down')
@@ -670,6 +670,7 @@ if __name__ == "__main__":
                         step_count += 1 
                         continue
 
+                    print(xx)
                     xx = scrape(xx)
 
                     if len(message) > 0:
