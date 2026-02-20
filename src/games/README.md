@@ -323,3 +323,18 @@ l_score: 2 r_score: 0
 step-count: 78
 Elapsed time: 17:31 minutes
 ```
+
+---
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02/20/26 | 11:10am | Computer | gemini-3-flash-preview | 4 | 2 | 95 | 18:38 | 3 | 0 | 100 |
+
+
+```
+model: gemini-3-flash-preview
+serves_num: 4
+Left-bounces: 3 Right-bounces: 3
+l_score: 2 r_score: 1
+step-count: 97
+Elapsed time: 18:36 minutes
+```
