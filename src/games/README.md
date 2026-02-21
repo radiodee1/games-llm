@@ -356,7 +356,8 @@ serves_num: 2
 Left-bounces: 5 Right-bounces: 5
 l_score: 1 r_score: 0
 step-count: 133
-Elapsed time: 30:21 minutes```
+Elapsed time: 30:21 minutes
+```
 
 Some model output here: 
 
