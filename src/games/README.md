@@ -348,17 +348,18 @@ In the following run the AI wins again.
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 02/21/26 | 7:32am | AI | gemini-3-flash-preview | 3 | 2 | 85 | 18:27 | 3 | 0 | 100 |
-
+| 02/21/26 | 3:38pm | INTERRUPTED | gemini-3-flash-preview | 2 | 2 | 133 | 30:21 | 3 | 0 | 100 |
 
 ```
 model: gemini-3-flash-preview
-serves_num: 3
-Left-bounces: 2 Right-bounces: 3
-l_score: 0 r_score: 2
-step-count: 86
-Elapsed time: 18:27 minutes
-```
-some model output here:
+serves_num: 2
+Left-bounces: 5 Right-bounces: 5
+l_score: 1 r_score: 0
+step-count: 133
+Elapsed time: 30:21 minutes```
+
+Some model output here: 
+
 ```
 Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
 
