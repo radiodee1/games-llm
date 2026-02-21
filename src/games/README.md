@@ -338,3 +338,24 @@ l_score: 2 r_score: 1
 step-count: 97
 Elapsed time: 18:36 minutes
 ```
+---
+### `--double_arrow` Setting 
+
+With the original arrow position, the arrow itself dissapears when the ball is closest to the goal. Since the image size is only three, this is when the arrow is most necessary. To remidy this, we have a second arrow. This one does the same as the first one, but it follows the ball instead of leading the ball. When the ball gets close to the goal, the second arrow is behind the ball, so it does not dissapear. In the OpenAI models, using the double arrow does not help much. In the Gemini model that we are testing here, it may be helpful.
+
+In the following run the AI wins again.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02/21/26 | 7:32am | AI | gemini-3-flash-preview | 3 | 2 | 85 | 18:27 | 3 | 0 | 100 |
+
+
+```
+model: gemini-3-flash-preview
+serves_num: 3
+Left-bounces: 2 Right-bounces: 3
+l_score: 0 r_score: 2
+step-count: 86
+Elapsed time: 18:27 minutes
+```
+
