@@ -281,7 +281,7 @@ def stripe_polygon(canvas, polygon, color, width, seperation):
 def draw_arrow():
     global double_arrow, smaller
     # -->
-    xoffset = 100 // smaller # 25 ## 35! 
+    xoffset = 100 # // smaller # 25 ## 35! 
     arrow_lines = [
         (BLUE, (160, 0),   (200, 20), 8 // smaller  ),  # angle line
         (BLUE, (120, 20),  (200, 20), 8 // smaller  ),  # horizontal line
