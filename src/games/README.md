@@ -345,7 +345,7 @@ Elapsed time: 18:36 minutes
 
 With the original arrow position, the arrow itself dissapears when the ball is closest to the goal. Since the image size is only three, this is when the arrow is most necessary. To remidy this, we have a second arrow. This one does the same as the first one, but it follows the ball instead of leading the ball. When the ball gets close to the goal, the second arrow is behind the ball, so it does not dissapear. In the OpenAI models, using the double arrow does not help much. In the Gemini model that we are testing here, it may be helpful.
 
-In the following run the AI wins again.
+In the first of the following runs the AI wins again.
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -361,7 +361,7 @@ step-count: 133
 Elapsed time: 30:21 minutes
 ```
 
-Some model output here: 
+The Gemini model seems to understand the game. Looking at the model output, one gets the feeling that maybe the Gemini model has played simple video games before. Some model output here: 
 
 ```
 Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
