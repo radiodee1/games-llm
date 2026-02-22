@@ -64,7 +64,7 @@ vel_const_right = 4 // smaller # 16!
 skip = 4
 num = 0 
 message = ''
-fontsize = 28 // smaller
+fontsize = 48 // smaller
 LOCAL_LLM = 'http://localhost:11434/api/'
 
 prompt_list = ['Describe the arrow in this picture. What direction is it pointing? What is its up/down angle?' , 
@@ -124,7 +124,7 @@ def size_init():
     BORDER_SIZE = 24 // smaller
     vel_const = 8 // smaller
     vel_const_right = 4 // smaller # 16!
-    fontsize = 28 // smaller
+    fontsize = 48 // smaller
 
 
 # helper function that spawns a ball, returns a position vector and a velocity vector
@@ -295,7 +295,7 @@ def draw_arrow():
         pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
     
     if double_arrow:
-        xoffset = - 40 #// smaller #20 
+        xoffset = - 80 #// smaller #20 
         for color, start_pos, end_pos, width in arrow_lines:
             start_pos = (start_pos[0]  + xoffset) // smaller, start_pos[1] // smaller
             end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
