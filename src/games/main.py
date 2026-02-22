@@ -288,14 +288,14 @@ def draw_arrow():
         (BLUE, (160, 48),  (200, 20), 8 // smaller  ),  # angle line
     ]
     arrow_surface = pygame.Surface((400 // smaller, 48 // smaller), pygame.SRCALPHA)
-    xoffset = 140 # // smaller # 25 
+    xoffset = 100 # // smaller # 25 
     for color, start_pos, end_pos, width in arrow_lines:
         start_pos = (start_pos[0]  + xoffset) // smaller , start_pos[1] // smaller
         end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
         pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
     
     if double_arrow:
-        xoffset = - 80 #// smaller #20 
+        xoffset = - 40 #// smaller #20 
         for color, start_pos, end_pos, width in arrow_lines:
             start_pos = (start_pos[0]  + xoffset) // smaller, start_pos[1] // smaller
             end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
