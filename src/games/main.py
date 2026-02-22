@@ -91,6 +91,7 @@ video_openai = False
 double_arrow = False
 use_hinting = False
 image_series = False
+prompt_strategy = 1 
 
 arrow_surface = None ## for arrow...
 
@@ -334,7 +335,7 @@ def label(i, ii):
     return i 
 
 def make_message():
-    global l_score, r_score, message, commands
+    global l_score, r_score, message, commands, prompt_strategy
     if use_hinting:
         hint_y = get_hint_y()
 
@@ -349,7 +350,7 @@ def make_message():
                 ' Your paddle is blue and green. It is very small.' 
                 ' You move your paddle a small amount from where it already is.\n')
 
-    controls = ('\n You, the AI, are the blue and green paddle. Solve this problem in steps: \n'
+    new_controls = ('\n You, the AI, are the blue and green paddle. Solve this problem in steps: \n'
                 '1. Notice the position of the ball. What is its HEIGHT or Y value? \n'
                 '2. Notice the position of the right paddle. It is blue and green. What is the HEIGHT? \n'
                 '3. Calculate the horizontal line that comes from the ball across the screen.\n' 
@@ -357,9 +358,9 @@ def make_message():
                 '5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball.\n'
                 ' You move your paddle a small amount from where it already is.\n'
                 ' Hit the ball in the MIDDLE of the paddle. If the ball passes the paddle you will lose a point.\n')
-    
-    if use_hinting or True: ## hardcode old_controls
-        controls = old_controls
+    control_list = [ old_controls, new_controls ]
+
+    controls = control_list[ prompt_strategy - 1 ]
 
     controls += ('NOTE:\n'
                 ' Your paddle is blue and green. It is very small.\n'
@@ -424,7 +425,7 @@ def parse():
     global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
-    global model_class 
+    global model_class, prompt_strategy 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -448,6 +449,7 @@ def parse():
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
+    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'.")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -492,6 +494,8 @@ def parse():
         use_hinting = args.hinting
     if args.image_series:
         image_series = args.image_series
+    if args.strategy > 0:
+        prompt_strategy = args.strategy
 
     if model not in whitelist:
         print('model not in whitelist')
