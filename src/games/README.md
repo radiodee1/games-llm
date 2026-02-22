@@ -75,6 +75,8 @@ GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
 To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
 
+Similarly, Google's Gemini models require an api key. The key should be placed in the `.env` file. In its present configuration the program looks for the keys in the `.env` file. It does not pay attention to the MODEL specification in the file. The model name, for example, and the URL, are found hard coded in the python file.
+
 ### Some Results
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Strip Size | Context Size | Threshold |
