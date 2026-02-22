@@ -285,6 +285,8 @@ The error that the second prompt shows might be what they call hallucinations. I
 
 I should note here that I've tried 'gpt-4o-mini' and 'gpt-4o' and they do not give better answers than 'gpt-5.2'. The answers are worse. Also, it could be a long time before OpenAI releases another model in the 'gpt' series. I may just be stuck with the results I have. 
 
+At this time we create a repo for the project. Before this the pong code lived as a subdirectory of another project that was oriented around MCP servers. Also at this point we start to code all 'requests' code in a separate sub module. That is to say all 'post' requests and the code around them are moved to a separate sub module inside the 'games' folder. There are separate classes for OpenAI, Ollama, and Gemini. The code is much neater.
+
 ### Gemini Google Model
 
 It became clear that the Google Gemini model took input in the same format as OpenAI. For this reason coding a python class for Gemini was fast. The model itself takes more time, but performs at the task better.
