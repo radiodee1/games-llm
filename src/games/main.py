@@ -60,11 +60,11 @@ auto = True
 text_input = True
 small_test = -1 ## set to -1 for 'no test'
 vel_const = 8 // smaller
-vel_const_right = 1 # 8 // smaller # 16!
+vel_const_right = 4 // smaller # 16!
 skip = 4
 num = 0 
 message = ''
-fontsize = 12
+fontsize = 28 // smaller
 LOCAL_LLM = 'http://localhost:11434/api/'
 
 prompt_list = ['Describe the arrow in this picture. What direction is it pointing? What is its up/down angle?' , 
@@ -107,6 +107,25 @@ whitelist = {
 }
 
 pygame.display.set_caption('Pong')
+
+def size_init():
+
+    global WIDTH, HEIGHT, BALL_RADIUS, PAD_WIDTH, PAD_HEIGHT, HALF_PAD_WIDTH, HALF_PAD_HEIGHT, BORDER_SIZE
+    global vel_const, vel_const_right, fontsize, smaller 
+    
+    print('smaller' ,smaller)
+    WIDTH = 600 // smaller
+    HEIGHT = 400 // smaller      
+    BALL_RADIUS = 20 // smaller
+    PAD_WIDTH = 16 // smaller
+    PAD_HEIGHT = 80 // smaller
+    HALF_PAD_WIDTH = PAD_WIDTH // 2
+    HALF_PAD_HEIGHT = PAD_HEIGHT // 2
+    BORDER_SIZE = 24 // smaller
+    vel_const = 8 // smaller
+    vel_const_right = 4 // smaller # 16!
+    fontsize = 28 // smaller
+
 
 # helper function that spawns a ball, returns a position vector and a velocity vector
 # if right is True, spawn to the right, else spawn to the left
@@ -199,8 +218,8 @@ def draw(canvas):
     pygame.draw.polygon(canvas, GREEN, paddle1_points, 0)
     pygame.draw.polygon(canvas, GREEN, paddle2_points, 0)
     
-    stripe_polygon(canvas, paddle1_points, WHITE, 2, 4)
-    stripe_polygon(canvas, paddle2_points, BLUE, 2, 4)
+    stripe_polygon(canvas, paddle1_points, WHITE, 8 // smaller, 16 // smaller)
+    stripe_polygon(canvas, paddle2_points, BLUE, 8 // smaller, 16 // smaller)
 
     #ball collision check on top and bottom walls
     if int(ball_pos[1]) <= BALL_RADIUS:
@@ -260,26 +279,26 @@ def stripe_polygon(canvas, polygon, color, width, seperation):
     pass 
 
 def draw_arrow():
-    global double_arrow
+    global double_arrow, smaller
     # -->
-    xoffset =  25 ## 35! 
+    xoffset = 100 // smaller # 25 ## 35! 
     arrow_lines = [
-        (BLUE, (40, 0),  (50, 5), 2),  # angle line
-        (BLUE, (30, 5),  (50, 5), 2),  # horizontal line
-        (BLUE, (40, 12), (50, 5), 2),  # angle line
+        (BLUE, (160, 0),   (200, 20), 8 // smaller  ),  # angle line
+        (BLUE, (120, 20),  (200, 20), 8 // smaller  ),  # horizontal line
+        (BLUE, (160, 48),  (200, 20), 8 // smaller  ),  # angle line
     ]
-    arrow_surface = pygame.Surface((100, 12), pygame.SRCALPHA)
-    xoffset = 25 
+    arrow_surface = pygame.Surface((400 // smaller, 48 // smaller), pygame.SRCALPHA)
+    xoffset = 140 # // smaller # 25 
     for color, start_pos, end_pos, width in arrow_lines:
-        start_pos = start_pos[0] + xoffset, start_pos[1]
-        end_pos = end_pos[0] + xoffset, end_pos[1]
+        start_pos = (start_pos[0]  + xoffset) // smaller , start_pos[1] // smaller
+        end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
         pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
     
     if double_arrow:
-        xoffset = - 20 
+        xoffset = - 80 #// smaller #20 
         for color, start_pos, end_pos, width in arrow_lines:
-            start_pos = start_pos[0] + xoffset, start_pos[1]
-            end_pos = end_pos[0] + xoffset, end_pos[1]
+            start_pos = (start_pos[0]  + xoffset) // smaller, start_pos[1] // smaller
+            end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
             pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
     return arrow_surface
 
@@ -425,7 +444,8 @@ def parse():
     global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
-    global model_class, prompt_strategy 
+    global model_class, prompt_strategy
+    global smaller 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -450,6 +470,7 @@ def parse():
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
     parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'.")
+    parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -496,6 +517,9 @@ def parse():
         image_series = args.image_series
     if args.strategy > 0:
         prompt_strategy = args.strategy
+    if args.inverse_size > 0:
+        smaller = args.inverse_size
+    size_init()
 
     if model not in whitelist:
         print('model not in whitelist')
