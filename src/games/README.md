@@ -62,14 +62,12 @@ Locally, I was using a laptop for testing. I would edit code on my desktop, and 
 The `.env` file should look like this. Commented lines are not important:
 
 ```
-OPENAI_API_KEY="api-key-here"
-#OPENAI_API_KEY_TEST="abcabcabc"
+OPENAI_API_KEY="openai-api-key-here"
 #OPENAI_MODEL="gpt-4o-mini"
 
-GEMINI_API_KEY="api-key-here"
+GEMINI_API_KEY="gemini-api-key-here"
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
-#GOOGLE_GEMINI_URL="https://generativelanguage.googleapis.com/v1beta/models/"
 #GOOGLE_GEMINI_MODEL="gemini-3-flash-preview"
 ```
 
