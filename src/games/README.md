@@ -370,3 +370,16 @@ Since the ball is heading toward the bottom corner, it is highly likely to bounc
 
 **control.move.up**
 ```
+
+### Epic runs
+
+We started out this project with the models not understanding how to play the game. It didn't last for long, but at the start they couldn't figure out how to respond. Now that's the distant past. The models have in a couple of cases, actually won the game. Now I'm going to wrap this stage of testing up and try to get one or two more epic runs. I want to follow the output for a long time. 
+
+I'm also going to start tracking the value of what's called the 'Right-bounces' above. From the beginning I've been changing the code as I do the testing. Then I change the model. For this reason 'Time Elapsed' and 'step-count' cannot be compared with different models and similarly with different snapshots over time. I've found that the Elapsed Time for gemini-3-flash-preview is much greater than that for OpenAI gpt-5.2. Also the step-count for gemini is about a third the size of gpt-5.2. What has obviously improved is the 'Winner' status. For gemini I've had to interrupt the model. Who knows where those runs would have ended.
+
+I'm going to try a couple of runs just aimed at keeping the model going as long as possible. This would be for the 'gemini-3-flash-preview' model. I will record 'Right-bounces' in my chart.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold | Right Bounces |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 02/xx/26 | 0:00am | AI | gemini-3-flash-preview | ? | ? | ? | 00:00 | 3 | 0 | 100 | ? |
+
