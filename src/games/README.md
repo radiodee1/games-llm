@@ -381,5 +381,5 @@ I'm going to try a couple of runs just aimed at keeping the model going as long 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/xx/26 | 0:00am | AI | gemini-3-flash-preview | ? | ? | ? | 00:00 | 100 | ? |
+| 02/xx/26 | 0:00am | ? | gemini-3-flash-preview | ? | ? | ? | 00:00 | 100 | ? |
 
