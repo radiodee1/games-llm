@@ -103,7 +103,8 @@ whitelist = {
     'qwen3-vl:4b'   : 'Ollama',
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
-    'gemini-3-flash-preview' : 'Gem'
+    'gemini-3-flash-preview' : 'Gem',
+    'gemini-3-pro-preview'   : 'Gem'
 }
 
 pygame.display.set_caption('Pong')
@@ -209,7 +210,8 @@ def draw(canvas):
     ball_pos[1] += int(ball_vel[1])
 
     #draw paddles and ball
-    pygame.draw.circle(canvas, GRAY, trace_pos, BALL_RADIUS, 0)
+    if not double_arrow:
+        pygame.draw.circle(canvas, GRAY, trace_pos, BALL_RADIUS, 0)
     blit_rotate_arrow(canvas, arrow_surface, ball_pos, ball_vel)
     pygame.draw.circle(canvas, RED, ball_pos, BALL_RADIUS, 0)
     paddle1_points = [[paddle1_pos[0] - HALF_PAD_WIDTH, paddle1_pos[1] - HALF_PAD_HEIGHT], [paddle1_pos[0] - HALF_PAD_WIDTH, paddle1_pos[1] + HALF_PAD_HEIGHT], [paddle1_pos[0] + HALF_PAD_WIDTH, paddle1_pos[1] + HALF_PAD_HEIGHT], [paddle1_pos[0] + HALF_PAD_WIDTH, paddle1_pos[1] - HALF_PAD_HEIGHT]]

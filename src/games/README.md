@@ -381,5 +381,14 @@ I'm going to try a couple of runs just aimed at keeping the model going as long 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/xx/26 | 0:00am | ? | gemini-3-flash-preview | ? | ? | ? | 00:00 | 100 | ? |
+| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 74 | 65:41 | 100 | 4 |
+
+```
+model: gemini-3-pro-preview
+serves_num: 3
+Left-bounces: 2 Right-bounces: 4
+l_score: 0 r_score: 2
+step-count: 76
+Elapsed time: 66:28 minutes
+```
 
