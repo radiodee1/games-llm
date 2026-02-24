@@ -377,11 +377,11 @@ We started out this project with the models not understanding how to play the ga
 
 I'm also going to start tracking the value of what's called the 'Right-bounces' above. From the beginning I've been changing the code as I do the testing. Then I change the model. For this reason 'Time Elapsed' and 'step-count' cannot be compared with different models and similarly with different snapshots over time. I've found that the Elapsed Time for gemini-3-flash-preview is much greater than that for OpenAI gpt-5.2. Also the step-count for gemini is about a third the size of gpt-5.2. What has obviously improved is the 'Winner' status. For gemini I've had to interrupt the model. Who knows where those runs would have ended.
 
-I'm going to try a couple of runs just aimed at keeping the model going as long as possible. This would be for the 'gemini-3-flash-preview' model. I will record 'Right-bounces' in my chart. I'll take out 'Context Size' and 'Num of Images'.
+I'm going to try a couple of runs just aimed at keeping the model going as long as possible. I'm switching from the 'gemini-3-flash-preview' model to the 'gemini-3-pro-preview' model. I will record 'Right-bounces' in my chart. I'll take out 'Context Size' and 'Num of Images'.
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 74 | 65:41 | 100 | 4 |
+| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 74 | 66:28 | 100 | 4 |
 
 ```
 model: gemini-3-pro-preview
