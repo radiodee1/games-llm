@@ -180,10 +180,10 @@ def draw(canvas):
         elif paddle1_pos[1] == HEIGHT - HALF_PAD_HEIGHT and paddle1_vel < 0:
             paddle1_pos[1] += paddle1_vel
     if auto and num % skip == 0 and computer <= random_threshold / 100:
-        if paddle1_pos[1] > int(ball_pos[1]) and ball_vel[1] < 0:  
+        if paddle1_pos[1] >= int(ball_pos[1]) and ball_vel[1] < 0:  
             paddle1_pos[1] -= abs(vel_const) * skip # up - negative 
             print('computer paddle up', - abs(vel_const) * skip)
-        elif paddle1_pos[1] < int(ball_pos[1]) and ball_vel[1] > 0:  
+        elif paddle1_pos[1] <= int(ball_pos[1]) and ball_vel[1] > 0:  
             paddle1_pos[1] += abs(vel_const) * skip # down - positive
             print('computer paddle down', abs(vel_const) * skip)
     elif auto and num % skip == 0:
