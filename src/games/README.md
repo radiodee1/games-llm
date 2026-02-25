@@ -59,6 +59,8 @@ Locally, I was using a laptop for testing. I would edit code on my desktop, and 
 
 ### OpenAI
 
+OpenAI and Google Gemini models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
+
 The `.env` file should look like this. Commented lines are not important:
 
 ```
