@@ -104,7 +104,8 @@ whitelist = {
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
     'gemini-3-flash-preview' : 'Gem',
-    'gemini-3-pro-preview'   : 'Gem'
+    'gemini-3-pro-preview'   : 'Gem',
+    'gemini-3.1-pro-preview' : 'Gem'
 }
 
 pygame.display.set_caption('Pong')
