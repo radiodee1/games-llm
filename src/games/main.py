@@ -375,9 +375,9 @@ def paddle_auto_vel(paddle_pos, ball_pos, ball_vel, vel_const=2):
             return (0 , 'control.move.wait')
         if i > paddle_pos[1] - HALF_PAD_HEIGHT and i < paddle_pos[1] + HALF_PAD_HEIGHT:
             return (0 , 'control.move.wait')
-        if paddle_pos[1] >= i: # and ball_vel[1] < 0:
+        if paddle_pos[1] >= i: 
             return (- abs(vel_const), 'control.move.up')
-        elif paddle_pos[1] <= i: # and ball_vel[1] > 0:
+        elif paddle_pos[1] <= i: 
             return (+ abs(vel_const), 'control.move.down')
         return(0, 'control.move.wait')
     pass 
