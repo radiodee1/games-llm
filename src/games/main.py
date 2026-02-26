@@ -562,7 +562,7 @@ def parse():
 
     size_init()
 
-    if make_corpus < 0 and no_llm <= 0:
+    if  no_llm <= 0 or make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')
             sys.exit()
@@ -575,7 +575,8 @@ def parse():
         model_class.images_size = queue_len 
         model_class.context_size = context_size
         model_class.history_size = context_size 
-
+        if make_corpus > 0:
+            model_class.write_only = True
     #####
         if image_strip > 0 and not video_openai :
             model_class.images_size = 1 
@@ -736,7 +737,9 @@ if __name__ == "__main__":
                         pygame.display.update()
                         ticks = 15
                         fps.tick(ticks)
-
+                        if make_corpus > 0:
+                            #model_class.print_to_screen = True
+                            model_class.write()
                         step_count += 1 
                         continue
 

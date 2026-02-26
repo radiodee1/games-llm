@@ -44,6 +44,7 @@ class Default:
         self.think_temp = ''
         self.print_to_screen = False
         self.skip_errors = False
+        self.write_only = False
 
         self.print('Default', model)
         pass
@@ -189,6 +190,8 @@ class Default:
         return {}
 
     def query(self):
+        if self.write_only:
+            return
         self.think_temp = ''
         self.r_temp = ''
         if self.streaming:
@@ -316,3 +319,6 @@ class Default:
         self.query()
         return self.result
 
+    def write(self):
+        self.print('some data')
+        return
