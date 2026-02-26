@@ -43,6 +43,7 @@ class Default:
         self.r_temp = ''
         self.think_temp = ''
         self.print_to_screen = False
+        self.skip_errors = False
 
         self.print('Default', model)
         pass
@@ -192,7 +193,8 @@ class Default:
         self.r_temp = ''
         if self.streaming:
             with requests.post(self.url_derived, json=self.data, stream=self.streaming, headers=self.headers) as x:
-                x.raise_for_status()
+                if not self.skip_errors:
+                    x.raise_for_status()
                 if self.chat:
                     self.query_streaming_chat(x)
                 else:
