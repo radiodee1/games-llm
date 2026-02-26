@@ -212,7 +212,7 @@ def draw(canvas):
         paddle1_pos[1] += temp1_vel * skip 
         temp2_vel, paddle2_message = paddle_auto_vel(paddle2_pos, ball_pos, ball_vel, vel_const_right)
         paddle2_pos[1] += temp2_vel * skip
-        print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
+        #print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
 
     if num % skip == 0:
         trace_pos[0] = ball_pos[0] - ball_vel[0] * ( 4 // smaller )  
