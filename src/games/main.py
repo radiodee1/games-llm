@@ -725,10 +725,6 @@ if __name__ == "__main__":
 
                     z = encode_image_to_base64(f)
                     
-                    #m = prompt_list[0]
-                    #xx = model_class.do(image=z, context=None, text=m )
-                    #print(xx)
-                    #sys.exit()
 
                     print(m + '\n---')
 
