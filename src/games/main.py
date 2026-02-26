@@ -92,6 +92,7 @@ double_arrow = False
 use_hinting = False
 image_series = False
 prompt_strategy = 1 
+make_corpus = -1
 
 arrow_surface = None ## for arrow...
 
@@ -165,6 +166,7 @@ def init():
 def draw(canvas):
     global paddle1_pos, paddle2_pos, ball_pos, ball_vel, l_score, r_score
     global message, num, skip, trace_pos, paddle1_bounce, paddle2_bounce, random_threshold 
+    global make_corpus
 
     canvas.fill(BLACK)
     pygame.draw.line(canvas, WHITE, [WIDTH // 2, 0],[WIDTH // 2, HEIGHT], 1)
@@ -173,35 +175,44 @@ def draw(canvas):
     pygame.draw.circle(canvas, WHITE, [WIDTH//2, HEIGHT//2], 70 // smaller, 1)
 
     # update paddle's vertical position, keep paddle on the screen
-    computer = random.random() 
-    if not auto:
-        if paddle1_pos[1] > HALF_PAD_HEIGHT and paddle1_pos[1] < HEIGHT - HALF_PAD_HEIGHT:
-            paddle1_pos[1] += paddle1_vel
-        elif paddle1_pos[1] == HALF_PAD_HEIGHT and paddle1_vel > 0:
-            paddle1_pos[1] += paddle1_vel
-        elif paddle1_pos[1] == HEIGHT - HALF_PAD_HEIGHT and paddle1_vel < 0:
-            paddle1_pos[1] += paddle1_vel
-    if auto and num % skip == 0 and computer <= random_threshold / 100:
-        if paddle1_pos[1] >= int(ball_pos[1]) and ball_vel[1] < 0:  
-            paddle1_pos[1] -= abs(vel_const) * skip # up - negative 
-            print('computer paddle up', - abs(vel_const) * skip)
-        elif paddle1_pos[1] <= int(ball_pos[1]) and ball_vel[1] > 0:  
-            paddle1_pos[1] += abs(vel_const) * skip # down - positive
-            print('computer paddle down', abs(vel_const) * skip)
-    elif auto and num % skip == 0:
-        print('pass because of threshold', computer * 100)
+    if make_corpus < 0:
+        computer = random.random() 
+        if not auto:
+            if paddle1_pos[1] > HALF_PAD_HEIGHT and paddle1_pos[1] < HEIGHT - HALF_PAD_HEIGHT:
+                paddle1_pos[1] += paddle1_vel
+            elif paddle1_pos[1] == HALF_PAD_HEIGHT and paddle1_vel > 0:
+                paddle1_pos[1] += paddle1_vel
+            elif paddle1_pos[1] == HEIGHT - HALF_PAD_HEIGHT and paddle1_vel < 0:
+                paddle1_pos[1] += paddle1_vel
+        if auto and num % skip == 0 and computer <= random_threshold / 100:
+            if paddle1_pos[1] >= int(ball_pos[1]) and ball_vel[1] < 0:  
+                paddle1_pos[1] -= abs(vel_const) * skip # up - negative 
+                print('computer paddle up', - abs(vel_const) * skip)
+            elif paddle1_pos[1] <= int(ball_pos[1]) and ball_vel[1] > 0:  
+                paddle1_pos[1] += abs(vel_const) * skip # down - positive
+                print('computer paddle down', abs(vel_const) * skip)
+        elif auto and num % skip == 0:
+            print('pass because of threshold', computer * 100)
 
-    if paddle2_pos[1] > HALF_PAD_HEIGHT and paddle2_pos[1] < HEIGHT - HALF_PAD_HEIGHT:
-        paddle2_pos[1] += int(paddle2_vel)
-    if paddle2_pos[1] < HALF_PAD_HEIGHT + int(paddle2_vel) and int(paddle2_vel) > 0:
-        paddle2_pos[1] += int(paddle2_vel)
-    if paddle2_pos[1] > HEIGHT - HALF_PAD_HEIGHT - int(paddle2_vel) and int(paddle2_vel) < 0:
-        paddle2_pos[1] += int(paddle2_vel)
+        if paddle2_pos[1] > HALF_PAD_HEIGHT and paddle2_pos[1] < HEIGHT - HALF_PAD_HEIGHT:
+            paddle2_pos[1] += int(paddle2_vel)
+        if paddle2_pos[1] < HALF_PAD_HEIGHT + int(paddle2_vel) and int(paddle2_vel) > 0:
+            paddle2_pos[1] += int(paddle2_vel)
+        if paddle2_pos[1] > HEIGHT - HALF_PAD_HEIGHT - int(paddle2_vel) and int(paddle2_vel) < 0:
+            paddle2_pos[1] += int(paddle2_vel)
 
-    if paddle2_pos[1] <= HALF_PAD_HEIGHT  and int(paddle2_vel) > 0:
-        paddle2_pos[1] += int(paddle2_vel)
-    if paddle2_pos[1] >= HEIGHT - HALF_PAD_HEIGHT and int(paddle2_vel) < 0:
-        paddle2_pos[1] += int(paddle2_vel)
+        if paddle2_pos[1] <= HALF_PAD_HEIGHT  and int(paddle2_vel) > 0:
+            paddle2_pos[1] += int(paddle2_vel)
+        if paddle2_pos[1] >= HEIGHT - HALF_PAD_HEIGHT and int(paddle2_vel) < 0:
+            paddle2_pos[1] += int(paddle2_vel)
+
+    elif make_corpus > 0 and num % skip == 0 :
+        paddle2_message = ''
+        temp1_vel, paddle1_message = paddle_auto_vel(paddle1_pos, ball_pos, ball_vel, vel_const)
+        paddle1_pos[1] += temp1_vel * skip 
+        temp2_vel, paddle2_message = paddle_auto_vel(paddle2_pos, ball_pos, ball_vel, vel_const_right)
+        paddle2_pos[1] += temp2_vel * skip
+        print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
 
     if num % skip == 0:
         trace_pos[0] = ball_pos[0] - ball_vel[0] * ( 4 // smaller )  
@@ -349,6 +360,28 @@ def is_hint_now(hint_y):
     else:
         return False
 
+def paddle_auto_vel(paddle_pos, ball_pos, ball_vel, vel_const=2):
+    if paddle_pos[0] < WIDTH // 2:
+        #left 
+        if paddle_pos[1] >= int(ball_pos[1]) and ball_vel[1] < 0:  
+            return (- abs(vel_const) , 'control.move.up' )  # up - negative 
+        elif paddle_pos[1] <= int(ball_pos[1]) and ball_vel[1] > 0:  
+            return (+ abs(vel_const) , 'control.move.down') # down - positive
+        return (0, 'control.move.wait')
+    else:
+        #right 
+        i = get_hint_y()
+        if i < 0 or i > HEIGHT:
+            return (0 , 'control.move.wait')
+        if i > paddle_pos[1] - HALF_PAD_HEIGHT and i < paddle_pos[1] + HALF_PAD_HEIGHT:
+            return (0 , 'control.move.wait')
+        if paddle_pos[1] >= i: # and ball_vel[1] < 0:
+            return (- abs(vel_const), 'control.move.up')
+        elif paddle_pos[1] <= i: # and ball_vel[1] > 0:
+            return (+ abs(vel_const), 'control.move.down')
+        return(0, 'control.move.wait')
+    pass 
+
 def label(i, ii):
     myfont = pygame.font.SysFont(None, 16 )
     label1 = myfont.render("# " + str(ii), True, (255,255,0), GRAY)
@@ -448,7 +481,7 @@ def parse():
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
     global model_class, prompt_strategy
-    global smaller 
+    global smaller, make_corpus 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -474,6 +507,7 @@ def parse():
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
     parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
+    parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -522,24 +556,29 @@ def parse():
         prompt_strategy = args.strategy
     if args.inverse_size > 0:
         smaller = args.inverse_size
+    if args.make_corpus > 0:
+        make_corpus = args.make_corpus
+        no_llm = args.make_corpus
+
     size_init()
 
-    if model not in whitelist:
-        print('model not in whitelist')
-        sys.exit()
-    
-    model_key = os.getenv('OPENAI_API_KEY')
-    if whitelist[model] == 'Gem':
-        model_key = os.getenv('GEMINI_API_KEY')
+    if make_corpus < 0 and no_llm <= 0:
+        if model not in whitelist:
+            print('model not in whitelist')
+            sys.exit()
+        
+        model_key = os.getenv('OPENAI_API_KEY')
+        if whitelist[model] == 'Gem':
+            model_key = os.getenv('GEMINI_API_KEY')
 
-    model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=model_key)
-    model_class.images_size = queue_len 
-    model_class.context_size = context_size
-    model_class.history_size = context_size 
+        model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=model_key)
+        model_class.images_size = queue_len 
+        model_class.context_size = context_size
+        model_class.history_size = context_size 
 
     #####
-    if image_strip > 0 and not video_openai :
-        model_class.images_size = 1 
+        if image_strip > 0 and not video_openai :
+            model_class.images_size = 1 
 
    
 
@@ -655,7 +694,7 @@ if __name__ == "__main__":
                     border_rect.fill(GRAY)
                     border_rect.blit(window, (BORDER_SIZE, BORDER_SIZE))
 
-                    pygame.display.update([border_rect.get_rect()])
+                    #pygame.display.update([border_rect.get_rect()])
 
                     if  image_strip < 0:
                         pygame.image.save(border_rect, f)
@@ -668,18 +707,18 @@ if __name__ == "__main__":
                             i += 1
                         window_strip = pygame.display.set_mode(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
                         window_strip.fill(GRAY)
-                        pygame.display.update([window_strip.get_rect()])
+                        #pygame.display.update([window_strip.get_rect()])
                         ii = 0 
                         for i in strip:
-                            pygame.display.update([i.get_rect()])
+                            #pygame.display.update([i.get_rect()])
                             if image_strip > 1:
                                 i = label(i, ii + 0) 
-                            pygame.display.update([i.get_rect()])
+                            #pygame.display.update([i.get_rect()])
                             window_strip.blit(i, ((WIDTH + 2 * BORDER_SIZE) * ii, 0))
-                            pygame.display.update([window_strip.get_rect()])
+                            #pygame.display.update([window_strip.get_rect()])
                             ii += 1 
                         pygame.image.save(window_strip, f)
-                        pygame.display.update([window_strip.get_rect()])
+                        #pygame.display.update([window_strip.get_rect()])
 
                     if int(img) > small_test and small_test > -1 and not stream_openai :
                         sys.exit()
@@ -693,11 +732,15 @@ if __name__ == "__main__":
 
                     print(m + '\n---')
 
-                    if no_llm <= 0:
+                    if no_llm <= -1:
                         xx = model_class.do(image=z, context=None, text=m )
                     if no_llm > 0 and step_count > no_llm:
                         sys.exit()
                     elif no_llm > 0:
+                        pygame.display.update()
+                        ticks = 15
+                        fps.tick(ticks)
+
                         step_count += 1 
                         continue
 
@@ -725,7 +768,8 @@ if __name__ == "__main__":
                 num += 1  
 
             pygame.display.update()
-            fps.tick(60)
+            ticks = 60
+            fps.tick(ticks)
 
     except KeyboardInterrupt:
         print('\nKeyboardInterrupt')
