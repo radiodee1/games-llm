@@ -383,7 +383,7 @@ I'm going to try a couple of runs just aimed at keeping the model going as long 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 74 | 66:28 | 100 | 4 |
+| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 76 | 66:28 | 100 | 4 |
 
 ```
 model: gemini-3-pro-preview
