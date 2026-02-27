@@ -321,7 +321,7 @@ class Default:
         return self.result
 
     def write(self, scraped_output, raw_output , raw_input, num_string):
-        self.print('some data', scraped_output, raw_output, raw_input, num_string)
+        self.print('some data', 'scraped_output', scraped_output,'raw_output', raw_output,'raw_input', raw_input,'num_string', num_string)
         image_string = './pic/' + str(num_string) + '.png'
         filename_string = './pic/' + str(num_string) + '.json'
         f = {

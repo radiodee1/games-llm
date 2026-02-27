@@ -587,40 +587,44 @@ def parse():
 
    
 
-def scrape(xx):
+def scrape(xx, side_effects=True):
     global paddle2_vel, vel_const, skip, vel_const_right
 
     xx_up = xx.rfind('control.move.up')
     xx_down = xx.rfind('control.move.down')
     
-    paddle2_vel = 0 
+    #paddle2_vel = 0
+    paddle = 0 
     #print(xx_up, xx_down)
 
     if xx_up != -1 and xx_up > xx_down:
-        paddle2_vel = - vel_const_right * skip
+        paddle = - vel_const_right * skip
         xx = 'control.move.up'
     if xx_down != -1 and xx_down > xx_up :
-        paddle2_vel = vel_const_right * skip
+        paddle = vel_const_right * skip
         xx = 'control.move.down'
     if (not 'control.move.up' in xx) and (not 'control.move.down' in xx):
         if scrape_general:
             xx_up = xx.rfind('up')
             xx_down = xx.rfind('down')
             if xx_up != -1 and xx_up > xx_down:
-                paddle2_vel = - vel_const_right * skip
+                paddle = - vel_const_right * skip
                 xx = 'control.move.up'
             if xx_down != -1 and xx_down > xx_up :
-                paddle2_vel = vel_const_right * skip
+                paddle = vel_const_right * skip
                 xx = 'control.move.down'
             if (not 'up' in xx) and (not 'down' in xx):
-                paddle2_vel = 0 
+                paddle = 0 
                 print('NO ANSWER', xx)
                 xx = 'control.move.wait'
         else:
-            paddle2_vel = 0
+            paddle = 0
             if not 'control.move.wait' in xx:
                 print('NO ANSWER', xx)
             xx = 'control.move.wait'
+
+    if side_effects:
+        paddle2_vel = paddle 
 
     return xx 
 
@@ -748,7 +752,7 @@ if __name__ == "__main__":
                             model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
                             #print(z, model_class, x)
-                            xx = scrape(x)
+                            xx = scrape(x, side_effects=False)
                             model_class.write(scraped_output=paddle_message, raw_output=x, raw_input=m, num_string=img)
                             #sys.exit()
                             paddle_message = ''
