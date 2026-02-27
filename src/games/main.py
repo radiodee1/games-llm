@@ -93,6 +93,8 @@ use_hinting = False
 image_series = False
 prompt_strategy = 1 
 make_corpus = -1
+corpus_offset = 0
+paddle_message = ''
 
 arrow_surface = None ## for arrow...
 
@@ -166,7 +168,7 @@ def init():
 def draw(canvas):
     global paddle1_pos, paddle2_pos, ball_pos, ball_vel, l_score, r_score
     global message, num, skip, trace_pos, paddle1_bounce, paddle2_bounce, random_threshold 
-    global make_corpus
+    global make_corpus, paddle_message
 
     canvas.fill(BLACK)
     pygame.draw.line(canvas, WHITE, [WIDTH // 2, 0],[WIDTH // 2, HEIGHT], 1)
@@ -213,6 +215,7 @@ def draw(canvas):
         temp2_vel, paddle2_message = paddle_auto_vel(paddle2_pos, ball_pos, ball_vel, vel_const_right)
         paddle2_pos[1] += temp2_vel * skip
         #print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
+        paddle_message = paddle2_message
 
     if num % skip == 0:
         trace_pos[0] = ball_pos[0] - ball_vel[0] * ( 4 // smaller )  
@@ -508,6 +511,7 @@ def parse():
     parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
+    parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -559,6 +563,8 @@ def parse():
     if args.make_corpus > 0:
         make_corpus = args.make_corpus
         no_llm = args.make_corpus
+    if args.corpus_offset > -1:
+        corpus_offset = args.corpus_offset
 
     size_init()
 
@@ -575,8 +581,6 @@ def parse():
         model_class.images_size = queue_len 
         model_class.context_size = context_size
         model_class.history_size = context_size 
-        if make_corpus > 0:
-            model_class.write_only = True
     #####
         if image_strip > 0 and not video_openai :
             model_class.images_size = 1 
@@ -685,11 +689,14 @@ if __name__ == "__main__":
                     else:
                         img = 0
 
-                    if image_series:
+                    if image_series or make_corpus > 0:
                         img = ('00000000000' + str(step_count))[- 10:]
                         print(img)
                     f = './pic/figure_' + str(img) + '.png'
                     
+                    if make_corpus > 0:
+                        f = './pic/' + str(img) + '.png'
+
                     print(f)
                     border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
                     border_rect.fill(GRAY)
@@ -738,8 +745,14 @@ if __name__ == "__main__":
                         ticks = 15
                         fps.tick(ticks)
                         if make_corpus > 0:
-                            #model_class.print_to_screen = True
-                            model_class.write()
+                            model_class.print_to_screen = True
+                            x = model_class.do(image=z, context=None, text=m)
+                            #print(z, model_class, x)
+                            xx = scrape(x)
+                            model_class.write(scraped_output=paddle_message, raw_output=x, raw_input=m, num_string=img)
+                            #sys.exit()
+                            paddle_message = ''
+
                         step_count += 1 
                         continue
 

@@ -45,6 +45,7 @@ class Default:
         self.print_to_screen = False
         self.skip_errors = False
         self.write_only = False
+        self.write_message = ""
 
         self.print('Default', model)
         pass
@@ -319,6 +320,26 @@ class Default:
         self.query()
         return self.result
 
-    def write(self):
-        self.print('some data')
+    def write(self, scraped_output, raw_output , raw_input, num_string):
+        self.print('some data', scraped_output, raw_output, raw_input, num_string)
+        image_string = './pic/' + str(num_string) + '.png'
+        filename_string = './pic/' + str(num_string) + '.json'
+        f = {
+            "id": num_string,
+            "image": image_string,
+            "conversations": [
+                {
+                    'from': 'human',
+                    'value': '<image>\n' + raw_input
+                    
+                },
+                {
+                    'from': 'gpt',
+                    'value': raw_output + "\n" + scraped_output
+                }
+            ]
+        }
+        with open(filename_string, 'w') as w:
+            w.write(json.dumps(f) + '\n')
+
         return
