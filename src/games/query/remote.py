@@ -76,7 +76,7 @@ class Oai (Default):
         pass
 
     def payload_think(self):
-        #self.data['include'] = [ 'responses.summary' ]
+        #self.data['reasoning_effort'] = 'high'
         self.print(self.data)
 
     def payload_overload(self ):
