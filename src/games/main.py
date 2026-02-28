@@ -628,6 +628,11 @@ def scrape(xx, side_effects=True):
 
     return xx 
 
+def remove(output, control):
+    xx_control = output.rfind(control)
+    if xx_control > -1:
+        output = output[: xx_control] + output[xx_control + len(control): ]
+    return output
 
 #keydown handler
 def keydown(event):
@@ -757,10 +762,9 @@ if __name__ == "__main__":
                         if make_corpus > 0:
                             model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
-                            #print(z, model_class, x)
                             xx = scrape(x, side_effects=False)
+                            x = remove(x, xx)
                             model_class.write(scraped_output=paddle_message, raw_output=x, raw_input=m, num_string=img)
-                            #sys.exit()
                             paddle_message = ''
 
                         step_count += 1 
