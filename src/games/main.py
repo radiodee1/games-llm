@@ -760,7 +760,7 @@ if __name__ == "__main__":
                         ticks = 15
                         fps.tick(ticks)
                         if make_corpus > 0:
-                            model_class.print_to_screen = True
+                            #model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
                             xx = scrape(x, side_effects=False)
                             x = remove(x, xx)
