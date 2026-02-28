@@ -577,10 +577,11 @@ def parse():
         if whitelist[model] == 'Gem':
             model_key = os.getenv('GEMINI_API_KEY')
 
-        model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=False, key=model_key)
+        model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=not disable_thinking, key=model_key)
         model_class.images_size = queue_len 
         model_class.context_size = context_size
         model_class.history_size = context_size 
+        #model_class.print_to_screen = True
     #####
         if image_strip > 0 and not video_openai :
             model_class.images_size = 1 

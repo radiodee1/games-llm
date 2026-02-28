@@ -133,11 +133,14 @@ class Default:
             self.data = p
 
         if self.think:
-            self.data['think'] = True
+            self.payload_think()
 
         self.make_headers()
         #self.print(self.headers)
         ## done ##
+
+    def payload_think(self):
+        self.data['think'] = True
 
     def payload_visual_chat(self):
         self.history += [{

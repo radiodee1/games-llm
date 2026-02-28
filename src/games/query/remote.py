@@ -11,7 +11,7 @@ class Oai (Default):
         self.url ='https://api.openai.com/v1/' 
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
-        self.think = False
+        #self.think = False
 
         pass 
     def payload_visual_chat(self):
@@ -75,6 +75,10 @@ class Oai (Default):
         self.print(self.data)
         pass
 
+    def payload_think(self):
+        #self.data['include'] = [ 'responses.summary' ]
+        self.print(self.data)
+
     def payload_overload(self ):
         """Overload this function"""
         return {}
@@ -112,7 +116,7 @@ class Oai (Default):
         pass
 
     def query_chat(self, x):
-        #print(x)
+        self.print(x)
         self.result = x['choices'][0]['message']['content']
         pass
 
