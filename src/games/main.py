@@ -484,7 +484,7 @@ def parse():
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
     global model_class, prompt_strategy
-    global smaller, make_corpus 
+    global smaller, make_corpus, corpus_offset 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -694,12 +694,17 @@ if __name__ == "__main__":
                         img = 0
 
                     if image_series or make_corpus > 0:
-                        img = ('00000000000' + str(step_count))[- 10:]
+                        img = ('00000000000' + str(step_count + corpus_offset))[- 10:]
                         print(img)
                     f = './pic/figure_' + str(img) + '.png'
                     
                     if make_corpus > 0:
                         f = './pic/' + str(img) + '.png'
+
+                    if no_llm > 0 and step_count  >= no_llm :
+                        print('exit before png save')
+                        sys.exit()
+
 
                     print(f)
                     border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
@@ -729,6 +734,7 @@ if __name__ == "__main__":
                             window_strip.blit(i, ((WIDTH + 2 * BORDER_SIZE) * ii, 0))
                             #pygame.display.update([window_strip.get_rect()])
                             ii += 1 
+                        
                         pygame.image.save(window_strip, f)
                         #pygame.display.update([window_strip.get_rect()])
 
@@ -742,7 +748,7 @@ if __name__ == "__main__":
 
                     if no_llm <= -1:
                         xx = model_class.do(image=z, context=None, text=m )
-                    if no_llm > 0 and step_count > no_llm:
+                    if no_llm > 0 and step_count > no_llm :
                         sys.exit()
                     elif no_llm > 0:
                         pygame.display.update()
