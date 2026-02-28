@@ -707,7 +707,7 @@ if __name__ == "__main__":
                         f = './pic/' + str(img) + '.png'
 
                     if no_llm > 0 and step_count  >= no_llm :
-                        print('exit before png save')
+                        #print('exit before png save')
                         sys.exit()
 
 
@@ -789,7 +789,12 @@ if __name__ == "__main__":
 
                     if sudden_death_score != -1 and (l_score >= sudden_death_score or r_score >= sudden_death_score):
                         print('sudden_death_score', l_score, r_score)
-                        sys.exit()
+                        if make_corpus > 0:
+                            l_score = 0 
+                            r_score = 0
+                            
+                        else:    
+                            sys.exit()
 
                 num += 1  
 
