@@ -140,3 +140,14 @@ class Gem (Oai):
         self.think = False
         pass
 
+class Mis (Oai):
+
+    def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
+        super().__init__(model, streaming, chat, visual, think, key)
+        self.url ='https://api.mistral.ai/v1/' 
+        self.url_ending_chat = 'chat/completions'
+        self.url_ending_generate = 'responses'
+        self.think = False
+        pass
+
+

@@ -12,7 +12,7 @@ import requests
 import base64
 import argparse 
 import math
-from query import  Oai, Ollama, Gem
+from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
 
@@ -109,7 +109,9 @@ whitelist = {
     'gemini-3-flash-preview' : 'Gem',
     'gemini-3-pro-preview'   : 'Gem',
     'gemini-3.1-pro-preview' : 'Gem',
-    'gemini-2.5-flash'       : 'Gem'
+    'gemini-2.5-flash'       : 'Gem',
+    'mistral-large-2512'     : 'Mis',
+    'pixtral-large-2411'     : 'Mis'
 }
 
 pygame.display.set_caption('Pong')
@@ -576,6 +578,9 @@ def parse():
         model_key = os.getenv('OPENAI_API_KEY')
         if whitelist[model] == 'Gem':
             model_key = os.getenv('GEMINI_API_KEY')
+        if whitelist[model] == 'Mis':
+            model_key = os.getenv('MISTRAL_API_KEY')
+
 
         model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=not disable_thinking, key=model_key)
         model_class.images_size = queue_len 
