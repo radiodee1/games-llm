@@ -496,7 +496,6 @@ def parse():
     parser.add_argument('--sudden_death', default=-1, type=int, help='Set a sudden_death_score to integer value.')
     parser.add_argument('--model', default='qwen3-vl:2b', type=str, help='Set model for local LLMs. default is "qwen3-vl:2b"')
     parser.add_argument('--skip', default=4, type=int, help='Number of computer iterations to skip for each call to the LLM.')
-    parser.add_argument('--compress', default=4, type=int, help='Set "smaller" to number that will compress screen size.')
     parser.add_argument('--q_len', default=3, type=int, help="Set queue length for video images.")
     parser.add_argument('--context_size', default=4096, type=int, help="Set context_size for memory.")
     parser.add_argument('--thinking', action='store_true', help="Do not disable thinking mode.")
@@ -510,7 +509,7 @@ def parse():
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
-    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'.")
+    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'. Default is '1'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
@@ -530,8 +529,6 @@ def parse():
         #model = 'gpt-5.2'
     if args.skip >= -1:
         skip = args.skip
-    if args.compress >= -1:
-        smaller = args.compress
     if args.q_len >= -1:
         queue_len = args.q_len
     if args.context_size >= -1:
