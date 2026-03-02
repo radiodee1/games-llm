@@ -393,12 +393,14 @@ l_score: 0 r_score: 2
 step-count: 76
 Elapsed time: 66:28 minutes
 ```
+Back to OpenAI:
+
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 03/02/26 | 12:34pm | Computer | gpt-5.2 | 3 | 2 | 407 | 10:56 | 100 | 4 |
 
 
-More scores:
+From the screen:
 ```
 model: gpt-5.2
 serves_num: 3
