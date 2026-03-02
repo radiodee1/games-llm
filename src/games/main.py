@@ -8,7 +8,7 @@ import pygame, sys
 from pygame.locals import *
 import os 
 import time
-import requests
+#import subprocess
 import base64
 import argparse 
 import math
@@ -752,6 +752,9 @@ if __name__ == "__main__":
 
                     z = encode_image_to_base64(f)
                     
+                    # open in the system browser!!
+                    #subprocess.run(['open','data:image/png;base64,' + z])
+                    #sys.exit()
 
                     print(m + '\n---')
 
