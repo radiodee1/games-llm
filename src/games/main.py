@@ -110,6 +110,7 @@ whitelist = {
     'gemini-3-pro-preview'   : 'Gem',
     'gemini-3.1-pro-preview' : 'Gem',
     'gemini-2.5-flash'       : 'Gem',
+    #'gemini-3-pro-image-preview' : 'Gem',
     'mistral-large-2512'     : 'Mis',
     'pixtral-large-2411'     : 'Mis'
 }
