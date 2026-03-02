@@ -430,8 +430,9 @@ def make_message():
                 ' Enter "control.move.wait" to skip one turn.\n'        
                 ' The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.\n'  
                 ' The left paddle moves on its own.\n'
-                ' Hit the ball when it comes to you.\n'
-                ' This is the only way to win.\n')
+                 #' Hit the ball when it comes to you.\n'
+                 #' This is the only way to win.\n'
+                 )
 
     score = 'Their score ' + str(l_score) + ' / Your score ' + str(r_score) + ' - Left Bounces ' + str(paddle1_bounce) + ' / Right Bounces ' + str(paddle2_bounce)
     
