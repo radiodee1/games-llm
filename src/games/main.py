@@ -407,7 +407,7 @@ def make_message():
                 ' Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball.'  
                 ' The paddle only moves up and down.'
                 ' Enter "control.move.wait" to skip one turn.'        
-                ' The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.'                
+                ' The ball is red. The ball is moving in the direction of the arrow. The arrows are blue.'                
                 ' You, the AI, are the right paddle.' 
                 ' Your paddle is blue and green. It is very small.' 
                 ' You move your paddle a small amount from where it already is.\n')
@@ -428,10 +428,11 @@ def make_message():
                 ' Your paddle is blue and green. It is very small.\n'
                 ' The paddle only moves up and down.\n'
                 ' Enter "control.move.wait" to skip one turn.\n'        
-                ' The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.\n'  
+                ' The ball is red. The ball is moving in the direction of the arrows. The arrows are blue.\n'  
                 ' The left paddle moves on its own.\n'
                  #' Hit the ball when it comes to you.\n'
                  #' This is the only way to win.\n'
+                ' Your paddle does not need to be moving to hit the ball.\n'
                  )
 
     score = 'Their score ' + str(l_score) + ' / Your score ' + str(r_score) + ' - Left Bounces ' + str(paddle1_bounce) + ' / Right Bounces ' + str(paddle2_bounce)
