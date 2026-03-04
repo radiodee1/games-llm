@@ -262,7 +262,7 @@ def draw(canvas):
         message = "Score!!"
         ball_init(True)
         
-    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1]) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT and int(ball_pos[1]) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT:  
+    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1] + ball_vel[1] // 2) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT and int(ball_pos[1] + ball_vel[1] // 2) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT:  
         ball_vel[0] = -ball_vel[0]
         ball_vel[0] *= (1.0 + acceleration)
         ball_vel[1] *= (1.0 + acceleration)
