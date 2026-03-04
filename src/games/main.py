@@ -420,7 +420,19 @@ def make_message():
                 '5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball.\n'
                 ' You move your paddle a small amount from where it already is.\n'
                 ' Hit the ball in the MIDDLE of the paddle. If the ball passes the paddle you will lose a point.\n')
-    control_list = [ old_controls, new_controls ]
+    
+    third_controls = (
+                '\n1. Notice the position of the ball. What is its VERTICAL or Y value? What is its HORIZONTAL or X value?\n'
+                '2. Notice the angle of the ARROWS. What is their degree?\n'
+                '3. Is the ball moving to the right side?\n'
+                '4. Calculate the diagonal line that starts with the ball and follows the arrow all the way to the right side of the screen.\n'
+                '5. Note the place where the diagonal line crosses the goal line. This is where the ball will go.\n'
+                '6. Adjust the paddle to the anticipated position of the ball.\n'
+                '7. Enter "control.move.up" or "control.move.down" to move the Paddle.\n' 
+                '8. If the paddle is already in the right position, enter "control.move.wait" to skip one turn.\n'
+                )
+
+    control_list = [ old_controls, new_controls, third_controls ]
 
     controls = control_list[ prompt_strategy - 1 ]
 
@@ -512,7 +524,7 @@ def parse():
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
-    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' or '2'. Default is '1'.")
+    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' - '3'. Default is '1'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
