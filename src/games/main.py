@@ -524,7 +524,7 @@ def parse():
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
-    parser.add_argument('--strategy', default=1, type=int, help="Set prompt strategy. Use '1' - '3'. Default is '1'.")
+    parser.add_argument('--strategy', default=3, type=int, help="Set prompt strategy. Use '1' - '3'. Default is '3'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
