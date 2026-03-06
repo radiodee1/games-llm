@@ -496,6 +496,44 @@ def encode_image_to_base64(image_path: str) -> str:
         encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
     return encoded_string
 
+def pygame_save(f):
+    global image_strip, strip, window 
+    global WIDTH, HEIGHT, BORDER_SIZE, GRAY
+    print(f)
+    border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
+    border_rect.fill(GRAY)
+    border_rect.blit(window, (BORDER_SIZE, BORDER_SIZE))
+
+    #pygame.display.update([border_rect.get_rect()])
+
+    if  image_strip < 0:
+        pygame.image.save(border_rect, f)
+    elif image_strip > 0 :
+        strip.append(border_rect.copy() )
+        i = 0 
+        while len(strip) > image_strip and i < 10:
+            strip.pop(0)
+            print('pop strip img', len(strip))
+            i += 1
+        window_strip = pygame.display.set_mode(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
+        window_strip.fill(GRAY)
+        #pygame.display.update([window_strip.get_rect()])
+        ii = 0 
+        for i in strip:
+            #pygame.display.update([i.get_rect()])
+            if image_strip > 1:
+                i = label(i, ii + 0) 
+            #pygame.display.update([i.get_rect()])
+            window_strip.blit(i, ((WIDTH + 2 * BORDER_SIZE) * ii, 0))
+            #pygame.display.update([window_strip.get_rect()])
+            ii += 1 
+        
+        pygame.image.save(window_strip, f)
+        #pygame.display.update([window_strip.get_rect()])
+
+
+    pass 
+
 def parse():
     global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
@@ -728,38 +766,7 @@ if __name__ == "__main__":
                         #print('exit before png save')
                         sys.exit()
 
-
-                    print(f)
-                    border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
-                    border_rect.fill(GRAY)
-                    border_rect.blit(window, (BORDER_SIZE, BORDER_SIZE))
-
-                    #pygame.display.update([border_rect.get_rect()])
-
-                    if  image_strip < 0:
-                        pygame.image.save(border_rect, f)
-                    elif image_strip > 0 :
-                        strip.append(border_rect.copy() )
-                        i = 0 
-                        while len(strip) > image_strip and i < 10:
-                            strip.pop(0)
-                            print('pop strip img', len(strip))
-                            i += 1
-                        window_strip = pygame.display.set_mode(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
-                        window_strip.fill(GRAY)
-                        #pygame.display.update([window_strip.get_rect()])
-                        ii = 0 
-                        for i in strip:
-                            #pygame.display.update([i.get_rect()])
-                            if image_strip > 1:
-                                i = label(i, ii + 0) 
-                            #pygame.display.update([i.get_rect()])
-                            window_strip.blit(i, ((WIDTH + 2 * BORDER_SIZE) * ii, 0))
-                            #pygame.display.update([window_strip.get_rect()])
-                            ii += 1 
-                        
-                        pygame.image.save(window_strip, f)
-                        #pygame.display.update([window_strip.get_rect()])
+                    pygame_save(f)
 
                     if int(img) > small_test and small_test > -1 and not stream_openai :
                         sys.exit()
