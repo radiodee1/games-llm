@@ -515,7 +515,7 @@ def pygame_save(f):
             strip.pop(0)
             print('pop strip img', len(strip))
             i += 1
-        window_strip = pygame.display.set_mode(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
+        window_strip = pygame.Surface(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
         window_strip.fill(GRAY)
         #pygame.display.update([window_strip.get_rect()])
         ii = 0 
@@ -531,8 +531,6 @@ def pygame_save(f):
         pygame.image.save(window_strip, f)
         #pygame.display.update([window_strip.get_rect()])
 
-
-    pass 
 
 def parse():
     global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
