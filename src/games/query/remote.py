@@ -35,8 +35,11 @@ class Oai (Default):
         self.data = {
             "model": self.model,
             "messages": self.history,
-            "stream": self.streaming
+            "stream": self.streaming,
+            #"reasoning_effort": "none",
+            #"temperature": 0.1
         }
+        #print(self.data)
         pass 
 
     def payload_visual_generate(self):

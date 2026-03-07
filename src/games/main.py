@@ -95,6 +95,7 @@ prompt_strategy = 1
 make_corpus = -1
 corpus_offset = 0
 paddle_message = ''
+temperature = -1 
 
 arrow_surface = None ## for arrow...
 
@@ -262,7 +263,7 @@ def draw(canvas):
         message = "Score!!"
         ball_init(True)
         
-    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1]  ) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT - int( ball_vel[1]) and int(ball_pos[1]  ) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT - int(ball_vel[1]):  
+    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1]  ) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT - abs(int( ball_vel[1])) and int(ball_pos[1]  ) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT + abs(int(ball_vel[1])):  
         ball_vel[0] = -ball_vel[0]
         ball_vel[0] *= (1.0 + acceleration)
         ball_vel[1] *= (1.0 + acceleration)
@@ -564,6 +565,7 @@ def parse():
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
+    parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -615,6 +617,8 @@ def parse():
         no_llm = args.make_corpus
     if args.corpus_offset > -1:
         corpus_offset = args.corpus_offset
+    if args.temperature > -1:
+        temperature = args.temperature
 
     size_init()
 
@@ -634,6 +638,7 @@ def parse():
         model_class.images_size = queue_len 
         model_class.context_size = context_size
         model_class.history_size = context_size 
+        model_class.temperature = temperature
         #model_class.print_to_screen = True
     #####
         if image_strip > 0 and not video_openai :

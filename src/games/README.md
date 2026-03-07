@@ -398,6 +398,8 @@ Back to OpenAI:
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 03/02/26 | 12:34pm | Computer | gpt-5.2 | 3 | 2 | 407 | 10:56 | 100 | 4 |
+| 03/07/26 | 8:23am | INTERRUPTED | gpt-5.2 | 3 | 2 | 664 | 38:26 | 100 | 12 |
+
 
 
 From the screen:
@@ -408,4 +410,13 @@ Left-bounces: 5 Right-bounces: 4
 l_score: 2 r_score: 0
 step-count: 408
 Elapsed time: 10:56 minutes
+
+model: gpt-5.2
+serves_num: 3
+Left-bounces: 11 Right-bounces: 12
+l_score: 1 r_score: 1
+step-count: 665
+Elapsed time: 38:26 minutes
 ```
+
+The 3/7/26 scores also have the temperature set to 0.01 . If this is reproducable that would be great.
