@@ -420,3 +420,19 @@ Elapsed time: 38:26 minutes
 ```
 
 The 3/7/26 scores also have the temperature set to 0.01 . If this is reproducable that would be great.
+
+Below we set the `queue` length to 1. For this run the AI wins.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 03/08/26 | 12:04pm | AI | gpt-5.2 | 4 | 2 | 572 | 31:30 | 100 | 10 |
+
+
+```
+model: gpt-5.2
+serves_num: 4
+Left-bounces: 10 Right-bounces: 10
+l_score: 1 r_score: 2
+step-count: 572
+Elapsed time: 31:30 minutes
+```
