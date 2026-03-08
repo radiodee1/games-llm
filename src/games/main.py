@@ -263,7 +263,7 @@ def draw(canvas):
         message = "Score!!"
         ball_init(True)
         
-    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1]  ) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT - abs(int( ball_vel[1])) and int(ball_pos[1]  ) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT + abs(int(ball_vel[1])):  
+    if int(ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(ball_pos[1]  ) > int(paddle2_pos[1]) - HALF_PAD_HEIGHT - abs(int( BALL_RADIUS)) and int(ball_pos[1]  ) < int(paddle2_pos[1]) + HALF_PAD_HEIGHT + abs(int(BALL_RADIUS)):  
         ball_vel[0] = -ball_vel[0]
         ball_vel[0] *= (1.0 + acceleration)
         ball_vel[1] *= (1.0 + acceleration)
@@ -538,7 +538,7 @@ def parse():
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
     global model_class, prompt_strategy
-    global smaller, make_corpus, corpus_offset 
+    global smaller, make_corpus, corpus_offset, temperature 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')

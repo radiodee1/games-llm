@@ -207,6 +207,7 @@ class Default:
             return
         self.think_temp = ''
         self.r_temp = ''
+        #print(self.data)
         if self.streaming:
             with requests.post(self.url_derived, json=self.data, stream=self.streaming, headers=self.headers) as x:
                 if not self.skip_errors:
