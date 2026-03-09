@@ -626,15 +626,21 @@ def parse():
         if model not in whitelist:
             print('model not in whitelist')
             sys.exit()
-        
-        model_key = os.getenv('OPENAI_API_KEY')
+
+        model_key = ''
+        if whitelist[model] == 'Oai':
+            model_key = os.getenv('OPENAI_API_KEY')
         if whitelist[model] == 'Gem':
             model_key = os.getenv('GEMINI_API_KEY')
         if whitelist[model] == 'Mis':
             model_key = os.getenv('MISTRAL_API_KEY')
+        
+        if model in whitelist:
+            modelname = whitelist[model]
+        else:
+            modelname = model
 
-
-        model_class = globals()[whitelist[model]](model, streaming=stream_requests, chat=use_chat, visual=True, think=not disable_thinking, key=model_key)
+        model_class = globals()[modelname](model, streaming=stream_requests, chat=use_chat, visual=True, think=not disable_thinking, key=model_key)
         model_class.images_size = queue_len 
         model_class.context_size = context_size
         model_class.history_size = context_size 
