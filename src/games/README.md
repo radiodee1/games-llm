@@ -436,7 +436,7 @@ l_score: 1 r_score: 2
 step-count: 572
 Elapsed time: 31:30 minutes
 ```
-Another epic run using `top_p` set to 0.1 .
+Epic runs using `top_p` set to 0.1 and 0.01 respectively.
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 03/10/26 | 8:51am | Computer | gpt-5.2 | 4 | 2 | 601 | 37:38 | 100 | 10 |
