@@ -567,7 +567,7 @@ def parse():
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
-    parser.add_argument('--top_p', default=-1, type=float, help="Set top_p.")
+    parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
