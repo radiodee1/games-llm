@@ -47,6 +47,7 @@ class Default:
         self.write_only = False
         self.write_message = ""
         self.temperature = -1 
+        self.top_p = -1 
 
         self.print('Default', model)
         pass
@@ -138,10 +139,13 @@ class Default:
 
         if self.temperature > -1:
             self.payload_temperature()
-            #print(self.data)
+        
+        if self.top_p > -1:
+            self.payload_top_p()
 
         self.make_headers()
-        #self.print(self.headers)
+        #print(self.data)
+
         ## done ##
 
     def payload_think(self):
@@ -150,6 +154,9 @@ class Default:
     def payload_temperature(self):
         self.data['reasoning_effort'] = 'none'
         self.data['temperature'] = self.temperature 
+
+    def payload_top_p(self):
+        self.data['top_p'] = self.top_p 
 
     def payload_visual_chat(self):
         self.history += [{

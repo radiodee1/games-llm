@@ -96,6 +96,7 @@ make_corpus = -1
 corpus_offset = 0
 paddle_message = ''
 temperature = -1 
+top_p = -1 
 
 arrow_surface = None ## for arrow...
 
@@ -538,7 +539,7 @@ def parse():
     global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
     global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
     global model_class, prompt_strategy
-    global smaller, make_corpus, corpus_offset, temperature 
+    global smaller, make_corpus, corpus_offset, temperature, top_p 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -566,6 +567,7 @@ def parse():
     parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
+    parser.add_argument('--top_p', default=-1, type=float, help="Set top_p.")
     args = parser.parse_args()
     if args.generate:
         use_chat = not args.generate 
@@ -619,6 +621,8 @@ def parse():
         corpus_offset = args.corpus_offset
     if args.temperature > -1:
         temperature = args.temperature
+    if args.top_p > -1:
+        top_p = args.top_p
 
     size_init()
 
@@ -645,6 +649,7 @@ def parse():
         model_class.context_size = context_size
         model_class.history_size = context_size 
         model_class.temperature = temperature
+        model_class.top_p = top_p
         #model_class.print_to_screen = True
     #####
         if image_strip > 0 and not video_openai :
