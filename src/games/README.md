@@ -440,6 +440,7 @@ Another epic run using `top_p` set to 0.1 .
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 03/10/26 | 8:51am | Computer | gpt-5.2 | 4 | 2 | 601 | 37:38 | 100 | 10 |
+| 03/10/26 | 2:32pm | AI | gpt-5.2 | 4 | 2 | 594 | 37:23 | 100 | 12 |
 
 
 ```
@@ -449,5 +450,12 @@ Left-bounces: 11 Right-bounces: 10
 l_score: 2 r_score: 1
 step-count: 601
 Elapsed time: 37:38 minutes
+
+model: gpt-5.2
+serves_num: 4
+Left-bounces: 11 Right-bounces: 12
+l_score: 1 r_score: 2
+step-count: 595
+Elapsed time: 37:23 minutes
 ```
 
