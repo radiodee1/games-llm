@@ -57,9 +57,9 @@ That means that I'd be switching from locally hosted models to models hosted on-
 Locally, I was using a laptop for testing. I would edit code on my desktop, and commit to github. Then I would pull the github repository on the laptop and run for long periods of time there. I did this several times. This was good, as the models were slow. The laptop in question had a small gpu. The desktop I'm using has no gpu. I could use the laptop to get a little more efficiency, but now I don't need it, as the OpenAI models are fast. I suppose the downside is that they cost money. In any case, I don't need the laptop now.
 
 
-### OpenAI
+### OpenAI, Google, Mistral
 
-OpenAI and Google Gemini models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
+OpenAI, Google Gemini models, and Mistral models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
 
 The `.env` file should look like this. Commented lines are not important:
 
@@ -70,7 +70,7 @@ OPENAI_API_KEY="openai-api-key-here"
 GEMINI_API_KEY="gemini-api-key-here"
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
-#GOOGLE_GEMINI_MODEL="gemini-3-flash-preview"
+MISTRAL_API_KEY="mistral-api-key-here"
 ```
 
 To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
