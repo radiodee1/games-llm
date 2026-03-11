@@ -73,9 +73,9 @@ GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 MISTRAL_API_KEY="mistral-api-key-here"
 ```
 
-To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
+To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file.
 
-Similarly, Google's Gemini models require an api key. The key should be placed in the `.env` file. In its present configuration the program looks for the keys in the `.env` file. It does not pay attention to the MODEL specification in the file. The model name, for example, and the URL, are not found hard coded in the `.env` file.
+Similarly, Google's Gemini models require an api key. The key should be placed in the `.env` file. In its present configuration the program looks for the keys in the `.env` file. It does not pay attention to the MODEL specification in the file. The model name, for example, and the URL, are not found hard coded in the `.env` file. If you know your not interested in all the models, then certainly only get the keys for the models you intend to use.
 
 ### Some Results
 
