@@ -329,7 +329,7 @@ I'm going to try a couple of runs just aimed at keeping the model going as long 
 
 Several runs are omitted here. I added the capability for the user to set the `top_p` and the `temperature`. I've tried these with the OpenAI model. Some, but not all of my results are kept here.
 
-Epic runs using `top_p` set to 0.1 and 0.01 respectively. The `Number of Images` is set to '1'. The `temperature` is not modified in these two runs.
+Epic runs using `top_p` set to 0.1 and 0.01 respectively. The `Number of Images` is set to '1', so the model relies on the arrows entirely to determine the direction of the ball. The `temperature` is not modified in these two runs.
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
