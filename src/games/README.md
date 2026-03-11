@@ -319,7 +319,7 @@ Since the ball is heading toward the bottom corner, it is highly likely to bounc
 **control.move.up**
 ```
 
-### Epic runs
+### Epic runs - `top_p` and `temperature`
 
 We started out this project with the models not understanding how to play the game. It didn't last for long, but at the start they couldn't figure out how to respond. Now that's the distant past. The models have in a couple of cases, actually won the game. Now I'm going to wrap this stage of testing up and try to get one or two more epic runs. I want to follow the output for a long time. 
 
