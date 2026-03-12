@@ -2,7 +2,7 @@
 
 #PONG pygame
 
-import json
+#import json
 import random
 import pygame, sys
 from pygame.locals import *
