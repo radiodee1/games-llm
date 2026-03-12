@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class Default:
+class DefaultLLM:
 
     def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
         self.images = []
