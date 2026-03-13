@@ -50,7 +50,8 @@ class PygamePongAgent(DefaultBare):
 
         self.model = ''
         #size adjustment
-        self.smaller = 4 
+        self.smaller = 4
+        self.window = None
 
         #colors
         self.WHITE = (255,255,255)
@@ -234,7 +235,7 @@ class PygamePongAgent(DefaultBare):
             #print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
             self.paddle_message = paddle2_message
 
-        if num % skip == 0:
+        if self.num % self.skip == 0:
             self.trace_pos[0] = self.ball_pos[0] - self.ball_vel[0] * ( 4 // self.smaller )  
             self.trace_pos[1] = self.ball_pos[1] - self.ball_vel[1] * ( 4 // self.smaller )
 
@@ -324,6 +325,7 @@ class PygamePongAgent(DefaultBare):
         ]
         arrow_surface = pygame.Surface((400 // self.smaller, 48 // self.smaller), pygame.SRCALPHA)
         xoffset = 100 # // smaller # 25 
+        smaller = self.smaller
         for color, start_pos, end_pos, width in arrow_lines:
             start_pos = (start_pos[0]  + xoffset) // smaller , start_pos[1] // smaller
             end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
@@ -412,7 +414,7 @@ class PygamePongAgent(DefaultBare):
 
     def make_message(self):
         #global l_score, r_score, message, commands, prompt_strategy
-        if use_hinting:
+        if self.use_hinting:
             hint_y = self.get_hint_y()
 
         title = 'Turn-based Pong or Tennis game. AI vs computer.'
@@ -448,7 +450,7 @@ class PygamePongAgent(DefaultBare):
 
         control_list = [ old_controls, new_controls, third_controls ]
 
-        controls = control_list[ prompt_strategy - 1 ]
+        controls = control_list[ self.prompt_strategy - 1 ]
 
         controls += ('NOTE:\n'
                     ' Your paddle is blue and green. It is very small.\n'
@@ -548,11 +550,11 @@ class PygamePongAgent(DefaultBare):
 
 
 def parse():
-    global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
-    global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
-    global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
-    global model_class, prompt_strategy
-    global smaller, make_corpus, corpus_offset, temperature, top_p 
+    #global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
+    #global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
+    #global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
+    #global model_class, prompt_strategy
+    #global smaller, make_corpus, corpus_offset, temperature, top_p 
 
     parser = argparse.ArgumentParser(description='Pong for llm')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
@@ -583,59 +585,59 @@ def parse():
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     args = parser.parse_args()
     if args.generate:
-        use_chat = not args.generate 
+        plugin_class.use_chat = not args.generate 
     if args.no_opponent:
-        auto = not args.no_opponent
+        plugin_class.auto = not args.no_opponent
     if args.key_input:
-        text_input = not args.key_input
+        plugin_class.text_input = not args.key_input
     if args.small_test >= -1:
-        small_test = args.small_test
+        plugin_class.small_test = args.small_test
     if args.sudden_death >= -1:
-        sudden_death_score = args.sudden_death
+        plugin_class.sudden_death_score = args.sudden_death
     if len(args.model) > 0:
-        model = args.model
+        plugin_class.model = args.model
         #model = 'gpt-5.2'
     if args.skip >= -1:
-        skip = args.skip
+        plugin_class.skip = args.skip
     if args.q_len >= -1:
-        queue_len = args.q_len
+        plugin_class.queue_len = args.q_len
     if args.context_size >= -1:
-        context_size = args.context_size
+        plugin_class.context_size = args.context_size
     if args.thinking:
-        disable_thinking = not args.thinking
+        plugin_class.disable_thinking = not args.thinking
     if args.threshold > 0:
-        random_threshold = args.threshold
+        plugin_class.random_threshold = args.threshold
     if args.image_strip > -1:
-        image_strip = args.image_strip
+        plugin_class.image_strip = args.image_strip
     if args.no_llm > 0:
-        no_llm = args.no_llm - 1
+        plugin_class.no_llm = args.no_llm - 1
     if args.stream:
-        stream_requests = args.stream 
+        plugin_class.stream_requests = args.stream 
     if args.scrape_general:
-        scrape_general = args.scrape_general
+        plugin_class.scrape_general = args.scrape_general
     if args.stream_openai:
-        stream_openai = args.stream_openai
+        plugin_class.stream_openai = args.stream_openai
     if args.video_openai:
-        video_openai = args.video_openai 
+        plugin_class.video_openai = args.video_openai 
     if args.double_arrow:
-        double_arrow = args.double_arrow
+        plugin_class.double_arrow = args.double_arrow
     if args.hinting:
-        use_hinting = args.hinting
+        plugin_class.use_hinting = args.hinting
     if args.image_series:
-        image_series = args.image_series
+        plugin_class.image_series = args.image_series
     if args.strategy > 0:
-        prompt_strategy = args.strategy
+        plugin_class.prompt_strategy = args.strategy
     if args.inverse_size > 0:
-        smaller = args.inverse_size
+        plugin_class.smaller = args.inverse_size
     if args.make_corpus > 0:
-        make_corpus = args.make_corpus
-        no_llm = args.make_corpus
+        plugin_class.make_corpus = args.make_corpus
+        plugin_class.no_llm = args.make_corpus
     if args.corpus_offset > -1:
-        corpus_offset = args.corpus_offset
+        plugin_class.corpus_offset = args.corpus_offset
     if args.temperature > -1:
-        temperature = args.temperature
+        plugin_class.temperature = args.temperature
     if args.top_p > -1:
-        top_p = args.top_p
+        plugin_class.top_p = args.top_p
 
     plugin_class.size_init()
 
@@ -753,9 +755,9 @@ if __name__ == "__main__":
         er = 0
         last_code = 200 
         while True:
-            window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+            plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
 
-            plugin_class.draw(window)
+            plugin_class.draw(plugin_class.window)
 
             if not plugin_class.text_input:
                 for event in pygame.event.get():
@@ -816,7 +818,7 @@ if __name__ == "__main__":
                     elif plugin_class.no_llm > 0:
                         pygame.display.update()
                         ticks = 15
-                        fps.tick(ticks)
+                        plugin_class.fps.tick(ticks)
                         if plugin_class.make_corpus > 0:
                             #model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
@@ -860,7 +862,7 @@ if __name__ == "__main__":
 
             pygame.display.update()
             ticks = 60
-            fps.tick(ticks)
+            plugin_class.fps.tick(ticks)
 
     except KeyboardInterrupt:
         print('\nKeyboardInterrupt')
