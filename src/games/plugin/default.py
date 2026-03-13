@@ -54,6 +54,9 @@ class DefaultBare:
 
         pass 
 
+    def make_message(self) -> str:
+        return ""
+
     def draw(self, surface=None):
         pass 
 
