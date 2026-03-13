@@ -15,30 +15,6 @@ import math
 from plugin import DefaultBare
 #from query import  Oai, Ollama, Gem, Mis 
 
-from dotenv import load_dotenv 
-
-load_dotenv()
-
-
-model = "qwen3-vl:2b"
-model_class = None 
-
-whitelist = {
-    'qwen3-vl:2b'   : 'Ollama',
-    'qwen3-vl:4b'   : 'Ollama',
-    'gpt-5.2'       : 'Oai',
-    'gpt-4o'        : 'Oai',
-    'gemini-3-flash-preview' : 'Gem',
-    'gemini-3-pro-preview'   : 'Gem',
-    'gemini-3.1-pro-preview' : 'Gem',
-    'gemini-2.5-flash'       : 'Gem',
-    #'gemini-3-pro-image-preview' : 'Gem',
-    'mistral-large-2512'     : 'Mis',
-    'pixtral-large-2411'     : 'Mis'
-}
-
-plugin_class = None
-
 class PygamePongAgent(DefaultBare):
 
     def __init__(self, mode='human') -> None:
