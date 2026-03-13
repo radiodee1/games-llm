@@ -12,7 +12,7 @@ import time
 import base64
 import argparse 
 import math
-from .plugin import DefaultBare
+from plugin import DefaultBare
 #from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
@@ -37,6 +37,7 @@ whitelist = {
     'pixtral-large-2411'     : 'Mis'
 }
 
+plugin_class = None
 
 class PygamePongAgent(DefaultBare):
 
@@ -47,7 +48,7 @@ class PygamePongAgent(DefaultBare):
         self.fps = pygame.time.Clock()
         self.start_time = time.perf_counter()
 
-
+        self.model = ''
         #size adjustment
         self.smaller = 4 
 
@@ -60,13 +61,14 @@ class PygamePongAgent(DefaultBare):
         self.BLUE = (0,0,255)
 
         #globals
+        smaller = self.smaller
         self.WIDTH = 600 // smaller
         self.HEIGHT = 400 // smaller      
         self.BALL_RADIUS = 20 // smaller
         self.PAD_WIDTH = 16 // smaller
         self.PAD_HEIGHT = 80 // smaller
-        self.HALF_PAD_WIDTH = PAD_WIDTH // 2
-        self.HALF_PAD_HEIGHT = PAD_HEIGHT // 2
+        self.HALF_PAD_WIDTH = self.PAD_WIDTH // 2
+        self.HALF_PAD_HEIGHT = self.PAD_HEIGHT // 2
         self.ball_pos = [0,0]
         self.ball_vel = [0,0]
         self.paddle1_pos = [0,0]
@@ -195,39 +197,39 @@ class PygamePongAgent(DefaultBare):
         if self.make_corpus < 0:
             computer = random.random() 
             if not self.auto:
-                if self.paddle1_pos[1] > self.HALF_PAD_HEIGHT and self.paddle1_pos[1] < HEIGHT - self.HALF_PAD_HEIGHT:
-                    self.paddle1_pos[1] += paddle1_vel
-                elif self.paddle1_pos[1] == self.HALF_PAD_HEIGHT and paddle1_vel > 0:
-                    self.paddle1_pos[1] += paddle1_vel
-                elif self.paddle1_pos[1] == HEIGHT - self.HALF_PAD_HEIGHT and paddle1_vel < 0:
-                    self.paddle1_pos[1] += paddle1_vel
-            if auto and num % skip == 0 and computer <= random_threshold / 100:
+                if self.paddle1_pos[1] > self.HALF_PAD_HEIGHT and self.paddle1_pos[1] < self.HEIGHT - self.HALF_PAD_HEIGHT:
+                    self.paddle1_pos[1] += self.paddle1_vel 
+                elif self.paddle1_pos[1] == self.HALF_PAD_HEIGHT and self.paddle1_vel > 0:
+                    self.paddle1_pos[1] += self.paddle1_vel
+                elif self.paddle1_pos[1] == self.HEIGHT - self.HALF_PAD_HEIGHT and self.paddle1_vel < 0:
+                    self.paddle1_pos[1] += self.paddle1_vel 
+            if self.auto and self.num % self.skip == 0 and computer <= self.random_threshold / 100:
                 if self.paddle1_pos[1] >= int(self.ball_pos[1]) and self.ball_vel[1] < 0:  
-                    self.paddle1_pos[1] -= abs(self.vel_const) * skip # up - negative 
-                    print('computer paddle up', - abs(self.vel_const) * skip)
+                    self.paddle1_pos[1] -= abs(self.vel_const) * self.skip # up - negative 
+                    print('computer paddle up', - abs(self.vel_const) * self.skip)
                 elif self.paddle1_pos[1] <= int(self.ball_pos[1]) and self.ball_vel[1] > 0:  
-                    self.paddle1_pos[1] += abs(self.vel_const) * skip # down - positive
-                    print('computer paddle down', abs(self.vel_const) * skip)
-            elif auto and num % skip == 0:
+                    self.paddle1_pos[1] += abs(self.vel_const) * self.skip # down - positive
+                    print('computer paddle down', abs(self.vel_const) * self.skip)
+            elif self.auto and self.num % self.skip == 0:
                 print('pass because of threshold', computer * 100)
 
-            if self.paddle2_pos[1] > self.HALF_PAD_HEIGHT and self.paddle2_pos[1] < HEIGHT - self.HALF_PAD_HEIGHT:
-                self.paddle2_pos[1] += int(paddle2_vel)
-            if self.paddle2_pos[1] < self.HALF_PAD_HEIGHT + int(paddle2_vel) and int(paddle2_vel) > 0:
-                self.paddle2_pos[1] += int(paddle2_vel)
-            if self.paddle2_pos[1] > HEIGHT - self.HALF_PAD_HEIGHT - int(paddle2_vel) and int(paddle2_vel) < 0:
-                self.paddle2_pos[1] += int(paddle2_vel)
+            if self.paddle2_pos[1] > self.HALF_PAD_HEIGHT and self.paddle2_pos[1] < self.HEIGHT - self.HALF_PAD_HEIGHT:
+                self.paddle2_pos[1] += int(self.paddle2_vel)
+            if self.paddle2_pos[1] < self.HALF_PAD_HEIGHT + int(self.paddle2_vel) and int(self.paddle2_vel) > 0:
+                self.paddle2_pos[1] += int(self.paddle2_vel)
+            if self.paddle2_pos[1] > self.HEIGHT - self.HALF_PAD_HEIGHT - int(self.paddle2_vel) and int(self.paddle2_vel) < 0:
+                self.paddle2_pos[1] += int(self.paddle2_vel)
 
-            if self.paddle2_pos[1] <= self.HALF_PAD_HEIGHT  and int(paddle2_vel) > 0:
-                self.paddle2_pos[1] += int(paddle2_vel)
-            if self.paddle2_pos[1] >= HEIGHT - self.HALF_PAD_HEIGHT and int(paddle2_vel) < 0:
-                self.paddle2_pos[1] += int(paddle2_vel)
+            if self.paddle2_pos[1] <= self.HALF_PAD_HEIGHT  and int(self.paddle2_vel) > 0:
+                self.paddle2_pos[1] += int(self.paddle2_vel)
+            if self.paddle2_pos[1] >= self.HEIGHT - self.HALF_PAD_HEIGHT and int(self.paddle2_vel) < 0:
+                self.paddle2_pos[1] += int(self.paddle2_vel)
 
-        elif make_corpus > 0 and num % skip == 0 :
+        elif self.make_corpus > 0 and self.num % self.skip == 0 :
             paddle2_message = ''
-            temp1_vel, paddle1_message = paddle_auto_vel(self.paddle1_pos, self.ball_pos, self.ball_vel, self.vel_const)
+            temp1_vel, paddle1_message = self.paddle_auto_vel(self.paddle1_pos, self.ball_pos, self.ball_vel, self.vel_const)
             self.paddle1_pos[1] += temp1_vel * self.skip 
-            temp2_vel, paddle2_message = paddle_auto_vel(self.paddle2_pos, self.ball_pos, self.ball_vel, self.vel_const_right)
+            temp2_vel, paddle2_message = self.paddle_auto_vel(self.paddle2_pos, self.ball_pos, self.ball_vel, self.vel_const_right)
             self.paddle2_pos[1] += temp2_vel * self.skip
             #print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
             self.paddle_message = paddle2_message
@@ -241,55 +243,55 @@ class PygamePongAgent(DefaultBare):
         self.ball_pos[1] += int(self.ball_vel[1])
 
         #draw paddles and ball
-        if not double_arrow:
-            pygame.draw.circle(canvas, GRAY, self.trace_pos, BALL_RADIUS, 0)
-        blit_rotate_arrow(canvas, self.arrow_surface, self.ball_pos, self.ball_vel)
-        pygame.draw.circle(canvas, RED, self.ball_pos, BALL_RADIUS, 0)
+        if not self.double_arrow:
+            pygame.draw.circle(canvas, self.GRAY, self.trace_pos, self.BALL_RADIUS, 0)
+        self.blit_rotate_arrow(canvas, self.arrow_surface, self.ball_pos, self.ball_vel)
+        pygame.draw.circle(canvas, self.RED, self.ball_pos, self.BALL_RADIUS, 0)
         paddle1_points = [[self.paddle1_pos[0] - self.HALF_PAD_WIDTH, self.paddle1_pos[1] - self.HALF_PAD_HEIGHT], [self.paddle1_pos[0] - self.HALF_PAD_WIDTH, self.paddle1_pos[1] + self.HALF_PAD_HEIGHT], [self.paddle1_pos[0] + self.HALF_PAD_WIDTH, self.paddle1_pos[1] + self.HALF_PAD_HEIGHT], [self.paddle1_pos[0] + self.HALF_PAD_WIDTH, self.paddle1_pos[1] - self.HALF_PAD_HEIGHT]]
         paddle2_points = [[self.paddle2_pos[0] - self.HALF_PAD_WIDTH, self.paddle2_pos[1] - self.HALF_PAD_HEIGHT], [self.paddle2_pos[0] - self.HALF_PAD_WIDTH, self.paddle2_pos[1] + self.HALF_PAD_HEIGHT], [self.paddle2_pos[0] + self.HALF_PAD_WIDTH, self.paddle2_pos[1] + self.HALF_PAD_HEIGHT], [self.paddle2_pos[0] + self.HALF_PAD_WIDTH, self.paddle2_pos[1] - self.HALF_PAD_HEIGHT]]
         
-        pygame.draw.polygon(canvas, GREEN, paddle1_points, 0)
-        pygame.draw.polygon(canvas, GREEN, paddle2_points, 0)
+        pygame.draw.polygon(canvas, self.GREEN, paddle1_points, 0)
+        pygame.draw.polygon(canvas, self.GREEN, paddle2_points, 0)
         
-        stripe_polygon(canvas, paddle1_points, self.WHITE, 8 // smaller, 16 // smaller)
-        stripe_polygon(canvas, paddle2_points, BLUE, 8 // smaller, 16 // smaller)
+        self.stripe_polygon(canvas, paddle1_points, self.WHITE, 8 // self.smaller, 16 // self.smaller)
+        self.stripe_polygon(canvas, paddle2_points, self.BLUE, 8 // self.smaller, 16 // self.smaller)
 
         #ball collision check on top and bottom walls
-        if int(self.ball_pos[1]) <= BALL_RADIUS:
+        if int(self.ball_pos[1]) <= self.BALL_RADIUS:
             self.ball_vel[1] = - self.ball_vel[1]
-            message = "Bounce!!"
-        if int(self.ball_pos[1]) >= HEIGHT + 1 - BALL_RADIUS:
+            self.message = "Bounce!!"
+        if int(self.ball_pos[1]) >= self.HEIGHT + 1 - self.BALL_RADIUS:
             self.ball_vel[1] = -self.ball_vel[1]
-            message = "Bounce!!"
+            self.message = "Bounce!!"
         
         #ball collison check on gutters or paddles
-        if int(self.ball_pos[0]) <= BALL_RADIUS + PAD_WIDTH and int(self.ball_pos[1]) in range(int(self.paddle1_pos[1]) - self.HALF_PAD_HEIGHT, int(self.paddle1_pos[1]) + self.HALF_PAD_HEIGHT,1):
+        if int(self.ball_pos[0]) <= self.BALL_RADIUS + self.PAD_WIDTH and int(self.ball_pos[1]) in range(int(self.paddle1_pos[1]) - self.HALF_PAD_HEIGHT, int(self.paddle1_pos[1]) + self.HALF_PAD_HEIGHT,1):
             self.ball_vel[0] = -self.ball_vel[0]
             self.ball_vel[0] *= (1.0 + self.acceleration)
             self.ball_vel[1] *= (1.0 + self.acceleration)
             self.paddle1_bounce += 1 
             self.message = "Uh oh!!"
-        elif int(self.ball_pos[0]) <= BALL_RADIUS + PAD_WIDTH:
+        elif int(self.ball_pos[0]) <= self.BALL_RADIUS + self.PAD_WIDTH:
             self.r_score += 1
             self.message = "Score!!"
             self.ball_init(True)
             
-        if int(self.ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH and int(self.ball_pos[1]  ) > int(self.paddle2_pos[1]) - self.HALF_PAD_HEIGHT - abs(int( BALL_RADIUS)) and int(self.ball_pos[1]  ) < int(self.paddle2_pos[1]) + self.HALF_PAD_HEIGHT + abs(int(BALL_RADIUS)):  
+        if int(self.ball_pos[0]) > self.WIDTH + 1 - self.BALL_RADIUS - self.PAD_WIDTH and int(self.ball_pos[1]  ) > int(self.paddle2_pos[1]) - self.HALF_PAD_HEIGHT - abs(int( self.BALL_RADIUS)) and int(self.ball_pos[1]  ) < int(self.paddle2_pos[1]) + self.HALF_PAD_HEIGHT + abs(int(self.BALL_RADIUS)):  
             self.ball_vel[0] = -self.ball_vel[0]
             self.ball_vel[0] *= (1.0 + self.acceleration)
             self.ball_vel[1] *= (1.0 + self.acceleration)
             self.paddle2_bounce += 1 
             self.message = "Nice!!"
-        elif int(self.ball_pos[0]) > WIDTH + 1 - BALL_RADIUS - PAD_WIDTH:
+        elif int(self.ball_pos[0]) > self.WIDTH + 1 - self.BALL_RADIUS - self.PAD_WIDTH:
             self.l_score += 1
             self.message = "Ouch!!"
             self.ball_init(False)
         
-        if use_hinting:
-            hint_x = WIDTH - PAD_WIDTH
+        if self.use_hinting:
+            hint_x = self.WIDTH - self.PAD_WIDTH 
             hint_y = self.get_hint_y() 
             if self.is_hint_now(hint_y):
-                pygame.draw.line(canvas, RED, (hint_x, hint_y), (hint_x + 2, hint_y), 8)
+                pygame.draw.line(canvas, self.RED, (hint_x, hint_y), (hint_x + 2, hint_y), 8)
 
         #update scores
         myfont1 = pygame.font.SysFont("Comic Sans MS", self.fontsize)
@@ -302,246 +304,247 @@ class PygamePongAgent(DefaultBare):
 
         pygame.display.update([canvas.get_rect()])
 
-def stripe_polygon(canvas, polygon, color, width, seperation):
-    ul, ur, lr, ll = polygon
-    slant = 0 # 4 
-    x1, y1 = ul
-    x2, y2 = lr 
-    for i in range(y1, y2, seperation + width):
-        pygame.draw.line(canvas, color, (x1, i), (x2, i + slant), width )
-    pass 
+    def stripe_polygon(self, canvas, polygon, color, width, seperation):
+        ul, ur, lr, ll = polygon
+        slant = 0 # 4 
+        x1, y1 = ul
+        x2, y2 = lr 
+        for i in range(y1, y2, seperation + width):
+            pygame.draw.line(canvas, color, (x1, i), (x2, i + slant), width )
+        pass 
 
-def draw_arrow():
-    global double_arrow, smaller
-    # -->
-    xoffset = 100 # // smaller # 25 ## 35! 
-    arrow_lines = [
-        (BLUE, (160, 0),   (200, 20), 8 // smaller  ),  # angle line
-        (BLUE, (120, 20),  (200, 20), 8 // smaller  ),  # horizontal line
-        (BLUE, (160, 48),  (200, 20), 8 // smaller  ),  # angle line
-    ]
-    arrow_surface = pygame.Surface((400 // smaller, 48 // smaller), pygame.SRCALPHA)
-    xoffset = 100 # // smaller # 25 
-    for color, start_pos, end_pos, width in arrow_lines:
-        start_pos = (start_pos[0]  + xoffset) // smaller , start_pos[1] // smaller
-        end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
-        pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
-    
-    if double_arrow:
-        xoffset = - 80 #// smaller #20 
+    def draw_arrow(self):
+        #global double_arrow, smaller
+        # -->
+        xoffset = 100 # // smaller # 25 ## 35! 
+        arrow_lines = [
+            (self.BLUE, (160, 0),   (200, 20), 8 // self.smaller  ),  # angle line
+            (self.BLUE, (120, 20),  (200, 20), 8 // self.smaller  ),  # horizontal line
+            (self.BLUE, (160, 48),  (200, 20), 8 // self.smaller  ),  # angle line
+        ]
+        arrow_surface = pygame.Surface((400 // self.smaller, 48 // self.smaller), pygame.SRCALPHA)
+        xoffset = 100 # // smaller # 25 
         for color, start_pos, end_pos, width in arrow_lines:
-            start_pos = (start_pos[0]  + xoffset) // smaller, start_pos[1] // smaller
+            start_pos = (start_pos[0]  + xoffset) // smaller , start_pos[1] // smaller
             end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
             pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
-    return arrow_surface
-
-def blit_rotate_arrow(surf, image, center,  ball_vel):
-    angle_part = 0 
-    xvel =  ball_vel[0]
-    yvel = - ball_vel[1]
-    if xvel == 0:
-        xvel = 0.1 
-    if xvel > 0 and yvel > 0:
-        angle_part = 0 
-    if xvel < 0 and yvel > 0:
-        angle_part = 180 
-    if xvel < 0 and yvel < 0:
-        angle_part = 180  
-    if xvel > 0 and yvel < 0:
-        angle_part = 0 
-
-    angle_radians = math.atan(  yvel / xvel )
-    angle = math.degrees(angle_radians) + angle_part
-    rotated_image =  pygame.transform.rotate(image, angle)
-    c = image.get_rect(center=center).center 
-    new_rect = rotated_image.get_rect(center=c)
-    surf.blit(rotated_image, new_rect)
-
-def get_hint_y():
-    global ball_pos, self.ball_vel 
-    vx, vy = self.ball_vel
-    if vx == 0:
-        vx = 0.01
-    m = vy / vx 
-    b = self.ball_pos[1] - m * self.ball_pos[0] 
-    hint_y = m * ( WIDTH - PAD_WIDTH ) + b 
-    print('hint_y', hint_y)
-    return int(hint_y)
-
-def is_hint_now(hint_y):
-    global ball_pos, ball_vel, self.paddle2_pos  
-    is_facing_right = False
-    if self.ball_vel[0] > 0:
-        is_facing_right = True
-    if self.paddle2_pos[1] - self.HALF_PAD_HEIGHT < hint_y and self.paddle2_pos[1] + self.HALF_PAD_HEIGHT > hint_y and is_facing_right:
-        return True
-    else:
-        return False
-
-def paddle_auto_vel(paddle_pos, self.ball_pos, ball_vel, vel_const=2):
-    if paddle_pos[0] < WIDTH // 2:
-        #left 
-        if paddle_pos[1] >= int(self.ball_pos[1]) and ball_vel[1] < 0:  
-            return (- abs(vel_const) , 'control.move.up' )  # up - negative 
-        elif paddle_pos[1] <= int(self.ball_pos[1]) and ball_vel[1] > 0:  
-            return (+ abs(vel_const) , 'control.move.down') # down - positive
-        return (0, 'control.move.wait')
-    else:
-        #right 
-        i = get_hint_y()
-        if i < 0 or i > HEIGHT:
-            return (0 , 'control.move.wait')
-        if i > paddle_pos[1] - self.HALF_PAD_HEIGHT and i < paddle_pos[1] + self.HALF_PAD_HEIGHT:
-            return (0 , 'control.move.wait')
-        if paddle_pos[1] >= i: 
-            return (- abs(vel_const), 'control.move.up')
-        elif paddle_pos[1] <= i: 
-            return (+ abs(vel_const), 'control.move.down')
-        return(0, 'control.move.wait')
-    pass 
-
-def label(i, ii):
-    myfont = pygame.font.SysFont(None, 16 )
-    label1 = myfont.render("# " + str(ii), True, (255,255,0), GRAY)
-    label1_rect = label1.get_rect();
-    label1_rect.center = (WIDTH // 2 + BORDER_SIZE , int(HEIGHT + BORDER_SIZE - 2) )
-    i.blit(label1, label1_rect )
-    return i 
-
-def make_message():
-    global l_score, r_score, message, commands, prompt_strategy
-    if use_hinting:
-        hint_y = get_hint_y()
-
-    title = 'Turn-based Pong or Tennis game. AI vs computer.'
-    old_controls = (
-                ' Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side.\n'
-                ' Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball.'  
-                ' The paddle only moves up and down.'
-                ' Enter "control.move.wait" to skip one turn.'        
-                ' The ball is red. The ball is moving in the direction of the arrow. The arrows are blue.'                
-                ' You, the AI, are the right paddle.' 
-                ' Your paddle is blue and green. It is very small.' 
-                ' You move your paddle a small amount from where it already is.\n')
-
-    new_controls = ('\n You, the AI, are the blue and green paddle. Solve this problem in steps: \n'
-                '1. Notice the position of the ball. What is its HEIGHT or Y value? \n'
-                '2. Notice the position of the right paddle. It is blue and green. What is the HEIGHT? \n'
-                '3. Calculate the horizontal line that comes from the ball across the screen.\n' 
-                '4. Keep the paddle always at the height of the ball. \n'
-                '5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball.\n'
-                ' You move your paddle a small amount from where it already is.\n'
-                ' Hit the ball in the MIDDLE of the paddle. If the ball passes the paddle you will lose a point.\n')
-    
-    third_controls = (
-                '\n1. Notice the position of the ball. What is its VERTICAL or Y value? What is its HORIZONTAL or X value?\n'
-                '2. Notice the angle of the ARROWS. What is their degree?\n'
-                '3. Is the ball moving to the right side?\n'
-                '4. Calculate the diagonal line that starts with the ball and follows the arrow all the way to the right side of the screen.\n'
-                '5. Note the place where the diagonal line crosses the goal line. This is where the ball will go.\n'
-                '6. Adjust the paddle to the anticipated position of the ball.\n'
-                '7. Enter "control.move.up" or "control.move.down" to move the Paddle.\n' 
-                '8. If the paddle is already in the right position, enter "control.move.wait" to skip one turn.\n'
-                )
-
-    control_list = [ old_controls, new_controls, third_controls ]
-
-    controls = control_list[ prompt_strategy - 1 ]
-
-    controls += ('NOTE:\n'
-                ' Your paddle is blue and green. It is very small.\n'
-                ' The paddle only moves up and down.\n'
-                ' Enter "control.move.wait" to skip one turn.\n'        
-                ' The ball is red. The ball is moving in the direction of the arrows. The arrows are blue.\n'  
-                ' The left paddle moves on its own.\n'
-                 #' Hit the ball when it comes to you.\n'
-                 #' This is the only way to win.\n'
-                ' Your paddle does not need to be moving to hit the ball.\n'
-                 )
-
-    score = 'Their score ' + str(l_score) + ' / Your score ' + str(r_score) + ' - Left Bounces ' + str(paddle1_bounce) + ' / Right Bounces ' + str(paddle2_bounce)
-    
-    # limit = 'Answer in one line under 20 characters.'
-    
-    limit = 'Show your thinking and then reply with your final answer.'
-    hint = ' Hint: Wait right there!'
-    r = ''
-    if use_hinting and is_hint_now(hint_y):
-        controls += hint 
-    if disable_thinking:
-        limit = limit + ' Do not use thinking.'
-    if len(message) > 0:
-        r = message + ' - '
-        #commands.append(str('--' + message + '--')) ## keep array size the same as step_count
-
-    r = r + title + ' - ' + score + ' - ' + controls +  ' AI must use the picture and reply to play the game!' + ' ' + limit
-    return r 
-
-def stats(short=True):
-    global paddle1_bounce, paddle2_bounce, l_score, r_score, num, skip, commands, step_count, serves_num 
-    global model
-    print("model:", model)
-    print("serves_num:", serves_num)
-    print("Left-bounces:", paddle1_bounce, 'Right-bounces:', paddle2_bounce)
-    print("l_score:", l_score, "r_score:", r_score)
-    single = 0 
-    if not short:
-        single = 1 
-    print("step-count:", (step_count + single))
-    
-    end_time = time.perf_counter()
-    elapsed_min = (end_time - start_time) // 60 
-    elapsed_sec = (end_time - start_time) - elapsed_min * 60
-    elapsed_sec = '0000' + str(int(elapsed_sec))
-    elapsed_sec = elapsed_sec[-2:]
-    print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
-    print('---')
-    if short:
-        return
-    num = 0 
-    for i in commands:
-        print(num + 1, i)
-        num += 1 
-
-def encode_image_to_base64(image_path: str) -> str:
-    with open(image_path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
-    return encoded_string
-
-def pygame_save(f):
-    global image_strip, strip, window 
-    global WIDTH, HEIGHT, BORDER_SIZE, GRAY
-    print(f)
-    border_rect = pygame.Surface((WIDTH + 2 * BORDER_SIZE, HEIGHT + 2 * BORDER_SIZE))
-    border_rect.fill(GRAY)
-    border_rect.blit(window, (BORDER_SIZE, BORDER_SIZE))
-
-    #pygame.display.update([border_rect.get_rect()])
-
-    if  image_strip < 0:
-        pygame.image.save(border_rect, f)
-    elif image_strip > 0 :
-        strip.append(border_rect.copy() )
-        i = 0 
-        while len(strip) > image_strip and i < 10:
-            strip.pop(0)
-            print('pop strip img', len(strip))
-            i += 1
-        window_strip = pygame.Surface(( (WIDTH + 2 * BORDER_SIZE) * len(strip) , HEIGHT + 2 * BORDER_SIZE))
-        window_strip.fill(GRAY)
-        #pygame.display.update([window_strip.get_rect()])
-        ii = 0 
-        for i in strip:
-            #pygame.display.update([i.get_rect()])
-            if image_strip > 1:
-                i = label(i, ii + 0) 
-            #pygame.display.update([i.get_rect()])
-            window_strip.blit(i, ((WIDTH + 2 * BORDER_SIZE) * ii, 0))
-            #pygame.display.update([window_strip.get_rect()])
-            ii += 1 
         
-        pygame.image.save(window_strip, f)
-        #pygame.display.update([window_strip.get_rect()])
+        if self.double_arrow:
+            xoffset = - 80 #// smaller #20 
+            for color, start_pos, end_pos, width in arrow_lines:
+                start_pos = (start_pos[0]  + xoffset) // smaller, start_pos[1] // smaller
+                end_pos = (end_pos[0]  + xoffset) // smaller, end_pos[1] // smaller
+                pygame.draw.line(arrow_surface, color, start_pos, end_pos, width)
+        return arrow_surface
+
+    def blit_rotate_arrow(self, surf, image, center,  ball_vel):
+        angle_part = 0 
+        xvel =  ball_vel[0]
+        yvel = - ball_vel[1]
+        if xvel == 0:
+            xvel = 0.1 
+        if xvel > 0 and yvel > 0:
+            angle_part = 0 
+        if xvel < 0 and yvel > 0:
+            angle_part = 180 
+        if xvel < 0 and yvel < 0:
+            angle_part = 180  
+        if xvel > 0 and yvel < 0:
+            angle_part = 0 
+
+        angle_radians = math.atan(  yvel / xvel )
+        angle = math.degrees(angle_radians) + angle_part
+        rotated_image =  pygame.transform.rotate(image, angle)
+        c = image.get_rect(center=center).center 
+        new_rect = rotated_image.get_rect(center=c)
+        surf.blit(rotated_image, new_rect)
+
+    def get_hint_y(self):
+        #global ball_pos, self.ball_vel 
+        vx, vy = self.ball_vel
+        if vx == 0:
+            vx = 0.01
+        m = vy / vx 
+        b = self.ball_pos[1] - m * self.ball_pos[0] 
+        hint_y = m * ( self.WIDTH - self.PAD_WIDTH ) + b 
+        print('hint_y', hint_y)
+        return int(hint_y)
+
+    def is_hint_now(self, hint_y):
+        #global ball_pos, ball_vel, self.paddle2_pos  
+        is_facing_right = False
+        if self.ball_vel[0] > 0:
+            is_facing_right = True
+        if self.paddle2_pos[1] - self.HALF_PAD_HEIGHT < hint_y and self.paddle2_pos[1] + self.HALF_PAD_HEIGHT > hint_y and is_facing_right:
+            return True
+        else:
+            return False
+
+    def paddle_auto_vel(self, paddle_pos, ball_pos, ball_vel, vel_const=2):
+        if paddle_pos[0] < self.WIDTH // 2:
+            #left 
+            if paddle_pos[1] >= int(self.ball_pos[1]) and ball_vel[1] < 0:  
+                return (- abs(vel_const) , 'control.move.up' )  # up - negative 
+            elif paddle_pos[1] <= int(self.ball_pos[1]) and ball_vel[1] > 0:  
+                return (+ abs(vel_const) , 'control.move.down') # down - positive
+            return (0, 'control.move.wait')
+        else:
+            #right 
+            i = self.get_hint_y()
+            if i < 0 or i > self.HEIGHT:
+                return (0 , 'control.move.wait')
+            if i > paddle_pos[1] - self.HALF_PAD_HEIGHT and i < paddle_pos[1] + self.HALF_PAD_HEIGHT:
+                return (0 , 'control.move.wait')
+            if paddle_pos[1] >= i: 
+                return (- abs(vel_const), 'control.move.up')
+            elif paddle_pos[1] <= i: 
+                return (+ abs(vel_const), 'control.move.down')
+            return(0, 'control.move.wait')
+        pass 
+
+    def label(self, i, ii):
+        myfont = pygame.font.SysFont(None, 16 )
+        label1 = myfont.render("# " + str(ii), True, (255,255,0), self.GRAY)
+        label1_rect = label1.get_rect();
+        label1_rect.center = (self.WIDTH // 2 + self.BORDER_SIZE , int(self.HEIGHT + self.BORDER_SIZE - 2) )
+        i.blit(label1, label1_rect )
+        return i 
+
+    def make_message(self):
+        #global l_score, r_score, message, commands, prompt_strategy
+        if use_hinting:
+            hint_y = self.get_hint_y()
+
+        title = 'Turn-based Pong or Tennis game. AI vs computer.'
+        old_controls = (
+                    ' Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side.\n'
+                    ' Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball.'  
+                    ' The paddle only moves up and down.'
+                    ' Enter "control.move.wait" to skip one turn.'        
+                    ' The ball is red. The ball is moving in the direction of the arrow. The arrows are blue.'                
+                    ' You, the AI, are the right paddle.' 
+                    ' Your paddle is blue and green. It is very small.' 
+                    ' You move your paddle a small amount from where it already is.\n')
+
+        new_controls = ('\n You, the AI, are the blue and green paddle. Solve this problem in steps: \n'
+                    '1. Notice the position of the ball. What is its HEIGHT or Y value? \n'
+                    '2. Notice the position of the right paddle. It is blue and green. What is the HEIGHT? \n'
+                    '3. Calculate the horizontal line that comes from the ball across the screen.\n' 
+                    '4. Keep the paddle always at the height of the ball. \n'
+                    '5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball.\n'
+                    ' You move your paddle a small amount from where it already is.\n'
+                    ' Hit the ball in the MIDDLE of the paddle. If the ball passes the paddle you will lose a point.\n')
+        
+        third_controls = (
+                    '\n1. Notice the position of the ball. What is its VERTICAL or Y value? What is its HORIZONTAL or X value?\n'
+                    '2. Notice the angle of the ARROWS. What is their degree?\n'
+                    '3. Is the ball moving to the right side?\n'
+                    '4. Calculate the diagonal line that starts with the ball and follows the arrow all the way to the right side of the screen.\n'
+                    '5. Note the place where the diagonal line crosses the goal line. This is where the ball will go.\n'
+                    '6. Adjust the paddle to the anticipated position of the ball.\n'
+                    '7. Enter "control.move.up" or "control.move.down" to move the Paddle.\n' 
+                    '8. If the paddle is already in the right position, enter "control.move.wait" to skip one turn.\n'
+                    )
+
+        control_list = [ old_controls, new_controls, third_controls ]
+
+        controls = control_list[ prompt_strategy - 1 ]
+
+        controls += ('NOTE:\n'
+                    ' Your paddle is blue and green. It is very small.\n'
+                    ' The paddle only moves up and down.\n'
+                    ' Enter "control.move.wait" to skip one turn.\n'        
+                    ' The ball is red. The ball is moving in the direction of the arrows. The arrows are blue.\n'  
+                    ' The left paddle moves on its own.\n'
+                     #' Hit the ball when it comes to you.\n'
+                     #' This is the only way to win.\n'
+                    ' Your paddle does not need to be moving to hit the ball.\n'
+                     )
+
+        score = 'Their score ' + str(self.l_score) + ' / Your score ' + str(self.r_score) + ' - Left Bounces ' + str(self.paddle1_bounce) + ' / Right Bounces ' + str(self.paddle2_bounce)
+        
+        # limit = 'Answer in one line under 20 characters.'
+        
+        limit = 'Show your thinking and then reply with your final answer.'
+        hint = ' Hint: Wait right there!'
+        r = ''
+        if self.use_hinting and self.is_hint_now(hint_y):
+            controls += hint 
+        if self.disable_thinking:
+            limit = limit + ' Do not use thinking.'
+        if len(self.message) > 0:
+            r = self.message + ' - '
+            #commands.append(str('--' + message + '--')) ## keep array size the same as step_count
+
+        r = r + title + ' - ' + score + ' - ' + controls +  ' AI must use the picture and reply to play the game!' + ' ' + limit
+        return r 
+
+    def stats(self, short=True):
+        #global paddle1_bounce, paddle2_bounce, l_score, r_score, num, skip, commands, step_count, serves_num 
+        #global model
+        print("model:", self.model)
+        print("serves_num:", self.serves_num)
+        print("Left-bounces:", self.paddle1_bounce, 'Right-bounces:', self.paddle2_bounce)
+        print("l_score:", self.l_score, "r_score:", self.r_score)
+        single = 0 
+        if not short:
+            single = 1 
+        print("step-count:", (self.step_count + single))
+        
+        self.end_time = time.perf_counter()
+        elapsed_min = (self.end_time - self.start_time) // 60 
+        elapsed_sec = (self.end_time - self.start_time) - elapsed_min * 60
+        elapsed_sec = '0000' + str(int(elapsed_sec))
+        elapsed_sec = elapsed_sec[-2:]
+        print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+        print('---')
+        if short:
+            return
+        num = 0 
+        for i in self.commands:
+            print(num + 1, i)
+            num += 1 
+
+    def encode_image_to_base64(self, image_path: str) -> str:
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+        return encoded_string
+
+    def pygame_save(self, f):
+        #global image_strip, strip, window 
+        #global WIDTH, HEIGHT, BORDER_SIZE, GRAY
+
+        print(f)
+        border_rect = pygame.Surface((self.WIDTH + 2 * self.BORDER_SIZE, self.HEIGHT + 2 * self.BORDER_SIZE))
+        border_rect.fill(self.GRAY)
+        border_rect.blit(self.window, (self.BORDER_SIZE, self.BORDER_SIZE))
+
+        #pygame.display.update([border_rect.get_rect()])
+
+        if  self.image_strip < 0:
+            pygame.image.save(border_rect, f)
+        elif self.image_strip > 0 :
+            self.strip.append(border_rect.copy() )
+            i = 0 
+            while len(self.strip) > self.image_strip and i < 10:
+                self.strip.pop(0)
+                print('pop strip img', len(self.strip))
+                i += 1
+            window_strip = pygame.Surface(( (self.WIDTH + 2 * self.BORDER_SIZE) * len(self.strip) , self.HEIGHT + 2 * self.BORDER_SIZE))
+            window_strip.fill(self.GRAY)
+            #pygame.display.update([window_strip.get_rect()])
+            ii = 0 
+            for i in self.strip:
+                #pygame.display.update([i.get_rect()])
+                if self.image_strip > 1:
+                    i = self.label(i, ii + 0) 
+                #pygame.display.update([i.get_rect()])
+                window_strip.blit(i, ((self.WIDTH + 2 * self.BORDER_SIZE) * ii, 0))
+                #pygame.display.update([window_strip.get_rect()])
+                ii += 1 
+            
+            pygame.image.save(window_strip, f)
+            #pygame.display.update([window_strip.get_rect()])
 
 
 def parse():
@@ -634,9 +637,11 @@ def parse():
     if args.top_p > -1:
         top_p = args.top_p
 
-    size_init()
+    plugin_class.size_init()
 
-    if  no_llm <= 0 or make_corpus > -1:
+    return
+
+    if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')
             sys.exit()
@@ -738,20 +743,21 @@ def keyup(event):
 
 if __name__ == "__main__":
 
+    plugin_class = PygamePongAgent()
     parse()
-    init()
+    plugin_class.init() 
     try:
         #game loop
-        step_count = 0 
+        plugin_class.step_count = 0 
         num = 0
         er = 0
         last_code = 200 
         while True:
-            window = pygame.display.set_mode((WIDTH, HEIGHT))
+            window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
 
-            draw(window)
+            plugin_class.draw(window)
 
-            if not text_input:
+            if not plugin_class.text_input:
                 for event in pygame.event.get():
 
                     if event.type == KEYDOWN:
@@ -766,36 +772,36 @@ if __name__ == "__main__":
                     if event.type == QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                         sys.exit()
 
-                if num % skip == 0 or len(message) > 0:  
-                    m = make_message()
-                    if small_test > -1 :
-                        img = num // skip
-                        p = prompt_list[img % len(prompt_list)]
-                        if not stream_openai:
+                if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
+                    m = plugin_class.make_message()
+                    if plugin_class.small_test > -1 :
+                        img = num // plugin_class.skip 
+                        p = plugin_class.prompt_list[img % len(plugin_class.prompt_list)]
+                        if not plugin_class.stream_openai:
                             m = p + ' - ' + m 
                         else:
-                            m = prompt_list[0] 
+                            m = plugin_class.prompt_list[0] 
                     else:
                         img = 0
 
-                    if image_series or make_corpus > 0:
-                        img = ('00000000000' + str(step_count + corpus_offset))[- 10:]
+                    if plugin_class.image_series or plugin_class.make_corpus > 0:
+                        img = ('00000000000' + str(plugin_class.step_count + plugin_class.corpus_offset))[- 10:]
                         print(img)
                     f = './pic/figure_' + str(img) + '.png'
                     
-                    if make_corpus > 0:
+                    if plugin_class.make_corpus > 0:
                         f = './pic/' + str(img) + '.png'
 
-                    if no_llm > 0 and step_count  >= no_llm :
+                    if plugin_class.no_llm > 0 and plugin_class.step_count  >= plugin_class.no_llm :
                         #print('exit before png save')
                         sys.exit()
 
-                    pygame_save(f)
+                    plugin_class.pygame_save(f)
 
-                    if int(img) > small_test and small_test > -1 and not stream_openai :
+                    if int(img) > plugin_class.small_test and plugin_class.small_test > -1 and not plugin_class.stream_openai :
                         sys.exit()
 
-                    z = encode_image_to_base64(f)
+                    z = plugin_class.encode_image_to_base64(f)
                     
                     # open in the system browser!!
                     #subprocess.run(['open','data:image/png;base64,' + z])
@@ -803,15 +809,15 @@ if __name__ == "__main__":
 
                     print(m + '\n---')
 
-                    if no_llm <= -1:
+                    if plugin_class.no_llm <= -1:
                         xx = model_class.do(image=z, context=None, text=m )
-                    if no_llm > 0 and step_count > no_llm :
+                    if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
                         sys.exit()
-                    elif no_llm > 0:
+                    elif plugin_class.no_llm > 0:
                         pygame.display.update()
                         ticks = 15
                         fps.tick(ticks)
-                        if make_corpus > 0:
+                        if plugin_class.make_corpus > 0:
                             #model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
                             xx = scrape(x, side_effects=False)
@@ -819,33 +825,33 @@ if __name__ == "__main__":
                             model_class.write(scraped_output=paddle_message, raw_output=x, raw_input=m, num_string=img)
                             paddle_message = ''
 
-                        step_count += 1 
+                        plugin_class.step_count += 1 
                         continue
 
                     print(xx)
                     xx = scrape(xx)
 
-                    if len(message) > 0:
-                        commands.append(xx + ' --' + str(message) + '--')
+                    if len(plugin_class.message) > 0:
+                        plugin_class.commands.append(xx + ' --' + str(plugin_class.message) + '--')
                     else:
-                        commands.append(xx)
-                    print('[' + str(step_count + 1) + ']', xx)
+                        plugin_class.commands.append(xx)
+                    print('[' + str(plugin_class.step_count + 1) + ']', xx)
 
                     #print('ball_vel', ball_vel, 'ball_pos', ball_pos)
                     
-                    step_count += 1
-                    message = ''
-                    stats(True)
+                    plugin_class.step_count += 1
+                    plugin_class.message = ''
+                    plugin_class.stats(True)
 
                     
-                    if step_count >= small_test and small_test > -1 and stream_openai :
+                    if plugin_class.step_count >= plugin_class.small_test and plugin_class.small_test > -1 and plugin_class.stream_openai :
                         sys.exit()
 
-                    if sudden_death_score != -1 and (l_score >= sudden_death_score or r_score >= sudden_death_score):
-                        print('sudden_death_score', l_score, r_score)
-                        if make_corpus > 0:
-                            l_score = 0 
-                            r_score = 0
+                    if plugin_class.sudden_death_score != -1 and (plugin_class.l_score >= plugin_class.sudden_death_score or plugin_class.r_score >= plugin_class.sudden_death_score):
+                        print('sudden_death_score', plugin_class.l_score, plugin_class.r_score)
+                        if plugin_class.make_corpus > 0:
+                            plugin_class.l_score = 0 
+                            plugin_class.r_score = 0
                             
                         else:    
                             sys.exit()
@@ -861,7 +867,7 @@ if __name__ == "__main__":
 
     finally:
         print('---')
-        stats(False)
+        plugin_class.stats(False)
         pass 
         
 

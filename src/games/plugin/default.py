@@ -3,6 +3,23 @@
 import gymnasium as gym 
 import sys 
 
+class DefaultBare:
+
+    def __init__(self, mode="human") -> None:
+        self.agent = ""
+        self.render_mode = mode 
+        self.env = None
+        self.action = None
+        pass 
+
+    def draw(self, surface=None):
+        pass 
+
+    def init(self):
+        pass 
+
+    def reset(self):
+        pass 
 
 class DefaultPlugin (DefaultBare):
 
@@ -35,20 +52,3 @@ class DefaultPlugin (DefaultBare):
         pass 
 
 
-class DefaultBare:
-
-    def __init__(self, mode="human") -> None:
-        self.agent = ""
-        self.render_mode = mode 
-        self.env = None
-        self.action = None
-        pass 
-
-    def draw(self, surface=None):
-        pass 
-
-    def init(self):
-        pass 
-
-    def reset(self):
-        pass 
