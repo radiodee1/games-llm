@@ -4,13 +4,13 @@
 
 #import json
 import random
-import pygame, sys
+import pygame #, sys
 from pygame.locals import *
-import os 
+#import os 
 import time
 #import subprocess
 import base64
-import argparse 
+#import argparse 
 import math
 from plugin import DefaultBare
 #from query import  Oai, Ollama, Gem, Mis 
