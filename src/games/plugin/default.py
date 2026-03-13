@@ -22,7 +22,7 @@ class DefaultBare:
         self.num = 0 
         self.message = ''
         self.fontsize = 48 // smaller
-        self.LOCAL_LLM = 'http://localhost:11434/api/'
+        #self.LOCAL_LLM = ''
 
         self.prompt_list = []
 
