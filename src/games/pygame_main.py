@@ -132,7 +132,7 @@ def parse():
 
     plugin_class.size_init()
 
-    return
+    #return
 
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
@@ -152,21 +152,19 @@ def parse():
         else:
             modelname = model
 
-        model_class = globals()[modelname](model, streaming=stream_requests, chat=use_chat, visual=True, think=not disable_thinking, key=model_key)
-        model_class.images_size = queue_len 
-        model_class.context_size = context_size
-        model_class.history_size = context_size 
-        model_class.temperature = temperature
-        model_class.top_p = top_p
+        model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
+        model_class.images_size = plugin_class.queue_len 
+        model_class.context_size = plugin_class.context_size
+        model_class.history_size = plugin_class.context_size 
+        model_class.temperature = plugin_class.temperature
+        model_class.top_p = plugin_class.top_p
         #model_class.print_to_screen = True
-    #####
-        if image_strip > 0 and not video_openai :
+        if plugin_class.image_strip > 0 and not plugin_class.video_openai :
             model_class.images_size = 1 
 
    
 
 def scrape(xx, side_effects=True):
-    global paddle2_vel, vel_const, skip, vel_const_right
 
     xx_up = xx.rfind('control.move.up')
     xx_down = xx.rfind('control.move.down')
@@ -174,22 +172,24 @@ def scrape(xx, side_effects=True):
     #paddle2_vel = 0
     paddle = 0 
     #print(xx_up, xx_down)
+    skip = plugin_class.skip
+    vel_const_right = plugin_class.vel_const_right
 
     if xx_up != -1 and xx_up > xx_down:
-        paddle = - self.vel_const_right * skip
+        paddle = - vel_const_right * skip
         xx = 'control.move.up'
     if xx_down != -1 and xx_down > xx_up :
-        paddle = self.vel_const_right * skip
+        paddle = vel_const_right * skip
         xx = 'control.move.down'
     if (not 'control.move.up' in xx) and (not 'control.move.down' in xx):
-        if scrape_general:
+        if plugin_class.scrape_general:
             xx_up = xx.rfind('up')
             xx_down = xx.rfind('down')
             if xx_up != -1 and xx_up > xx_down:
-                paddle = - self.vel_const_right * skip
+                paddle = - vel_const_right * skip
                 xx = 'control.move.up'
             if xx_down != -1 and xx_down > xx_up :
-                paddle = self.vel_const_right * skip
+                paddle = vel_const_right * skip
                 xx = 'control.move.down'
             if (not 'up' in xx) and (not 'down' in xx):
                 paddle = 0 
@@ -202,7 +202,7 @@ def scrape(xx, side_effects=True):
             xx = 'control.move.wait'
 
     if side_effects:
-        paddle2_vel = paddle 
+        plugin_class.paddle2_vel = paddle 
 
     return xx 
 
@@ -214,16 +214,17 @@ def remove(output, control):
 
 #keydown handler
 def keydown(event):
-    global paddle1_vel, paddle2_vel
-    
+
+    vel_const = plugin_class.vel_const
+
     if event.key == K_UP:
-        paddle2_vel = - self.vel_const
+        plugin_class.paddle2_vel = - vel_const
     elif event.key == K_DOWN:
-        paddle2_vel = self.vel_const
-    elif event.key == K_w and not auto:
-        paddle1_vel = - self.vel_const
-    elif event.key == K_s and not auto:
-        paddle1_vel = self.vel_const
+        plugin_class.paddle2_vel = vel_const
+    elif event.key == K_w and not plugin_class.auto:
+        plugin_class.paddle1_vel = - vel_const
+    elif event.key == K_s and not plugin_class.auto:
+        plugin_class.paddle1_vel = vel_const
 
 #keyup handler
 def keyup(event):
