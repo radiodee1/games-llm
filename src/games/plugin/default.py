@@ -10,6 +10,48 @@ class DefaultBare:
         self.render_mode = mode 
         self.env = None
         self.action = None
+
+        self.smaller = 4 
+        smaller = self.smaller
+        self.auto = True
+        self.text_input = True
+        self.small_test = -1 ## set to -1 for 'no test'
+        self.vel_const = 8 // smaller
+        self.vel_const_right = 4 // smaller # 16!
+        self.skip = 4
+        self.num = 0 
+        self.message = ''
+        self.fontsize = 48 // smaller
+        self.LOCAL_LLM = 'http://localhost:11434/api/'
+
+        self.prompt_list = []
+
+        self.acceleration = .25
+        self.sudden_death_score = -1
+        self.disable_thinking = True
+        self.context_size = 4096
+        self.use_chat = True
+        self.queue_len = 4 
+        self.commands = []
+        self.random_threshold = 50
+        self.no_llm = -1 
+        self.image_strip = -1 
+        self.strip = []
+        self.stream_requests = False
+        self.stream_openai = False 
+        self.scrape_general = False
+        self.video_openai = False
+        self.double_arrow = False
+        self.use_hinting = False
+        self.image_series = False
+        self.prompt_strategy = 1 
+        self.make_corpus = -1
+        self.corpus_offset = 0
+        self.paddle_message = ''
+        self.temperature = -1 
+        self.top_p = -1 
+
+
         pass 
 
     def draw(self, surface=None):

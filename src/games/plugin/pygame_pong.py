@@ -96,10 +96,7 @@ class PygamePongAgent(DefaultBare):
         self.fontsize = 48 // smaller
         self.LOCAL_LLM = 'http://localhost:11434/api/'
 
-        self.prompt_list = ['Describe the arrow in this picture. What direction is it pointing? What is its up/down angle?' , 
-                       'My name is David.', 
-                       'What is my name?', 
-                       'What is your favorate color?' ]
+        self.prompt_list = []
 
         self.acceleration = .25
         self.sudden_death_score = -1
