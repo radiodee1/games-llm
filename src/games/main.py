@@ -12,7 +12,7 @@ import time
 import base64
 import argparse 
 import math
-from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent
+from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent, PongAgent
 from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
@@ -38,13 +38,16 @@ whitelist = {
 }
 
 pluginlist = {
-    'lunarlander'       : 'LunarLanderAgent'
+    'lunarlander'       : 'LunarLanderAgent',
+    'pong'              : 'PongAgent'
 }
 
 plugin_class = None
+pluginname = ''
+pluginraw = ''
 
 def parse():
-    global model_class, plugin_class
+    global model_class, plugin_class, pluginname, pluginraw 
 
     parser = argparse.ArgumentParser(description='Games for llm')
     parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
@@ -78,6 +81,7 @@ def parse():
 
     pluginname = ''
     if len(args.plugin) > 0:
+        pluginraw = args.plugin 
         if args.plugin in pluginlist:
             pluginname = pluginlist[args.plugin]
             plugin_class = globals()[pluginname]()
@@ -258,7 +262,12 @@ if __name__ == "__main__":
         er = 0
         last_code = 200 
         while True:
-            plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+            if not pluginraw in pluginlist:
+                plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+            else:
+                plugin_class.reset()
+                plugin_class.action = plugin_class.env.action_space.sample()
+                print(plugin_class.action)
 
             plugin_class.draw(plugin_class.window)
 
@@ -364,7 +373,9 @@ if __name__ == "__main__":
 
                 num += 1  
 
-            pygame.display.update()
+            if not pluginraw in pluginlist:
+                pygame.display.update()
+
             ticks = 60
             plugin_class.fps.tick(ticks)
 

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
-import gymnasium as gym 
+import gymnasium as gym
+import ale_py
 import sys 
 import pygame
 import cv2
+import base64
 
 class DefaultBare:
 
@@ -25,6 +27,7 @@ class DefaultBare:
         self.message = ''
         self.fontsize = 48 // smaller
         #self.LOCAL_LLM = ''
+        self.window = None
 
         self.prompt_list = []
 
@@ -55,11 +58,17 @@ class DefaultBare:
 
         self.show_image = True 
 
+        self.l_score = 0
+        self.r_score = 0
         pass 
 
+    def encode_image_to_base64(self, image_path: str) -> str:
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
+        return encoded_string
+
     def pygame_save(self, f):
-        print(f)
-        pass 
+        pass
 
     def image_save(self, filename):
         self.pygame_save(filename)
@@ -67,6 +76,12 @@ class DefaultBare:
 
     def make_message(self) -> str:
         return ""
+
+    def stats(self, short=True):
+        if short:
+            return
+        print(self.commands)
+        return 
 
     def draw(self, surface=None):
         pass 
@@ -107,8 +122,10 @@ class DefaultPlugin (DefaultBare):
         observation, info = self.env.reset()
         cv2.destroyAllWindows()
         pass 
-    
+
+
     def image_save(self, filename):
+        self.pygame_save(filename)
         pass 
 
     def pygame_save(self, f):
@@ -121,6 +138,7 @@ class DefaultPlugin (DefaultBare):
         pygame.image.save(surface, f)
 
         if self.show_image:
+            print(f, 'cv2')
             frame_bgr = cv2.cvtColor(r, cv2.COLOR_RGB2BGR)
             cv2.imshow('', frame_bgr)
             cv2.waitKey(1)
