@@ -485,6 +485,9 @@ class PygamePongAgent(DefaultBare):
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         return encoded_string
 
+    def image_save(self, filename):
+        self.pygame_save(filename)
+
     def pygame_save(self, f):
         #global image_strip, strip, window 
         #global WIDTH, HEIGHT, BORDER_SIZE, GRAY

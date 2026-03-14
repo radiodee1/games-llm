@@ -12,7 +12,7 @@ import time
 import base64
 import argparse 
 import math
-from plugin import DefaultBare, PygamePongAgent
+from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent
 #from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
@@ -37,8 +37,11 @@ whitelist = {
     'pixtral-large-2411'     : 'Mis'
 }
 
-plugin_class = None
+pluginlist = {
+    'lunarlander'       : 'LunarLanderAgent'
+}
 
+plugin_class = None
 
 def parse():
     #global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
@@ -47,7 +50,8 @@ def parse():
     #global model_class, prompt_strategy
     #global smaller, make_corpus, corpus_offset, temperature, top_p 
 
-    parser = argparse.ArgumentParser(description='Pong for llm')
+    parser = argparse.ArgumentParser(description='Games for llm')
+    parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
     parser.add_argument('--generate', action='store_true', help='Use chat or generate. Chat is default.')
     parser.add_argument('--no_opponent', action='store_true', help='Computer opponent or adversary.')
     parser.add_argument('--key_input', action='store_true', help='Dis-allow text input so LLM can not control one player.')
@@ -75,6 +79,14 @@ def parse():
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     args = parser.parse_args()
+
+    pluginname = ''
+    if len(args.plugin) > 0:
+        if args.plugin in pluginlist:
+            pluginname = pluginlist[args.plugin]
+            plugin_class = globals()[pluginname]()
+
+
     if args.generate:
         plugin_class.use_chat = not args.generate 
     if args.no_opponent:
@@ -290,7 +302,8 @@ if __name__ == "__main__":
                         #print('exit before png save')
                         sys.exit()
 
-                    plugin_class.pygame_save(f)
+                    #plugin_class.pygame_save(f)
+                    plugin_class.image_save(f)
 
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 and not plugin_class.stream_openai :
                         sys.exit()

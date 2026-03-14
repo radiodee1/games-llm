@@ -2,10 +2,12 @@
 
 import gymnasium as gym 
 import sys 
+import pygame
+import cv2
 
 class DefaultBare:
 
-    def __init__(self, mode="human") -> None:
+    def __init__(self, mode="rgb_array") -> None:
         self.agent = ""
         self.render_mode = mode 
         self.env = None
@@ -51,8 +53,17 @@ class DefaultBare:
         self.temperature = -1 
         self.top_p = -1 
 
+        self.show_image = True 
 
         pass 
+
+    def pygame_save(self, f):
+        print(f)
+        pass 
+
+    def image_save(self, filename):
+        self.pygame_save(filename)
+        pass
 
     def make_message(self) -> str:
         return ""
@@ -68,7 +79,7 @@ class DefaultBare:
 
 class DefaultPlugin (DefaultBare):
 
-    def __init__(self, mode="human") -> None:
+    def __init__(self, mode="rgb_array") -> None:
         super().__init__(mode)
         self.agent = ""
         self.render_mode = mode 
@@ -94,6 +105,25 @@ class DefaultPlugin (DefaultBare):
         self.truncated = False
         self.terminated = False
         observation, info = self.env.reset()
+        cv2.destroyAllWindows()
+        pass 
+    
+    def image_save(self, filename):
         pass 
 
+    def pygame_save(self, f):
+        if self.render_mode != 'rgb_array':
+            return
+        r = self.env.render()
+        surface = pygame.surfarray.make_surface(r)
+        surface = pygame.transform.rotate(surface, 270)
+        surface = pygame.transform.flip(surface, True, False)
+        pygame.image.save(surface, f)
+
+        if self.show_image:
+            frame_bgr = cv2.cvtColor(r, cv2.COLOR_RGB2BGR)
+            cv2.imshow('', frame_bgr)
+            cv2.waitKey(1)
+
+        pass 
 
