@@ -254,7 +254,8 @@ if __name__ == "__main__":
 
     plugin_class = PygamePongAgent()
     parse()
-    plugin_class.init() 
+    plugin_class.init()
+    plugin_class.fps = pygame.time.Clock()
     try:
         #game loop
         plugin_class.step_count = 0 

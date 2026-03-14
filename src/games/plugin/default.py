@@ -54,8 +54,10 @@ class DefaultBare:
         self.corpus_offset = 0
         self.paddle_message = ''
         self.temperature = -1 
-        self.top_p = -1 
+        self.top_p = -1
+        self.action_meaning = []
 
+        self.fps = None
         self.show_image = True 
 
         self.l_score = 0
@@ -75,7 +77,20 @@ class DefaultBare:
         pass
 
     def make_message(self) -> str:
-        return ""
+        self.read_actions()
+        return str(self.action_meaning)
+
+    def read_actions(self):
+        if isinstance(self.env.action_space, gym.spaces.Discrete):
+            print("Number of actions:", self.env.action_space.n)
+            # You can get action meanings (e.g., 'NOOP', 'FIRE', 'RIGHT')
+            print("Action meanings:", self.env.unwrapped.get_action_meanings())
+            num = 0
+            for i in self.env.unwrapped.get_action_meanings():
+                self.action_meaning += [ { 'name' :'control.' + i, 'num': num} ]
+                num += 1 
+            print(self.action_meaning)
+
 
     def stats(self, short=True):
         if short:
@@ -138,7 +153,7 @@ class DefaultPlugin (DefaultBare):
         pygame.image.save(surface, f)
 
         if self.show_image:
-            print(f, 'cv2')
+            #print(f, 'cv2')
             frame_bgr = cv2.cvtColor(r, cv2.COLOR_RGB2BGR)
             cv2.imshow('', frame_bgr)
             cv2.waitKey(1)
