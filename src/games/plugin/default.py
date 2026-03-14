@@ -90,7 +90,7 @@ class DefaultBare:
             self.action_meaning = [] 
             num = 0
             for i in self.env.unwrapped.get_action_meanings():
-                self.action_meaning += [ { 'name' :'control.' + i, 'num': num, 'meaning': ''  } ]
+                self.action_meaning += [ { 'name' : i, 'num': num, 'meaning': ''  } ]
                 num += 1 
             print(self.action_meaning)
 
