@@ -14,6 +14,8 @@ class DefaultBare:
         self.render_mode = mode 
         self.env = None
         self.action = None
+        self.truncated = False
+        self.terminated = False
 
         self.smaller = 4 
         smaller = self.smaller
@@ -85,9 +87,10 @@ class DefaultBare:
             print("Number of actions:", self.env.action_space.n)
             # You can get action meanings (e.g., 'NOOP', 'FIRE', 'RIGHT')
             print("Action meanings:", self.env.unwrapped.get_action_meanings())
+            self.action_meaning = [] 
             num = 0
             for i in self.env.unwrapped.get_action_meanings():
-                self.action_meaning += [ { 'name' :'control.' + i, 'num': num} ]
+                self.action_meaning += [ { 'name' :'control.' + i, 'num': num, 'meaning': ''  } ]
                 num += 1 
             print(self.action_meaning)
 

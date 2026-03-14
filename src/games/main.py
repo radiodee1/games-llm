@@ -255,6 +255,7 @@ if __name__ == "__main__":
     plugin_class = PygamePongAgent()
     parse()
     plugin_class.init()
+    plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
     try:
         #game loop
@@ -266,7 +267,6 @@ if __name__ == "__main__":
             if not pluginraw in pluginlist:
                 plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
             else:
-                plugin_class.reset()
                 plugin_class.action = plugin_class.env.action_space.sample()
                 print(plugin_class.action)
 
@@ -330,7 +330,8 @@ if __name__ == "__main__":
                     if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
                         sys.exit()
                     elif plugin_class.no_llm > 0:
-                        pygame.display.update()
+                        if not pluginraw in pluginlist:
+                            pygame.display.update()
                         ticks = 15
                         plugin_class.fps.tick(ticks)
                         if plugin_class.make_corpus > 0:
@@ -362,6 +363,10 @@ if __name__ == "__main__":
                     
                     if plugin_class.step_count >= plugin_class.small_test and plugin_class.small_test > -1 and plugin_class.stream_openai :
                         sys.exit()
+
+                    if plugin_class.truncated or plugin_class.terminated:
+                        plugin_class.reset()
+
 
                     if plugin_class.sudden_death_score != -1 and (plugin_class.l_score >= plugin_class.sudden_death_score or plugin_class.r_score >= plugin_class.sudden_death_score):
                         print('sudden_death_score', plugin_class.l_score, plugin_class.r_score)
