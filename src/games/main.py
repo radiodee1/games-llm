@@ -13,7 +13,7 @@ import base64
 import argparse 
 import math
 from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent
-#from query import  Oai, Ollama, Gem, Mis 
+from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
 
@@ -44,11 +44,7 @@ pluginlist = {
 plugin_class = None
 
 def parse():
-    #global use_chat, auto, text_input, small_test, sudden_death_score, model, skip, smaller 
-    #global LOCAL_LLM, queue_len, context_size, disable_thinking, random_threshold, image_strip, no_llm
-    #global stream_requests, scrape_general, stream_openai, video_openai, double_arrow, use_hinting, image_series 
-    #global model_class, prompt_strategy
-    #global smaller, make_corpus, corpus_offset, temperature, top_p 
+    global model_class, plugin_class
 
     parser = argparse.ArgumentParser(description='Games for llm')
     parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
@@ -99,7 +95,7 @@ def parse():
         plugin_class.sudden_death_score = args.sudden_death
     if len(args.model) > 0:
         plugin_class.model = args.model
-        #model = 'gpt-5.2'
+        model = args.model 
     if args.skip >= -1:
         plugin_class.skip = args.skip
     if args.q_len >= -1:
@@ -142,7 +138,8 @@ def parse():
     if args.top_p > -1:
         plugin_class.top_p = args.top_p
 
-    plugin_class.size_init()
+    if not args.plugin in pluginlist:
+        plugin_class.size_init()
 
     #return
 
@@ -170,7 +167,9 @@ def parse():
         model_class.history_size = plugin_class.context_size 
         model_class.temperature = plugin_class.temperature
         model_class.top_p = plugin_class.top_p
-        #model_class.print_to_screen = True
+        
+        model_class.print_to_screen = True
+        
         if plugin_class.image_strip > 0 and not plugin_class.video_openai :
             model_class.images_size = 1 
 
