@@ -9,16 +9,11 @@ class LunarLanderAgent( DefaultPlugin ):
         super().__init__(mode)
         self.agent = 'LunarLander-v3'
         self.message = "Land the spacecraft on the spot between the flags."
+        self.meaning = ['NOOP', 'LEFT_ENGINE', 'MAIN_ENGINE', 'RIGHT_ENGINE']
 
     def read_actions(self):
         ## no description available??
-        self.action_meaning = []
-        num = 0 
-        x = range(self.env.action_space.n) #[ '0', '1', '2', '3'  ]
-        for i in x:
-            self.action_meaning += [ { 'name' : i, 'num': num, 'meaning': ""} ]
-            num += 1 
-        print(self.action_meaning) 
+        self.no_description()
 
 class PongAgent( DefaultPlugin ):
 

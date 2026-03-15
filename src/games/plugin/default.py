@@ -57,7 +57,8 @@ class DefaultBare:
         self.paddle_message = ''
         self.temperature = -1 
         self.top_p = -1
-        self.action_meaning = []
+        self.action_meaning = [] # combined meaning information
+        self.meaning = [] # just the human readable meaning
 
         self.fps = None
         self.show_image = True 
@@ -94,6 +95,8 @@ class DefaultBare:
                 num += 1 
             print(self.action_meaning)
 
+    def no_description(self):
+        pass 
 
     def stats(self, short=True):
         if short:
@@ -162,4 +165,15 @@ class DefaultPlugin (DefaultBare):
             cv2.waitKey(1)
 
         pass 
+    
+    def no_description(self):
+        ## no description available??
+        self.action_meaning = []
+        num = 0 
+        x = range(self.env.action_space.n) #[ '0', '1', '2', '3'  ]
+        for i in range(len(x)):
+            if i <= len(self.meaning):
+                self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': self.meaning[i]} ]
+            num += 1 
+
 
