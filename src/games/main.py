@@ -257,6 +257,14 @@ if __name__ == "__main__":
     plugin_class.init()
     plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
+
+    if not pluginraw in pluginlist:
+        plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+    else:
+        plugin_class.action = plugin_class.env.action_space.sample()
+        print(plugin_class.action)
+
+
     try:
         #game loop
         plugin_class.step_count = 0 
@@ -265,12 +273,7 @@ if __name__ == "__main__":
         last_code = 200 
         while True:
             if not pluginraw in pluginlist:
-                plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
-            else:
-                plugin_class.action = plugin_class.env.action_space.sample()
-                print(plugin_class.action)
-
-            plugin_class.draw(plugin_class.window)
+                plugin_class.draw(plugin_class.window)
 
             if not plugin_class.text_input:
                 for event in pygame.event.get():
@@ -288,6 +291,9 @@ if __name__ == "__main__":
                         sys.exit()
 
                 if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
+                    if pluginraw in pluginlist:
+                        plugin_class.draw()
+
                     m = plugin_class.make_message()
                     if plugin_class.small_test > -1 :
                         img = num // plugin_class.skip 
