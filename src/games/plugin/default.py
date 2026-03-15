@@ -89,9 +89,13 @@ class DefaultBare:
             # You can get action meanings (e.g., 'NOOP', 'FIRE', 'RIGHT')
             print("Action meanings:", self.env.unwrapped.get_action_meanings())
             self.action_meaning = [] 
+            x = self.env.unwrapped.get_action_meanings()
             num = 0
-            for i in self.env.unwrapped.get_action_meanings():
-                self.action_meaning += [ { 'name' : i, 'num': num, 'meaning': ''  } ]
+            if self.meaning == None or len(self.meaning) == 0:
+                self.meaning = range(len(x))
+            for i in range(len(x)):
+                if i <= len(self.meaning):
+                    self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': self.meaning[i]  } ]
                 num += 1 
             print(self.action_meaning)
 
