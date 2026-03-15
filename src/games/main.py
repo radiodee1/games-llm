@@ -349,6 +349,9 @@ if __name__ == "__main__":
                             paddle_message = ''
 
                         plugin_class.step_count += 1 
+                        if plugin_class.truncated or plugin_class.terminated:
+                            plugin_class.reset()
+
                         continue
 
                     print(xx)

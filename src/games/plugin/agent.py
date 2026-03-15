@@ -14,7 +14,7 @@ class LunarLanderAgent( DefaultPlugin ):
         ## no description available??
         self.action_meaning = []
         num = 0 
-        x = [ '0', '1', '2', '3'  ]
+        x = range(self.env.action_space.n) #[ '0', '1', '2', '3'  ]
         for i in x:
             self.action_meaning += [ { 'name' : i, 'num': num, 'meaning': ""} ]
             num += 1 
