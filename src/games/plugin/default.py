@@ -186,9 +186,12 @@ class DefaultPlugin (DefaultBare):
         self.truncated = False
         self.terminated = False
         observation, info = self.env.reset()
+        self.start_sequence()
         cv2.destroyAllWindows()
         pass 
 
+    def start_sequence(self):
+        pass 
 
     def image_save(self, filename):
         self.pygame_save(filename)
