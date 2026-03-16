@@ -81,21 +81,27 @@ class DefaultBare:
 
     def make_message(self) -> str:
         self.read_actions()
-        return str(self.action_meaning)
+        print(self.action_meaning, 'meaning')
+        m = [ str( '"' + i['meaning'] + '"') for i in self.action_meaning ]
+        print(m, 'm')
+        txt = self.message + ' ' 
+        txt += 'These are the actions you can take: ' + ', '.join(m)
+        return str(txt)
 
     def read_actions(self):
         if isinstance(self.env.action_space, gym.spaces.Discrete):
-            print("Number of actions:", self.env.action_space.n)
-            # You can get action meanings (e.g., 'NOOP', 'FIRE', 'RIGHT')
-            print("Action meanings:", self.env.unwrapped.get_action_meanings())
-            self.action_meaning = [] 
+            
             x = self.env.unwrapped.get_action_meanings()
+            print(x, 'x')
+            self.action_meaning = []
             num = 0
-            if self.meaning == None or len(self.meaning) == 0:
-                self.meaning = range(len(x))
             for i in range(len(x)):
-                if i <= len(self.meaning):
-                    self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': self.meaning[i]  } ]
+                if self.meaning == None or len(self.meaning) == 0:
+                    m = x[i]
+                else:
+                    m = self.meaning[i]
+                if m != None: 
+                    self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': m  } ]
                 num += 1 
             print(self.action_meaning)
 
@@ -135,6 +141,7 @@ class DefaultPlugin (DefaultBare):
         observation, reward, terminated, truncated, info = self.env.step(self.action)
         self.terminated = terminated
         self.truncated = truncated
+        self.r_score += reward
         pass 
 
     def init(self):
@@ -176,7 +183,7 @@ class DefaultPlugin (DefaultBare):
         num = 0 
         x = range(self.env.action_space.n) #[ '0', '1', '2', '3'  ]
         for i in range(len(x)):
-            if i <= len(self.meaning):
+            if i <= len(self.meaning) and self.meaning[i] != None:
                 self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': self.meaning[i]} ]
             num += 1 
 

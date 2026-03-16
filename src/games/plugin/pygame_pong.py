@@ -57,7 +57,27 @@ class PygamePongAgent(DefaultBare):
         self.trace_pos = [0,0] 
         self.paddle1_bounce = 0 
         self.paddle2_bounce = 0
-        self.serves_num = 0 
+        self.serves_num = 0
+
+        self.action_meaning = [
+            {
+                'name': 'control.move.wait',
+                'num': 0,
+                'meaning': 'control.move.wait'
+            },
+            {
+                'name': 'control.move.up',
+                'num': 1,
+                'meaning': 'control.move.up'
+
+            },
+            {
+                'name': 'control.move.down',
+                'num': 2,
+                'meaning': 'control.move.down'
+
+            }
+        ]
 
         self.BORDER_SIZE = 24 // smaller
 
