@@ -43,6 +43,7 @@ class DefaultLLM:
         self.r_temp = ''
         self.think_temp = ''
         self.print_to_screen = False
+        self.write_to_text = False
         self.skip_errors = False
         self.write_only = False
         self.write_message = ""
@@ -344,7 +345,8 @@ class DefaultLLM:
         self.print('some data', 'scraped_output', scraped_output,'raw_output', raw_output,'raw_input', raw_input,'num_string', num_string)
         #image_string = './pic/' + str(num_string) + '.png'
         image_string =   str(num_string) + '.png'
-
+        if not self.write_to_text:
+            return
         filename_string = './pic/' + str(num_string) + '.json'
         f = {
             "id": num_string,

@@ -343,9 +343,11 @@ if __name__ == "__main__":
                         if plugin_class.make_corpus > 0:
                             #model_class.print_to_screen = True
                             x = model_class.do(image=z, context=None, text=m)
-                            xx = scrape(x, side_effects=False)
-                            x = remove(x, xx)
-                            model_class.write(scraped_output=paddle_message, raw_output=x, raw_input=m, num_string=img)
+                            print(x)
+                            x = plugin_class.scrape(x)
+                            print(x)
+                            #x = remove(x, xx)
+                            model_class.write(scraped_output=x, raw_output=x, raw_input=m, num_string=img)
                             paddle_message = ''
 
                         plugin_class.step_count += 1 
@@ -355,7 +357,7 @@ if __name__ == "__main__":
                         continue
 
                     print(xx)
-                    xx = scrape(xx)
+                    xx = plugin_class.scrape(xx)
 
                     if len(plugin_class.message) > 0:
                         plugin_class.commands.append(xx + ' --' + str(plugin_class.message) + '--')

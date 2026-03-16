@@ -59,6 +59,7 @@ class DefaultBare:
         self.top_p = -1
         self.action_meaning = [] # combined meaning information
         self.meaning = [] # just the human readable meaning
+        self.frame_skip = 1
 
         self.fps = None
         self.show_image = True 
@@ -123,6 +124,38 @@ class DefaultBare:
     def reset(self):
         pass 
 
+    def scrape(self, txt, replace=False):
+        ## make list of high rfind() ##
+        x = []
+        n = []
+        s = [] 
+        for i in range(len(self.action_meaning)):
+            xx = self.action_meaning[i]['meaning']
+            discrete = self.action_meaning[i]['num']
+            x.append(txt.rfind(xx))
+            n.append(discrete)
+            s.append(xx)
+        ## find highest ##
+        old = -1 
+        h = -1 
+        index = -1 
+        for i in range(len(n)):
+            if x[i] > -1 and x[i] > old:
+                old = h 
+                h = x[i]
+                index = i 
+        if index > -1:
+            print(n[index])
+            self.action = int(n[index])
+        else:
+            self.action = 0 
+
+        if replace and h > -1:
+            txt = txt[:h] + s[index] + txt[h + len(s[index]):]
+            
+        return txt
+
+
 class DefaultPlugin (DefaultBare):
 
     def __init__(self, mode="rgb_array") -> None:
@@ -138,14 +171,15 @@ class DefaultPlugin (DefaultBare):
     def draw(self, surface=None):
         if surface != None:
             sys.exit()
-        observation, reward, terminated, truncated, info = self.env.step(self.action)
+        print('----', self.action, '----')
+        observation, reward, terminated, truncated, info = self.env.step(int(self.action))
         self.terminated = terminated
         self.truncated = truncated
         self.r_score += reward
         pass 
 
     def init(self):
-        self.env = gym.make(self.agent, render_mode=self.render_mode)
+        self.env = gym.make(self.agent, render_mode=self.render_mode, frameskip=self.frame_skip)
         pass 
 
     def reset(self):

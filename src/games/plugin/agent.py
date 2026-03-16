@@ -20,5 +20,8 @@ class PongAgent( DefaultPlugin ):
     def __init__(self, mode="rgb_array") -> None:
         super().__init__(mode)
         self.agent = 'ALE/Pong-v5'
+        #self.agent = 'PongNoFrameskip-v4'
+        #self.frame_skip = 8 
         self.message = "Pong! Return the ball to the oponent and score to win the game."
-        self.meaning = [ 'control.move.wait', None, 'control.move.up', 'control.move.down', None, None ]
+        #self.meaning = [ 'control.move.wait', None, 'control.move.up', 'control.move.down', None, None ]
+        self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
