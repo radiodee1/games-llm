@@ -179,54 +179,6 @@ def parse():
 
    
 
-def xxscrape(xx, side_effects=True):
-
-    xx_up = xx.rfind('control.move.up')
-    xx_down = xx.rfind('control.move.down')
-    
-    #paddle2_vel = 0
-    paddle = 0 
-    #print(xx_up, xx_down)
-    skip = plugin_class.skip
-    vel_const_right = plugin_class.vel_const_right
-
-    if xx_up != -1 and xx_up > xx_down:
-        paddle = - vel_const_right * skip
-        xx = 'control.move.up'
-    if xx_down != -1 and xx_down > xx_up :
-        paddle = vel_const_right * skip
-        xx = 'control.move.down'
-    if (not 'control.move.up' in xx) and (not 'control.move.down' in xx):
-        if plugin_class.scrape_general:
-            xx_up = xx.rfind('up')
-            xx_down = xx.rfind('down')
-            if xx_up != -1 and xx_up > xx_down:
-                paddle = - vel_const_right * skip
-                xx = 'control.move.up'
-            if xx_down != -1 and xx_down > xx_up :
-                paddle = vel_const_right * skip
-                xx = 'control.move.down'
-            if (not 'up' in xx) and (not 'down' in xx):
-                paddle = 0 
-                print('NO ANSWER', xx)
-                xx = 'control.move.wait'
-        else:
-            paddle = 0
-            if not 'control.move.wait' in xx:
-                print('NO ANSWER', xx)
-            xx = 'control.move.wait'
-
-    if side_effects:
-        plugin_class.paddle2_vel = paddle 
-
-    return xx 
-
-def remove(output, control):
-    xx_control = output.rfind(control)
-    if xx_control > -1:
-        output = output[: xx_control] + output[xx_control + len(control): ]
-    return output
-
 #keydown handler
 def keydown(event):
 
@@ -275,17 +227,7 @@ if __name__ == "__main__":
             if not pluginraw in pluginlist:
                 plugin_class.draw(plugin_class.window)
 
-            if not plugin_class.text_input:
-                for event in pygame.event.get():
-
-                    if event.type == KEYDOWN:
-                        keydown(event)
-                    elif event.type == KEYUP:
-                        keyup(event)
-                    elif event.type == QUIT:
-                        pygame.quit()
-                        sys.exit()
-            else:
+            if True:
                 for event in pygame.event.get():
                     if event.type == QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                         sys.exit()
