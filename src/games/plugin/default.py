@@ -84,9 +84,9 @@ class DefaultBare:
 
     def make_message(self) -> str:
         self.read_actions()
-        print(self.action_meaning, 'meaning')
+        #print(self.action_meaning, 'meaning')
         m = [ str( '"' + i['meaning'] + '"') for i in self.action_meaning ]
-        print(m, 'm')
+        #print(m, 'm')
         txt = self.prompt_string + ' ' 
         txt += 'These are the actions you can take: ' + ', '.join(m)
         return str(txt)
@@ -95,7 +95,7 @@ class DefaultBare:
         if isinstance(self.env.action_space, gym.spaces.Discrete):
             
             x = self.env.unwrapped.get_action_meanings()
-            print(x, 'x')
+            #print(x, 'x')
             self.action_meaning = []
             num = 0
             for i in range(len(x)):
@@ -106,7 +106,7 @@ class DefaultBare:
                 if m != None: 
                     self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': m  } ]
                 num += 1 
-            print(self.action_meaning, 'read_actions')
+            #print(self.action_meaning, 'read_actions')
 
     def no_description(self):
         pass 
@@ -114,7 +114,9 @@ class DefaultBare:
     def stats(self, short=True):
         if short:
             return
-        print(self.commands)
+        #print(self.commands)
+        for i in range(len(self.commands)):
+            print(i, self.commands[i])
         return 
 
     def draw(self, surface=None):
@@ -147,7 +149,7 @@ class DefaultBare:
                 h = x[i]
                 index = i 
         if index > -1:
-            print(n[index])
+            #print(n[index])
             self.action = int(n[index])
         else:
             self.action = 0 
@@ -174,7 +176,7 @@ class DefaultPlugin (DefaultBare):
     def draw(self, surface=None):
         if surface != None:
             sys.exit()
-        print('----', self.action, '----')
+        #print('----', self.action, '----')
         observation, reward, terminated, truncated, info = self.env.step(int(self.action))
         self.terminated = terminated
         self.truncated = truncated

@@ -19,7 +19,6 @@ class PygamePongAgent(DefaultBare):
 
     def __init__(self, mode='human') -> None:
         super().__init__(mode)
-        pass
         pygame.init()
         self.fps = pygame.time.Clock()
         self.start_time = time.perf_counter()
@@ -86,7 +85,7 @@ class PygamePongAgent(DefaultBare):
         self.small_test = -1 ## set to -1 for 'no test'
         self.vel_const = 8 // smaller
         self.vel_const_right = 4 // smaller # 16!
-        self.skip = 4
+        self.skip = 1
         self.num = 0 
         self.message = ''
         self.fontsize = 48 // smaller
@@ -123,10 +122,6 @@ class PygamePongAgent(DefaultBare):
         pygame.display.set_caption('Pong')
 
     def size_init(self):
-
-        #global WIDTH, HEIGHT, BALL_RADIUS, PAD_WIDTH, PAD_HEIGHT, HALF_PAD_WIDTH, HALF_PAD_HEIGHT, BORDER_SIZE
-        #global vel_const, vel_const_right, fontsize, smaller 
-        
         print('smaller' , self.smaller)
         smaller = self.smaller
 
@@ -146,9 +141,6 @@ class PygamePongAgent(DefaultBare):
     # helper function that spawns a ball, returns a position vector and a velocity vector
     # if right is True, spawn to the right, else spawn to the left
     def ball_init(self, right):
-        #global ball_pos, ball_vel # these are vectors stored as lists
-        #global serves_num, message
-
         self.ball_pos = [self.WIDTH//2,self.HEIGHT//2]
         self.horz = random.randrange(2,4)
         self.vert = random.randrange(1,3)
@@ -162,9 +154,6 @@ class PygamePongAgent(DefaultBare):
 
     # define event handlers
     def init(self):
-        #global paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel,l_score,r_score  # these are floats
-        #global score1, score2, arrow_surface  
-
         self.paddle1_pos = [self.HALF_PAD_WIDTH - 1, self.HEIGHT//2]
         self.paddle2_pos = [self.WIDTH +1 - self.HALF_PAD_WIDTH, self.HEIGHT//2]
         self.l_score = 0
@@ -177,10 +166,6 @@ class PygamePongAgent(DefaultBare):
 
     #draw function of canvas
     def draw(self, canvas):
-        #global paddle1_pos, paddle2_pos, ball_pos, ball_vel, l_score, r_score
-        #global message, num, skip, trace_pos, paddle1_bounce, paddle2_bounce, random_threshold 
-        #global make_corpus, paddle_message
-
         canvas.fill(self.BLACK)
         pygame.draw.line(canvas, self.WHITE, [self.WIDTH // 2, 0],[self.WIDTH // 2, self.HEIGHT], 1)
         pygame.draw.line(canvas, self.WHITE, [self.PAD_WIDTH, 0],[self.PAD_WIDTH, self.HEIGHT], 1)
@@ -308,7 +293,6 @@ class PygamePongAgent(DefaultBare):
         pass 
 
     def draw_arrow(self):
-        #global double_arrow, smaller
         # -->
         xoffset = 100 # // smaller # 25 ## 35! 
         arrow_lines = [
@@ -355,7 +339,6 @@ class PygamePongAgent(DefaultBare):
         surf.blit(rotated_image, new_rect)
 
     def get_hint_y(self):
-        #global ball_pos, self.ball_vel 
         vx, vy = self.ball_vel
         if vx == 0:
             vx = 0.01
@@ -366,7 +349,6 @@ class PygamePongAgent(DefaultBare):
         return int(hint_y)
 
     def is_hint_now(self, hint_y):
-        #global ball_pos, ball_vel, self.paddle2_pos  
         is_facing_right = False
         if self.ball_vel[0] > 0:
             is_facing_right = True
@@ -406,7 +388,6 @@ class PygamePongAgent(DefaultBare):
         return i 
 
     def make_message(self):
-        #global l_score, r_score, message, commands, prompt_strategy
         if self.use_hinting:
             hint_y = self.get_hint_y()
 
@@ -469,14 +450,11 @@ class PygamePongAgent(DefaultBare):
             limit = limit + ' Do not use thinking.'
         if len(self.message) > 0:
             r = self.message + ' - '
-            #commands.append(str('--' + message + '--')) ## keep array size the same as step_count
 
         r = r + title + ' - ' + score + ' - ' + controls +  ' AI must use the picture and reply to play the game!' + ' ' + limit
         return r 
 
     def stats(self, short=True):
-        #global paddle1_bounce, paddle2_bounce, l_score, r_score, num, skip, commands, step_count, serves_num 
-        #global model
         print("model:", self.model)
         print("serves_num:", self.serves_num)
         print("Left-bounces:", self.paddle1_bounce, 'Right-bounces:', self.paddle2_bounce)
@@ -509,15 +487,11 @@ class PygamePongAgent(DefaultBare):
         self.pygame_save(filename)
 
     def pygame_save(self, f):
-        #global image_strip, strip, window 
-        #global WIDTH, HEIGHT, BORDER_SIZE, GRAY
-
         print(f)
         border_rect = pygame.Surface((self.WIDTH + 2 * self.BORDER_SIZE, self.HEIGHT + 2 * self.BORDER_SIZE))
         border_rect.fill(self.GRAY)
         border_rect.blit(self.window, (self.BORDER_SIZE, self.BORDER_SIZE))
 
-        #pygame.display.update([border_rect.get_rect()])
 
         if  self.image_strip < 0:
             pygame.image.save(border_rect, f)
@@ -530,19 +504,27 @@ class PygamePongAgent(DefaultBare):
                 i += 1
             window_strip = pygame.Surface(( (self.WIDTH + 2 * self.BORDER_SIZE) * len(self.strip) , self.HEIGHT + 2 * self.BORDER_SIZE))
             window_strip.fill(self.GRAY)
-            #pygame.display.update([window_strip.get_rect()])
             ii = 0 
             for i in self.strip:
-                #pygame.display.update([i.get_rect()])
                 if self.image_strip > 1:
                     i = self.label(i, ii + 0) 
-                #pygame.display.update([i.get_rect()])
                 window_strip.blit(i, ((self.WIDTH + 2 * self.BORDER_SIZE) * ii, 0))
-                #pygame.display.update([window_strip.get_rect()])
                 ii += 1 
             
             pygame.image.save(window_strip, f)
-            #pygame.display.update([window_strip.get_rect()])
+
+    def scrape(self, txt, replace=False):
+        txt = super().scrape(txt, replace)
+        if self.action_string == 'control.move.up':
+            self.paddle2_vel = - self.vel_const_right #* self.skip
+        if self.action_string == 'control.move.down':
+            self.paddle2_vel = self.vel_const_right #* self.skip
+        if self.action_string == 'control.move.wait':
+            self.paddle2_vel = 0 
+        #print('paddle2_vel:', self.paddle2_vel , 'vel_const_right', self.vel_const_right )
+
+        return txt 
+
 
 if __name__ == "__main__":
     pass 
