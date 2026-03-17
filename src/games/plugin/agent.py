@@ -28,10 +28,11 @@ class PongAgent( DefaultPlugin ):
         super().__init__(mode)
         self.agent = 'ALE/Pong-v5'
         #self.agent = 'PongNoFrameskip-v4'
-        #self.frame_skip = 4 
-        self.prompt_string = "Pong! Return the ball to the oponent and score to win the game."
+        self.prompt_string = (
+                "Pong! Return the ball to the oponent and score to win the game."
+                " You are the right paddle."
+        )
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
-        #self.meaning = [ 'control.move.serve', None, 'control.move.up', 'control.move.down', None, None ]
 
     def start_sequence(self):
         self.action = 0 
