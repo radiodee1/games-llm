@@ -122,7 +122,7 @@ class PygamePongAgent(DefaultBare):
         pygame.display.set_caption('Pong')
 
     def size_init(self):
-        print('smaller' , self.smaller)
+        #print('smaller' , self.smaller)
         smaller = self.smaller
 
         self.WIDTH = 600 // smaller
@@ -210,7 +210,6 @@ class PygamePongAgent(DefaultBare):
             self.paddle1_pos[1] += temp1_vel * self.skip 
             temp2_vel, paddle2_message = self.paddle_auto_vel(self.paddle2_pos, self.ball_pos, self.ball_vel, self.vel_const_right)
             self.paddle2_pos[1] += temp2_vel * self.skip
-            #print( paddle1_pos, paddle1_message, paddle2_pos, 'paddles', paddle2_message, vel_const, vel_const_right )
             self.paddle_message = paddle2_message
 
         if self.num % self.skip == 0:
@@ -345,7 +344,6 @@ class PygamePongAgent(DefaultBare):
         m = vy / vx 
         b = self.ball_pos[1] - m * self.ball_pos[0] 
         hint_y = m * ( self.WIDTH - self.PAD_WIDTH ) + b 
-        print('hint_y', hint_y)
         return int(hint_y)
 
     def is_hint_now(self, hint_y):
