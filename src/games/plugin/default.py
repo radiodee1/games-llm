@@ -59,8 +59,10 @@ class DefaultBare:
         self.top_p = -1
         self.action_meaning = [] # combined meaning information
         self.meaning = [] # just the human readable meaning
+        self.action_string = ''
         self.frame_skip = 1
 
+        self.prompt_string = ''
         self.fps = None
         self.show_image = True 
 
@@ -85,7 +87,7 @@ class DefaultBare:
         print(self.action_meaning, 'meaning')
         m = [ str( '"' + i['meaning'] + '"') for i in self.action_meaning ]
         print(m, 'm')
-        txt = self.message + ' ' 
+        txt = self.prompt_string + ' ' 
         txt += 'These are the actions you can take: ' + ', '.join(m)
         return str(txt)
 
@@ -104,7 +106,7 @@ class DefaultBare:
                 if m != None: 
                     self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': m  } ]
                 num += 1 
-            print(self.action_meaning)
+            print(self.action_meaning, 'read_actions')
 
     def no_description(self):
         pass 
@@ -153,6 +155,7 @@ class DefaultBare:
         if replace and h > -1:
             txt = txt[:h] + s[index] + txt[h + len(s[index]):]
             
+        self.action_string = s[index]
         return txt
 
 
@@ -179,7 +182,7 @@ class DefaultPlugin (DefaultBare):
         pass 
 
     def init(self):
-        self.env = gym.make(self.agent, render_mode=self.render_mode, frameskip=self.frame_skip)
+        self.env = gym.make(self.agent, render_mode=self.render_mode)
         pass 
 
     def reset(self):

@@ -179,7 +179,7 @@ def parse():
 
    
 
-def scrape(xx, side_effects=True):
+def xxscrape(xx, side_effects=True):
 
     xx_up = xx.rfind('control.move.up')
     xx_down = xx.rfind('control.move.down')
@@ -360,10 +360,10 @@ if __name__ == "__main__":
                     xx = plugin_class.scrape(xx)
 
                     if len(plugin_class.message) > 0:
-                        plugin_class.commands.append(xx + ' --' + str(plugin_class.message) + '--')
+                        plugin_class.commands.append(plugin_class.action_string + ' --' + str(plugin_class.message) + '--')
                     else:
-                        plugin_class.commands.append(xx)
-                    print('[' + str(plugin_class.step_count + 1) + ']', xx)
+                        plugin_class.commands.append(plugin_class.action_string)
+                    print('[' + str(plugin_class.step_count + 1) + ']', plugin_class.action_string)
 
                     #print('ball_vel', ball_vel, 'ball_pos', ball_pos)
                     
