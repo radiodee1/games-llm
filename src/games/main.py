@@ -177,30 +177,6 @@ def parse():
         if plugin_class.image_strip > 0 and not plugin_class.video_openai :
             model_class.images_size = 1 
 
-   
-
-#keydown handler
-def keydown(event):
-
-    vel_const = plugin_class.vel_const
-
-    if event.key == K_UP:
-        plugin_class.paddle2_vel = - vel_const
-    elif event.key == K_DOWN:
-        plugin_class.paddle2_vel = vel_const
-    elif event.key == K_w and not plugin_class.auto:
-        plugin_class.paddle1_vel = - vel_const
-    elif event.key == K_s and not plugin_class.auto:
-        plugin_class.paddle1_vel = vel_const
-
-#keyup handler
-def keyup(event):
-    global paddle1_vel, paddle2_vel
-    
-    if event.key in (K_w, K_s):
-        paddle1_vel = 0
-    elif event.key in (K_UP, K_DOWN):
-        paddle2_vel = 0
 
 if __name__ == "__main__":
 
