@@ -178,8 +178,10 @@ class DefaultPlugin (DefaultBare):
             sys.exit()
         #print('----', self.action, '----')
         observation, reward, terminated, truncated, info = self.env.step(int(self.action))
-        self.terminated = terminated
-        self.truncated = truncated
+        if terminated:
+            self.terminated = terminated
+        if truncated:
+            self.truncated = truncated
         self.r_score += reward
         pass 
 
