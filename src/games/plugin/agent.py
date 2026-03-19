@@ -42,4 +42,8 @@ class PongAgent( DefaultPlugin ):
 
     def draw(self, surface=None):
         x = super().draw(surface)
+        if self.reward > 0:
+            self.r_score += int(abs(self.reward))
+        if self.reward < 0:
+            self.l_score += int(abs(self.reward))
         return x 
