@@ -68,6 +68,9 @@ class DefaultBare:
 
         self.l_score = 0
         self.r_score = 0
+        self.model = ''
+        self.step_count = 0
+        self.serves_num = 0
         pass 
 
     def encode_image_to_base64(self, image_path: str) -> str:
@@ -112,6 +115,16 @@ class DefaultBare:
         pass 
 
     def stats(self, short=True):
+        print("model:", self.model)
+        print("serves_num:", self.serves_num)
+        #print("Left-bounces:", self.paddle1_bounce, 'Right-bounces:', self.paddle2_bounce)
+        print("l_score:", self.l_score, "r_score:", self.r_score)
+        single = 0 
+        if not short:
+            single = 1 
+        print("step-count:", (self.step_count + single))
+        print('---')
+
         if short:
             return
         #print(self.commands)
