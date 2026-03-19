@@ -184,6 +184,7 @@ class DefaultPlugin (DefaultBare):
         self.action = None
         self.truncated = False
         self.terminated = False
+        self.reward = 0 
         pass 
 
     def draw(self, surface=None):
@@ -191,11 +192,12 @@ class DefaultPlugin (DefaultBare):
             sys.exit()
         #print('----', self.action, '----')
         observation, reward, terminated, truncated, info = self.env.step(int(self.action))
+        self.reward = reward
         if terminated:
             self.terminated = terminated
         if truncated:
             self.truncated = truncated
-        self.r_score += reward
+        #self.r_score += reward
         pass 
 
     def init(self):

@@ -39,3 +39,7 @@ class PongAgent( DefaultPlugin ):
         for i in range(52 // self.frame_skip ):
             self.draw()
         return super().start_sequence()
+
+    def draw(self, surface=None):
+        x = super().draw(surface)
+        return x 
