@@ -211,6 +211,7 @@ class DefaultPlugin (DefaultBare):
         pass 
 
     def init(self):
+        super().init()
         self.env = gym.make(self.agent, render_mode=self.render_mode)
         pass 
 

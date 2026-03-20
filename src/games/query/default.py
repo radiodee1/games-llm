@@ -49,7 +49,6 @@ class DefaultLLM:
         self.write_message = ""
         self.temperature = -1 
         self.top_p = -1 
-
         self.print('Default', model)
         pass
 
@@ -78,7 +77,7 @@ class DefaultLLM:
         elapsed_sec = (self.time_end - self.time_start) - elapsed_min * 60
         elapsed_sec = '0000' + str(int(elapsed_sec))
         elapsed_sec = elapsed_sec[-2:]
-        self.print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+        self.print(f"Elapsed Post Time: {elapsed_min:.0f}:{elapsed_sec} minutes")
 
     def process_context(self, cc):
         if cc.startswith('['):

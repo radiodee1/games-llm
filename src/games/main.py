@@ -182,6 +182,8 @@ if __name__ == "__main__":
 
     plugin_class = PygamePongAgent()
     parse()
+    #model_class.start_time()
+
     plugin_class.init()
     plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
