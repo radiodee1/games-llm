@@ -208,6 +208,8 @@ class DefaultPlugin (DefaultBare):
         if truncated:
             self.truncated = truncated
         #self.r_score += reward
+        #print(observation)
+        #print(info)
         pass 
 
     def init(self):
