@@ -171,7 +171,8 @@ def parse():
         model_class.history_size = plugin_class.context_size 
         model_class.temperature = plugin_class.temperature
         model_class.top_p = plugin_class.top_p
-        
+        model_class.smaller = plugin_class.smaller
+
         #model_class.print_to_screen = True
         
         if plugin_class.image_strip > 0 and not plugin_class.video_openai :
