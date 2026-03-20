@@ -172,7 +172,7 @@ def parse():
         model_class.temperature = plugin_class.temperature
         model_class.top_p = plugin_class.top_p
         
-        model_class.print_to_screen = True
+        #model_class.print_to_screen = True
         
         if plugin_class.image_strip > 0 and not plugin_class.video_openai :
             model_class.images_size = 1 
