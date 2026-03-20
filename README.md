@@ -11,4 +11,4 @@ Making this image, the LLM was not used. For this reason the right paddle does n
 
 Another screenshot.
 
-![ Image of game ](./pic/figure_3.png)
+![ Image of game ](./pic/atari.gif)
