@@ -8,3 +8,7 @@ This image comes from the code found in the 'src/games' folder. Here I've tried 
 Making this image, the LLM was not used. For this reason the right paddle does not move. During actual testing the LLM is controlling the right paddle.
 
 ![ Image of game ](./pic/basic.gif)
+
+Another screenshot.
+
+![ Image of game ](./pic/figure_3.png)
