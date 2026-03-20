@@ -6,6 +6,7 @@ import sys
 import pygame
 import cv2
 import base64
+import time
 
 class DefaultBare:
 
@@ -30,6 +31,8 @@ class DefaultBare:
         self.fontsize = 48 // smaller
         #self.LOCAL_LLM = ''
         self.window = None
+        self.start_time = 0
+        self.end_time = 0
 
         self.prompt_list = []
 
@@ -123,8 +126,14 @@ class DefaultBare:
         if not short:
             single = 1 
         print("step-count:", (self.step_count + single))
-        print('---')
+        self.end_time = time.perf_counter()
 
+        elapsed_min = (self.end_time - self.start_time) // 60 
+        elapsed_sec = (self.end_time - self.start_time) - elapsed_min * 60
+        elapsed_sec = '0000' + str(int(elapsed_sec))
+        elapsed_sec = elapsed_sec[-2:]
+        print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+        print('---')
         if short:
             return
         #print(self.commands)
@@ -136,6 +145,7 @@ class DefaultBare:
         pass 
 
     def init(self):
+        self.start_time = time.perf_counter()
         pass 
 
     def reset(self):
