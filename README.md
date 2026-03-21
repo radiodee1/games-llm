@@ -9,6 +9,6 @@ Making this image, the LLM was not used. For this reason the right paddle does n
 
 ![ Image of game ](./pic/basic.gif)
 
-Another screenshot.
+Another screenshot. This shot uses the Arari 2600 version of Pong.
 
 ![ Image of game ](./pic/atari.gif)
