@@ -354,4 +354,4 @@ Elapsed time: 37:23 minutes
 ```
 ### ALE and Gymnasium 
 
-Some time in early March of 2026 I found Gymnasium and ALE. These let you run actual Atari 2600 games on your computer using an emulator. The nice thing is that I fairly quickly got the Gymnasium import to work. As before the LLMs seem to play the game. The bad thing is that the LLMs that I tested don't play the game well - well being the operative word. I like testing with ALE and Gymnasium though. It feels very authentic.
+Some time in early March of 2026 I found Gymnasium and ALE. These let you run actual Atari 2600 games on your computer using an emulator. The nice thing is that I fairly quickly got the Gymnasium import to work. As before the LLMs seem to play the game. The bad thing is that the LLMs that I tested don't play the game well - well being the operative word. I like testing with ALE and Gymnasium though. It feels very authentic. As for charting runs, I can not record the Right-bounces with ALE. I can only record scores and step-count. Sometimes, with the sudden_death_score setting at 2, the AI wins. I do not think that the pygame version of Pong should be compared with the ALE version.

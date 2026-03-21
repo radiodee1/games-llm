@@ -30,7 +30,7 @@ class PongAgent( DefaultPlugin ):
         #self.agent = 'PongNoFrameskip-v4'
         self.prompt_string = (
                 "Pong! Return the ball to the oponent and score to win the game."
-                " You are the right paddle."
+                " You are the right paddle. Your paddle is green."
                 " Show your thinking process and answer in under 20 characters."
         )
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]

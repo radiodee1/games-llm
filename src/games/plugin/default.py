@@ -7,6 +7,8 @@ import pygame
 import cv2
 import base64
 import time
+import shutil
+import math
 
 class DefaultBare:
 
@@ -118,9 +120,12 @@ class DefaultBare:
         pass 
 
     def stats(self, short=True):
+        if not short:
+            self.print_in_columns(self.commands)
+        print()
         print("model:", self.model)
         print("serves_num:", self.serves_num)
-        #print("Left-bounces:", self.paddle1_bounce, 'Right-bounces:', self.paddle2_bounce)
+          
         print("l_score:", self.l_score, "r_score:", self.r_score)
         single = 0 
         if not short:
@@ -136,9 +141,6 @@ class DefaultBare:
         print('---')
         if short:
             return
-        #print(self.commands)
-        for i in range(len(self.commands)):
-            print(i, self.commands[i])
         return 
 
     def draw(self, surface=None):
@@ -182,6 +184,31 @@ class DefaultBare:
             
         self.action_string = s[index]
         return txt
+
+    def print_in_columns(self, data):
+        if not data:
+            return
+        data = [str(item) for item in data]
+        try:
+            terminal_width = shutil.get_terminal_size().columns
+        except OSError:
+            terminal_width = 80
+        max_len = max(len(item) for item in data)
+        num_items = len(data)
+        column_width = max_len + 2
+        num_cols = terminal_width // column_width
+        if num_cols == 0:
+            num_cols = 1
+            column_width = terminal_width
+        num_rows = math.ceil(num_items / num_cols)
+        for row in range(num_rows):
+            for col in range(num_cols):
+                index = col * num_rows + row
+                if index < num_items:
+                    d = str(data[index]) + '          '
+                    d = d[: column_width]
+                    print(d, end="")
+            print() # Newline at the end of each row
 
 
 class DefaultPlugin (DefaultBare):
