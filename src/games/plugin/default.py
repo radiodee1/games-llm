@@ -129,7 +129,7 @@ class DefaultBare:
         print("l_score:", self.l_score, "r_score:", self.r_score)
         single = 0 
         if not short:
-            single = 1 
+            single = 0 
         print("step-count:", (self.step_count + single))
         self.end_time = time.perf_counter()
 
