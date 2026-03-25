@@ -57,9 +57,9 @@ That means that I'd be switching from locally hosted models to models hosted on-
 Locally, I was using a laptop for testing. I would edit code on my desktop, and commit to github. Then I would pull the github repository on the laptop and run for long periods of time there. I did this several times. This was good, as the models were slow. The laptop in question had a small gpu. The desktop I'm using has no gpu. I could use the laptop to get a little more efficiency, but now I don't need it, as the OpenAI models are fast. I suppose the downside is that they cost money. In any case, I don't need the laptop now.
 
 
-### OpenAI
+### OpenAI, Google, Mistral
 
-OpenAI and Google Gemini models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
+OpenAI, Google Gemini models, and Mistral models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
 
 The `.env` file should look like this. Commented lines are not important:
 
@@ -70,12 +70,12 @@ OPENAI_API_KEY="openai-api-key-here"
 GEMINI_API_KEY="gemini-api-key-here"
 GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
-#GOOGLE_GEMINI_MODEL="gemini-3-flash-preview"
+MISTRAL_API_KEY="mistral-api-key-here"
 ```
 
-To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file. You can use any OPENAI_MODEL you like.
+To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `.env` file.
 
-Similarly, Google's Gemini models require an api key. The key should be placed in the `.env` file. In its present configuration the program looks for the keys in the `.env` file. It does not pay attention to the MODEL specification in the file. The model name, for example, and the URL, are not found hard coded in the `.env` file.
+Similarly, Google's Gemini models require an api key. The key should be placed in the `.env` file. In its present configuration the program looks for the keys in the `.env` file. It does not pay attention to the MODEL specification in the file. The model name, for example, and the URL, are not found hard coded in the `.env` file. If you know you're not interested in all the models, then certainly only get the keys for the models you intend to use.
 
 ### Some Results
 
@@ -289,60 +289,6 @@ I should note here that I've tried 'gpt-4o-mini' and 'gpt-4o' and they do not gi
 
 At this time we create a repo for the project. Before this the pong code lived as a subdirectory of another project that was oriented around MCP servers. Also at this point we start to code all 'requests' code in a separate sub module. That is to say all 'post' requests and the code around them are moved to a separate sub module inside the 'games' folder. There are separate classes for OpenAI, Ollama, and Gemini. The code is much neater.
 
-### Gemini Google Model
-
-It became clear that the Google Gemini model took input in the same format as OpenAI. For this reason coding a python class for Gemini was fast. The model itself takes more time, but performs at the task better.
-
-```
-model: gemini-3-flash-preview
-serves_num: 3
-Left-bounces: 1 Right-bounces: 2
-l_score: 0 r_score: 2
-step-count: 57
-Elapsed time: 12:09 minutes
-```
-
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/19/26 | 2:50pm | AI | gemini-3-flash-preview | 3 | 2 | 57 | 12:09 | 3 | 0 | 80 |
-
-With this test the AI wins for the first time. This could be a fluke of the random number generator. In the future we will set the threshold to 100. Then we will measure success by the number of steps that the model can continue to take before losing sudden death style.
-
-Keeping track of the elapsed time would be good, but the Gemini model is slower than the OpenAI models. The Ollama models are local, and they are very slow. The best measure of success would be the 'Steps'.
-
-### `--threshold` 100 
-
-We are most interested in testing the Gemini model but we may try out the OpenAI model for one or more of our runs, just for comparison. 
-
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/20/26 | 10:40am | Computer | gemini-3-flash-preview | 3 | 2 | 78 | 17:31 | 3 | 0 | 100 |
-
-
-```
-model: gemini-3-flash-preview
-serves_num: 3
-Left-bounces: 3 Right-bounces: 1
-l_score: 2 r_score: 0
-step-count: 78
-Elapsed time: 17:31 minutes
-```
-
----
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/20/26 | 11:10am | Computer | gemini-3-flash-preview | 4 | 2 | 95 | 18:38 | 3 | 0 | 100 |
-
-
-```
-model: gemini-3-flash-preview
-serves_num: 4
-Left-bounces: 3 Right-bounces: 3
-l_score: 2 r_score: 1
-step-count: 97
-Elapsed time: 18:36 minutes
-```
----
 ### `--double_arrow` Setting 
 
 With the original arrow position, the arrow itself dissapears when the ball is closest to the goal. Since the image size is only three, this is when the arrow is most necessary. To remidy this, we have a second arrow. This one does the same as the first one, but it follows the ball instead of leading the ball. When the ball gets close to the goal, the second arrow is behind the ball, so it does not dissapear. In the OpenAI models, using the double arrow does not help much. In the Gemini model that we are testing here, it may be helpful.
@@ -373,70 +319,18 @@ Since the ball is heading toward the bottom corner, it is highly likely to bounc
 **control.move.up**
 ```
 
-### Epic runs
+### Epic runs - `top_p` and `temperature`
 
 We started out this project with the models not understanding how to play the game. It didn't last for long, but at the start they couldn't figure out how to respond. Now that's the distant past. The models have in a couple of cases, actually won the game. Now I'm going to wrap this stage of testing up and try to get one or two more epic runs. I want to follow the output for a long time. 
 
 I'm also going to start tracking the value of what's called the 'Right-bounces' above. From the beginning I've been changing the code as I do the testing. Then I change the model. For this reason 'Time Elapsed' and 'step-count' cannot be compared with different models and similarly with different snapshots over time. I've found that the Elapsed Time for gemini-3-flash-preview is much greater than that for OpenAI gpt-5.2. Also the step-count for gemini is about a third the size of gpt-5.2. What has obviously improved is the 'Winner' status. For gemini I've had to interrupt the model. Who knows where those runs would have ended.
 
-I'm going to try a couple of runs just aimed at keeping the model going as long as possible. I'm switching from the 'gemini-3-flash-preview' model to the 'gemini-3-pro-preview' model. I will record 'Right-bounces' in my chart. I'll take out 'Context Size' and 'Num of Images'.
+I'm going to try a couple of runs just aimed at keeping the model going as long as possible. I will record 'Right-bounces' in my chart. I'll take out 'Context Size' and 'Num of Images'.
 
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 02/24/26 | 12:24pm | AI | gemini-3-pro-preview | 2 | 2 | 76 | 66:28 | 100 | 4 |
+Several runs are omitted here. I added the capability for the user to set the `top_p` and the `temperature`. I've tried these with the OpenAI model. Some, but not all of my results are kept here.
 
-```
-model: gemini-3-pro-preview
-serves_num: 3
-Left-bounces: 2 Right-bounces: 4
-l_score: 0 r_score: 2
-step-count: 76
-Elapsed time: 66:28 minutes
-```
-Back to OpenAI:
+Epic runs using `top_p` set to 0.1 and 0.01 respectively. The `Number of Images` is set to '1', so the model relies on the arrows entirely to determine the direction of the ball. The `temperature` is not modified in these two runs.
 
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 03/02/26 | 12:34pm | Computer | gpt-5.2 | 3 | 2 | 407 | 10:56 | 100 | 4 |
-| 03/07/26 | 8:23am | INTERRUPTED | gpt-5.2 | 3 | 2 | 664 | 38:26 | 100 | 12 |
-
-
-
-From the screen:
-```
-model: gpt-5.2
-serves_num: 3
-Left-bounces: 5 Right-bounces: 4
-l_score: 2 r_score: 0
-step-count: 408
-Elapsed time: 10:56 minutes
-
-model: gpt-5.2
-serves_num: 3
-Left-bounces: 11 Right-bounces: 12
-l_score: 1 r_score: 1
-step-count: 665
-Elapsed time: 38:26 minutes
-```
-
-The 3/7/26 scores also have the temperature set to 0.01 . If this is reproducable that would be great.
-
-Below we set the `queue` length to 1. For this run the AI wins.
-
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 03/08/26 | 12:04pm | AI | gpt-5.2 | 4 | 2 | 572 | 31:30 | 100 | 10 |
-
-
-```
-model: gpt-5.2
-serves_num: 4
-Left-bounces: 10 Right-bounces: 10
-l_score: 1 r_score: 2
-step-count: 572
-Elapsed time: 31:30 minutes
-```
-Epic runs using `top_p` set to 0.1 and 0.01 respectively.
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 03/10/26 | 8:51am | Computer | gpt-5.2 | 4 | 2 | 601 | 37:38 | 100 | 10 |
@@ -458,4 +352,6 @@ l_score: 1 r_score: 2
 step-count: 595
 Elapsed time: 37:23 minutes
 ```
+### ALE and Gymnasium 
 
+Some time in early March of 2026 I found Gymnasium and ALE. These let you run actual Atari 2600 games on your computer using an emulator. The nice thing is that I fairly quickly got the Gymnasium import to work. As before the LLMs seem to play the game. The bad thing is that the LLMs that I tested don't play the game well - well being the operative word. I like testing with ALE and Gymnasium though. It feels very authentic. As for charting runs, I can not record the Right-bounces with ALE. I can only record scores and step-count. Sometimes, with the sudden_death_score setting at 2, the AI wins. I do not think that the pygame version of Pong should be compared with the ALE version.
