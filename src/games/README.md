@@ -367,3 +367,5 @@ Similarly, does the model see every frame? I think sometimes the png that the mo
 ### Invincible?
 
 I've been looking for some setting that would make the LLM invincible in these tests. The LLM can certainly play the game. It does not always win, though.
+
+For example, when the ball is moving towards the LLM's paddle, the LLM moves the paddle to the area of the ball. When it misses it seems to miss by a small margin. It's as if it is trying but in the end it makes some misadjustment because of the speed of the ball or the speed of the moving paddle. It does seem to address the problem of playing this game, but it seems to have a problem with some particular aspect of play. I would love to be able to fix this problem.
