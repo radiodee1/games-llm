@@ -31,6 +31,8 @@ class PongAgent( DefaultPlugin ):
         self.prompt_string = (
                 "Pong! Return the ball to the oponent and score to win the game."
                 " You are the right paddle. Your paddle is green."
+                # " Calculate the change in x and the change in y to predict where the ball is going."
+                " If the ball is higher than you, move up. If the ball is lower than you, move down."
                 " Show your thinking process and then give your final answer."
         )
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
