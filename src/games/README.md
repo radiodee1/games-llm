@@ -161,9 +161,9 @@ Below I will put examples of the prompt used.
 
 The standard prompt is below:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Hit the ball if it comes to you. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Hit the ball if it comes to you. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 If `--hinting` is on, and the AI has visited the spot that the ball is going to go to, the phrase below is added to the prompt:
 
@@ -177,17 +177,17 @@ It might be seen as cheating somehow. It's like making the paddle very very larg
 
 First modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 4 / Right Bounces 2 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 4 / Right Bounces 2 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 Note that there is extra language in the prompt telling the AI to go to the location where the ball will be.
 
 Second modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 1 - Left Bounces 4 / Right Bounces 4 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. It is very small. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball on the MIDDLE of the paddle. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 1 - Left Bounces 4 / Right Bounces 4 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. It is very small. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball on the MIDDLE of the paddle. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 Note that ther is extra language in the prompt telling the AI to hit the ball with the MIDDLE of the paddle.
 
