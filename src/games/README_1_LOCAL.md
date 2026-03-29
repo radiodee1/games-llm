@@ -26,10 +26,12 @@ https://gist.github.com/vinothpandian/4337527
 
 - We can do two tests. We can run the llm in the pong game, and we can call the Ollama program and pass it the picture of the game, and ask it to discuss what it sees.
 
+Below is a sample image.
+
 ![pygame pong image](/pic/figure_02.png)
 
->  the ./pic/figure_0.png picture is from the pong game play...
->
+The ./pic/figure_0.png picture is from the pong game play... It could be almost any pygame pong image. They all have an arrow in the image.
+
 > ollama run qwen3-vl:4b "describe the arrow in this picture? is it pointing angled up or angled down? ./pic/figure_0.png"
 
 
