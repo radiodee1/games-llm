@@ -369,3 +369,36 @@ Similarly, does the model see every frame? I think sometimes the png that the mo
 I've been looking for some setting that would make the LLM invincible in these tests. The LLM can certainly play the game. It does not always win, though.
 
 For example, when the ball is moving towards the LLM's paddle, the LLM moves the paddle to the area of the ball. When it misses it seems to miss by a small margin. It's as if it is trying but in the end it makes some misadjustment because of the speed of the ball or the speed of the moving paddle. It does seem to address the problem of playing this game, but it seems to have a problem with some particular aspect of play. I would love to be able to fix this problem.
+
+---
+# ALE
+
+Using the ALE environment and the Pong game is good. I think it may be used by companies like OpenAI and Google already. My goal now is not to do training, but just testing with a LLM.
+
+
+### hallucinations
+
+Sometimes the model output will note the position of the ball on the screen incorrectly. For instance, it will say the ball height is above the paddle height so the paddle should move up. Sometimes, though, that's not the position of the ball. 
+
+### Enhanced Prompt
+
+Sometimes the output of the LLM is incorrect. What I've tried to do is to get very elaborate with the prompt so that the model has to go through more steps to get the answer. This seems to help. The gpt-5.2 model does not do 'thinking' but if, by specifying the individual steps, I can make it think through its actions, the outcome is usually better.
+
+The problem with this is that the prompt is getting longer and more specific. I would like to be able to just load up a game and test it, but my experience shows that significant tweaking of the prompt is necessary for a good game experience.
+
+### ALE Epic Runs
+
+Many of the 'Right-bounces' in this run seemed to me to be very lucky. Also, the model stalled sometimes when my code was waiting for the gpt-5.2 api to reply to my prompts.
+
+```
+model: gpt-5.2
+serves_num: 0
+l_score: 1 r_score: 0
+step-count: 774
+Elapsed time: 41:51 minutes
+```
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 03/29/26 | 7:53am | INTERRUPTED | gpt-5.2 | ? | 2 | 774 | 41:51 | ? | ? |
+
