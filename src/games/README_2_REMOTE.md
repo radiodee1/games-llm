@@ -1,4 +1,4 @@
-# LLM Remote Models
+# Visual LLMs - Remote Models
 
 ### OpenAI, Google, Mistral
 
