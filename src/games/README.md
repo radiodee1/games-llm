@@ -218,24 +218,24 @@ This prompt uses strategy II. Third modified prompt:
 
 
 > Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 3 / Right Bounces 2 - 
- You, the AI, are the right paddle. Solve this problem in steps: 
-1. Notice the position of the ball. What is its HEIGHT or Y value? 
-2. Notice the position of the right paddle. What is the HEIGHT? 
-3. Calculate the horizontal line that comes from the ball across the screen.
-4. Keep the paddle always at the height of the ball. 
-5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball. 
-You move your paddle a small amount from where it already is. 
-Hit the ball in the MIDDLE of the paddle. 
-If the ball passes the paddle you will lose a point.
-NOTE:
- Your paddle is blue and green. It is very small.
- The paddle only moves up and down.
- Enter "control.move.wait" to skip one turn.
- The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.
- The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.
- Hit the ball when it comes to you.
- This is the only way to win.
- AI must use the picture and reply to play the game! Show your thinking and then reply in one line.
+> You, the AI, are the right paddle. Solve this problem in steps: 
+> 1. Notice the position of the ball. What is its HEIGHT or Y value? 
+> 2. Notice the position of the right paddle. What is the HEIGHT? 
+> 3. Calculate the horizontal line that comes from the ball across the screen.
+> 4. Keep the paddle always at the height of the ball. 
+> 5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball. 
+> You move your paddle a small amount from where it already is. 
+> Hit the ball in the MIDDLE of the paddle. 
+> If the ball passes the paddle you will lose a point.
+> NOTE:
+>  Your paddle is blue and green. It is very small.
+>  The paddle only moves up and down.
+>  Enter "control.move.wait" to skip one turn.
+>  The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.
+>  The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.
+>  Hit the ball when it comes to you.
+>  This is the only way to win.
+>  AI must use the picture and reply to play the game! Show your thinking and then reply in one line.
 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
