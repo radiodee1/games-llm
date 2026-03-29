@@ -373,10 +373,10 @@ For example, when the ball is moving towards the LLM's paddle, the LLM moves the
 ---
 # ALE
 
-Using the ALE environment and the Pong game is good. I think it may be used by companies like OpenAI and Google already. My goal now is not to do training, but just testing with a LLM.
+Using the ALE environment and the Pong game is good. There are many games that can be played from the ALE collection. I think it may be used by companies like OpenAI and Google already. My goal now is not to do training, but just testing with a LLM. I would like to be able to simply load up a game and have the LLM play it well, but as noted below, that may not be possible.
 
 
-### hallucinations
+### Hallucinations 
 
 Sometimes the model output will note the position of the ball on the screen incorrectly. For instance, it will say the ball height is above the paddle height so the paddle should move up. Sometimes, though, that's not the position of the ball. 
 
@@ -398,7 +398,7 @@ step-count: 774
 Elapsed time: 41:51 minutes
 ```
 
-| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time  | Threshold | Right Bounces |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 03/29/26 | 7:53am | INTERRUPTED | gpt-5.2 | ? | 2 | 774 | 41:51 | ? | ? |
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 03/29/26 | 7:53am | INTERRUPTED | gpt-5.2 | ? | 2 | 774 | 41:51 |
 
