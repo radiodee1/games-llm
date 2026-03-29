@@ -216,8 +216,8 @@ This run went well.
 
 This prompt uses strategy II. Third modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 3 / Right Bounces 2 - 
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 3 / Right Bounces 2 - 
  You, the AI, are the right paddle. Solve this problem in steps: 
 1. Notice the position of the ball. What is its HEIGHT or Y value? 
 2. Notice the position of the right paddle. What is the HEIGHT? 
@@ -236,7 +236,8 @@ NOTE:
  Hit the ball when it comes to you.
  This is the only way to win.
  AI must use the picture and reply to play the game! Show your thinking and then reply in one line.
-```
+
+
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 02/09/26 | 1:13pm | Computer | gpt-5.2 | 2 | 2 | 324 | 8:37 | 3 | 0 | 80 |
