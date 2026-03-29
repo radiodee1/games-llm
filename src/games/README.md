@@ -387,7 +387,7 @@ The problem with this is that the prompt is getting longer and more specific. I 
 
 ### ALE Epic Runs
 
-Many of the 'Right-bounces' in this run seemed to me to be very lucky. Also, the model stalled sometimes when my code was waiting for the gpt-5.2 api to reply to my prompts.
+Many of the 'Right-bounces' in this run seemed to me to be very lucky. Also, the model stalled sometimes when my code was waiting for the gpt-5.2 api to reply to my prompts. I do think that 774 steps is good.
 
 ```
 model: gpt-5.2
