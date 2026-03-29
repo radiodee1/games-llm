@@ -403,4 +403,6 @@ Elapsed time: 41:51 minutes
 
 ### ALE Pong Prompt
 
+As I say above, this prompt is getting longer, so I don't think it conceivable that you could just load up a game randomly from ALE and get the LLM to play it. No matter which game it is, there wouuld probably have to be a period of modifying the prompt significantly before the LLM would play well.
+
 > Pong! Return the ball to the oponent and score to win the game. You are the right paddle. Your paddle is green. Ignore the SCORE at the top of the screen. Notice the y position of the ball. If the ball is higher than you, move up. If the ball is lower than you, move down. Show some of your thinking process and then give your final answer. These are the actions you can take: "control.move.wait", "control.move.serve", "control.move.up", "control.move.down"
