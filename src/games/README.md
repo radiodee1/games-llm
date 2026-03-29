@@ -311,13 +311,11 @@ Elapsed time: 30:21 minutes
 
 The Gemini model seems to understand the game. Looking at the model output, one gets the feeling that maybe the Gemini model has played simple video games before. Some model output here: 
 
-```
-Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
-
-Since the ball is heading toward the bottom corner, it is highly likely to bounce off the bottom wall or the left paddle and then travel diagonally upward toward the right side of the screen. My paddle (the blue and green one on the right) is currently positioned quite low. To anticipate the ball's upward trajectory after its next bounce, I should begin moving my paddle toward a more central or higher position.
-
-**control.move.up**
-```
+> Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
+>
+> Since the ball is heading toward the bottom corner, it is highly likely to bounce off the bottom wall or the left paddle and then travel diagonally upward toward the right side of the screen. My paddle (the blue and green one on the right) is currently positioned quite low. To anticipate the ball's upward trajectory after its next bounce, I should begin moving my paddle toward a more central or higher position.
+> 
+> **control.move.up**
 
 ### Epic runs - `top_p` and `temperature`
 
