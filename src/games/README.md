@@ -10,7 +10,7 @@ These launcher scripts are for local LLMs and remote LLMs with the pygame Pong c
 - `do_10_ollama` - Setup ollama on your computer.
 - `do_20_pixtral_large` - Try pixtral with pygame Pong code.
 - `do_30_gemini_arrows_for_mp4` - Use Gemini LLM with pygame Pong code and save the images for conversion into an mp4 video file.
-- `do_40_curl` - Use curl to send a request to a remote LLM.
+- `do_40_curl` - Use curl to send a request to a local LLM with ollama.
 - `do_50_gemini_double_arrow` - Use Gemini LLM with pygame Pong code. Enable double arrows in the images.
 - `do_60_openai_large_double_arrow` - Use OpenAI with a larger image size and double arrows in the images.
 - `do_70_openai_corpus` - Use OpenAI and save images and text for later training. This code was never tested in training.
