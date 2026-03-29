@@ -161,9 +161,9 @@ Below I will put examples of the prompt used.
 
 The standard prompt is below:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Hit the ball if it comes to you. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Hit the ball if it comes to you. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 If `--hinting` is on, and the AI has visited the spot that the ball is going to go to, the phrase below is added to the prompt:
 
@@ -177,17 +177,17 @@ It might be seen as cheating somehow. It's like making the paddle very very larg
 
 First modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 4 / Right Bounces 2 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 4 / Right Bounces 2 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 Note that there is extra language in the prompt telling the AI to go to the location where the ball will be.
 
 Second modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 1 - Left Bounces 4 / Right Bounces 4 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. It is very small. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball on the MIDDLE of the paddle. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 1 - Left Bounces 4 / Right Bounces 4 - Enter "control.move.up" or "control.move.down" to move the Paddle in anticipation of the ball. The paddle only moves up and down. Enter "control.move.wait" to skip one turn. The ball is red. The ball is moving in the direction of the arrow. The arrow is blue. You, the AI, are the right paddle. Your paddle is blue and green. It is very small. Estimate the angle of the ball from the arrow and move your paddle to the position where you can hit the ball back to the other side. Hit the ball on the MIDDLE of the paddle. Hit the ball when it comes to you. This is the only way to win. AI must use the picture and reply to play the game! Answer in one line under 20 characters.
+
 
 Note that ther is extra language in the prompt telling the AI to hit the ball with the MIDDLE of the paddle.
 
@@ -216,27 +216,28 @@ This run went well.
 
 This prompt uses strategy II. Third modified prompt:
 
-```
-Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 3 / Right Bounces 2 - 
- You, the AI, are the right paddle. Solve this problem in steps: 
-1. Notice the position of the ball. What is its HEIGHT or Y value? 
-2. Notice the position of the right paddle. What is the HEIGHT? 
-3. Calculate the horizontal line that comes from the ball across the screen.
-4. Keep the paddle always at the height of the ball. 
-5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball. 
-You move your paddle a small amount from where it already is. 
-Hit the ball in the MIDDLE of the paddle. 
-If the ball passes the paddle you will lose a point.
-NOTE:
- Your paddle is blue and green. It is very small.
- The paddle only moves up and down.
- Enter "control.move.wait" to skip one turn.
- The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.
- The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.
- Hit the ball when it comes to you.
- This is the only way to win.
- AI must use the picture and reply to play the game! Show your thinking and then reply in one line.
-```
+
+> Turn-based Pong or Tennis game. AI vs computer. - Their score 1 / Your score 0 - Left Bounces 3 / Right Bounces 2 - 
+> You, the AI, are the right paddle. Solve this problem in steps: 
+> 1. Notice the position of the ball. What is its HEIGHT or Y value? 
+> 2. Notice the position of the right paddle. What is the HEIGHT? 
+> 3. Calculate the horizontal line that comes from the ball across the screen.
+> 4. Keep the paddle always at the height of the ball. 
+> 5. Enter "control.move.up" or "control.move.down" to move the Paddle to the ball. 
+> You move your paddle a small amount from where it already is. 
+> Hit the ball in the MIDDLE of the paddle. 
+> If the ball passes the paddle you will lose a point.
+> NOTE:
+>  Your paddle is blue and green. It is very small.
+>  The paddle only moves up and down.
+>  Enter "control.move.wait" to skip one turn.
+>  The ball is red. The ball is moving in the direction of the arrow. The arrow is blue.
+>  The shadow of the ball, drawn in grey, also shows the direction the ball is taking. It always follows the ball.
+>  Hit the ball when it comes to you.
+>  This is the only way to win.
+>  AI must use the picture and reply to play the game! Show your thinking and then reply in one line.
+
+
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time | Num of Images | Context Size | Threshold |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 02/09/26 | 1:13pm | Computer | gpt-5.2 | 2 | 2 | 324 | 8:37 | 3 | 0 | 80 |
@@ -311,13 +312,11 @@ Elapsed time: 30:21 minutes
 
 The Gemini model seems to understand the game. Looking at the model output, one gets the feeling that maybe the Gemini model has played simple video games before. Some model output here: 
 
-```
-Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
-
-Since the ball is heading toward the bottom corner, it is highly likely to bounce off the bottom wall or the left paddle and then travel diagonally upward toward the right side of the screen. My paddle (the blue and green one on the right) is currently positioned quite low. To anticipate the ball's upward trajectory after its next bounce, I should begin moving my paddle toward a more central or higher position.
-
-**control.move.up**
-```
+> Based on the latest image (Image 3), the red ball is currently in the bottom-left area of the court and is moving further down and to the left, as indicated by the blue arrow. 
+>
+> Since the ball is heading toward the bottom corner, it is highly likely to bounce off the bottom wall or the left paddle and then travel diagonally upward toward the right side of the screen. My paddle (the blue and green one on the right) is currently positioned quite low. To anticipate the ball's upward trajectory after its next bounce, I should begin moving my paddle toward a more central or higher position.
+> 
+> **control.move.up**
 
 ### Epic runs - `top_p` and `temperature`
 
@@ -369,3 +368,51 @@ Similarly, does the model see every frame? I think sometimes the png that the mo
 I've been looking for some setting that would make the LLM invincible in these tests. The LLM can certainly play the game. It does not always win, though.
 
 For example, when the ball is moving towards the LLM's paddle, the LLM moves the paddle to the area of the ball. When it misses it seems to miss by a small margin. It's as if it is trying but in the end it makes some misadjustment because of the speed of the ball or the speed of the moving paddle. It does seem to address the problem of playing this game, but it seems to have a problem with some particular aspect of play. I would love to be able to fix this problem.
+
+---
+# ALE
+
+Using the ALE environment and the Pong game is good. There are many games that can be played from the ALE collection. I think it may be used by companies like OpenAI and Google already. My goal now is not to do training, but just testing with a LLM. I would like to be able to simply load up a game and have the LLM play it well, but as noted below, that may not be possible.
+
+
+### Hallucinations 
+
+Sometimes the model output will note the position of the ball on the screen incorrectly. For instance, it will say the ball height is above the paddle height so the paddle should move up. Sometimes, though, that's not the position of the ball. 
+
+### Enhanced Prompt
+
+Sometimes the output of the LLM is incorrect. What I've tried to do is to get very elaborate with the prompt so that the model has to go through more steps to get the answer. This seems to help. The gpt-5.2 model does not do 'thinking' but if, by specifying the individual steps, I can make it think through its actions, the outcome is usually better.
+
+The problem with this is that the prompt is getting longer and more specific. I would like to be able to just load up a game and test it, but my experience shows that significant tweaking of the prompt is necessary for a good game experience.
+
+### ALE Epic Runs
+
+Many of the 'Right-bounces' in this run seemed to me to be very lucky. Also, the model stalled sometimes when my code was waiting for the gpt-5.2 api to reply to my prompts. I do think that 774 steps is good.
+
+```
+model: gpt-5.2
+serves_num: 0
+l_score: 1 r_score: 0
+step-count: 774
+Elapsed time: 41:51 minutes
+```
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 03/29/26 | 7:53am | INTERRUPTED | gpt-5.2 | ? | 2 | 774 | 41:51 |
+
+### ALE Pong Prompt
+
+As I say above, this prompt is getting longer, so I don't think it conceivable that you could just load up a game randomly from ALE and get the LLM to play it. No matter which game it is, there wouuld probably have to be a period of modifying the prompt significantly before the LLM would play well.
+
+> Pong! Return the ball to the oponent and score to win the game. You are the right paddle. Your paddle is green. Ignore the SCORE at the top of the screen. Notice the y position of the ball. If the ball is higher than you, move up. If the ball is lower than you, move down. Show some of your thinking process and then give your final answer. These are the actions you can take: "control.move.wait", "control.move.serve", "control.move.up", "control.move.down"
+
+This is some typical gpt-5.2 output:
+
+> I can’t show my full step-by-step thinking, but I can follow the rule: compare the ball’s y-position to my (right, green) paddle’s y-position.
+> 
+> Here the ball is clearly **below** the right green paddle, so I should move **down**.
+> 
+> **Action:** `control.move.down`
+
+The model always says it cannot show full step-by-step thinking, but I find that if I specify the steps in the prompt, the results are better.
