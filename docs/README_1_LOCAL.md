@@ -11,7 +11,7 @@ https://gist.github.com/vinothpandian/4337527
 
 * In this folder at least for starters I am trying to get `qwen3-vl:2b` to play `pong` against the computer. I pass the visual model a series of `png` files and some text, and ask the model to move one of the paddles with a special command. So far the model will use the command, but does not win the game. The model loses. It should be noted that the game plays out very slowly. The model takes several minutes to respond to each set of images because I am using just CPU processing.
 
-* The early pong code relies on `python3-pygame`. It does not have many other requirements, so I do not use `uv` to manage dependencies in this folder for the early versions. Also, this code does not make use of the `tools` in the other parts of this repository. (There are three tools in this repository right now. They are `audio`, `remember`, and `weather`. I wrote `audio` and `remember`. The `weather` tool comes from the internet and is something I keep around as a refference.)
+* The early pong code relies on `python3-pygame`. It does not have many other requirements, so I do not use `uv` to manage dependencies in this folder for the early versions. 
 
 * In the final analysis, local models with visual abilities from Ollama don't perform the way I want. I don't know what they do well. Maybe they do optical character recognition very well. One thing they don't seem to do well is predicting where the ball is in this simple version of pong. The best of them, `qwen3-vl`, only picks up from the images clues about whether or not the ball is going to the right or left. None of the models tested detect the angle of the ball's movement, and many of the models don't get the ball's movement at all.
 
