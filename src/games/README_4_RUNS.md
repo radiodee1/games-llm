@@ -1,4 +1,4 @@
-# Epic Runs 
+# Epic Runs - `ale_10_pong.sh` 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
