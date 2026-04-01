@@ -24,3 +24,5 @@ What I settled on was to change the number of images to 1, and set the context t
 The difference here is small. On one hand you have 4 images and zero past context. On the other you have four context frames with one image in each one. The benefit is not apparent, but if you note that the context also comes with a record of what the model was doing at each step, there is reason to believe that the change is positive. That extra recorded material might help the model plan the moves it makes in advance. The information would be organized in pairs. There would be one image and the move the model made then. Then there would be another image, and then the move that the model made then. Together the model might have a better idea of - possibly - how fast the paddle moves, and maybe some insight into how the ball moves.
 
 This only works if the model can critically compare the images from one context iteration with the image in another context iteration. Luckily it seems that the model can do this. (I am using the OpenAI model for tests here.)
+
+### More Runs
