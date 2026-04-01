@@ -12,8 +12,6 @@ l_score: 2 r_score: 0
 step-count: 565
 Elapsed time: 39:13 minutes
 ```
-```
-```
 
 ### Re-Arrange Context
 
