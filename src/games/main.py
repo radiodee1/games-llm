@@ -28,6 +28,7 @@ whitelist = {
     'qwen3-vl:4b'   : 'Ollama',
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
+    'gpt-5.4'       : 'Oai',
     'gemini-3-flash-preview' : 'Gem',
     'gemini-3-pro-preview'   : 'Gem',
     'gemini-3.1-pro-preview' : 'Gem',
