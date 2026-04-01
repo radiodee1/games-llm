@@ -2,8 +2,9 @@
 
 This list shows the first set of launcher scripts. More may be added later without documentation.
 
-- `ale_10_pong.sh` - Simple script for launching the ALE / Gymnasium Pong game.
+- `ale_10_pong_gpt52.sh` - Simple script for launching the ALE / Gymnasium Pong game.
 - `ale_20_lunarlander.sh` - Simple script for launching Lunar Lander.
+- `ale_30_pong_gpt54.sh` - Simple script for launching the ALE / Gymnasium Pong game.
 
 These launcher scripts are for local LLMs and remote LLMs with the pygame Pong code.
 
