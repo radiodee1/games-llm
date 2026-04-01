@@ -34,6 +34,7 @@ class PongAgent( DefaultPlugin ):
                 # " Calculate the change in x and the change in y to predict where the ball is going."
                 " Notice the y position of the ball."
                 " If the ball is higher than you, move up. If the ball is lower than you, move down."
+                " If the paddle is lined up to hit the ball, wait."
                 " Show some of your thinking process and then give your final answer."
         )
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
