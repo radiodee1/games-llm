@@ -55,6 +55,6 @@ Elapsed time: 80:30 minutes
 
 I counted the 'Right Bounces' at 5 here also. This run uses a frameskip of 1. The step-count is therefore something like 4 times higher. The frameskip is usually set to 4 so that the training process is less deterministic. Of course I am not doing training. I'm doing testing only and I don't want to add anything that would decrease deterministic outcomes. Since the frameskip is lower and the step-count is higher, this run may not be comparable to previous runs. Still, in this run the AI won the game.
 
-There is also something called 'repeat_action_probability'. In the model used for this run the 'repeat_action_probability' is set to 0. This is another option meant to make training less deterministic.
+There is also something called 'repeat_action_probability'. In the model used for this run the 'repeat_action_probability' is set to 0. This is another option, usually set to 0.25, that is meant to make training less deterministic. Again, I want more deterministic, not less.
 
 
