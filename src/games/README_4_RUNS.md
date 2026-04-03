@@ -26,3 +26,19 @@ The difference here is small. On one hand you have 4 images and zero past contex
 This only works if the model can critically compare the images from one context iteration with the image in another context iteration. Luckily it seems that the model can do this. (I am using the OpenAI model for tests here.)
 
 ### More Runs
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 04/03/26 | 1:25pm | Computer | gpt-5.2 | ? | 2 | 476 | 17:18 |
+
+```
+model: gpt-5.2
+serves_num: 0
+l_score: 2 r_score: 0
+step-count: 476
+Elapsed time: 17:18 minutes
+```
+
+I counted the 'Right Bounces' at 5.
+
+
