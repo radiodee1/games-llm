@@ -12,7 +12,7 @@ import os
 #import base64
 import argparse 
 #import math
-from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent, PongAgent
+from plugin import  PygamePongAgent, LunarLanderAgent, PongAgent
 from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
@@ -31,8 +31,8 @@ whitelist = {
     'gpt-5.4'       : 'Oai',
     'gemini-3-flash-preview' : 'Gem',
     'gemini-3-pro-preview'   : 'Gem',
-    'gemini-3.1-pro-preview' : 'Gem',
-    'gemini-3.1-flash-preview': 'Gem',
+    #'gemini-3.1-pro-preview' : 'Gem',
+    #'gemini-3.1-flash-preview': 'Gem',
     'gemini-2.5-flash'       : 'Gem',
     #'gemini-3-pro-image-preview' : 'Gem',
     'mistral-large-2512'     : 'Mis',
@@ -143,6 +143,8 @@ def parse():
         plugin_class.temperature = args.temperature
     if args.top_p > -1:
         plugin_class.top_p = args.top_p
+
+    plugin_class.repeat_action_probability = 0.0
 
     if not args.plugin in pluginlist:
         plugin_class.size_init()
