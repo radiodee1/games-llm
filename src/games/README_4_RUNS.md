@@ -63,4 +63,20 @@ I counted the 'Right Bounces' at 6 here also. This run uses a frameskip of 1. Th
 
 There is also something called 'repeat_action_probability'. In the model used for this run the 'repeat_action_probability' is set to 0. This is another option, usually set to 0.25, that is meant to make training less deterministic. Again, I want more deterministic, not less.
 
+### Google - More Runs
+
+The ALE/Gymnasium agent name is 'PongNoFrameskip-v4'.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 04/04/26 | 12:33pm | Computer | gemini-3-flash-preview | ? | 2 | 1080 | 49:00 |
+
+```
+model: gemini-3-flash-preview
+serves_num: 0
+l_score: 2 r_score: 0
+step-count: 1080 
+Elapsed time: 49:00 minutes
+```
+
 
