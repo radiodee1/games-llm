@@ -27,8 +27,6 @@ This only works if the model can critically compare the images from one context 
 
 ### More Runs
 
-The ALE/Gymnasium agent name is 'PongNoFrameskip-v4'.
-
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 04/03/26 | 1:25pm | Computer | gpt-5.2 | ? | 2 | 476 | 17:18 |
@@ -46,6 +44,8 @@ I counted the 'Right Bounces' at 5.
 
 
 ### Frameskip - Longer Runs
+
+The ALE/Gymnasium agent name is 'PongNoFrameskip-v4'.
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
