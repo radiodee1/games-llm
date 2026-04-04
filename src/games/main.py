@@ -88,7 +88,6 @@ def parse():
             pluginname = pluginlist[args.plugin]
             plugin_class = globals()[pluginname]()
 
-
     if args.generate:
         plugin_class.use_chat = not args.generate 
     if args.no_opponent:
