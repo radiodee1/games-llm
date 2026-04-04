@@ -40,8 +40,12 @@ class PongAgent( DefaultPlugin ):
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
 
     def start_sequence(self):
-        self.action = 0 
-        for i in range(52 // self.frame_skip ):
+        self.action = 0
+        if self.frame_skip == None:
+            frame_skip = 1
+        else:
+            frame_skip = self.frame_skip
+        for i in range(52 // frame_skip ):
             self.draw()
         return super().start_sequence()
 

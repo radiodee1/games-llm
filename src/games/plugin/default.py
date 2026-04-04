@@ -242,7 +242,7 @@ class DefaultPlugin (DefaultBare):
 
     def init(self):
         super().init()
-        if self.frame_skip != None and self.frame_skip > 0:
+        if self.frame_skip != None and self.frame_skip >= 0:
             self.env = gym.make(self.agent, render_mode=self.render_mode, frameskip=int(self.frame_skip), repeat_action_probability=self.repeat_action_probability)
             print('skip', self.frame_skip)
         else:
