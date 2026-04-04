@@ -3,15 +3,15 @@
 #PONG pygame
 
 #import json
-import random
+#import random
 import pygame, sys
 from pygame.locals import *
 import os 
-import time
+#import time
 #import subprocess
-import base64
+#import base64
 import argparse 
-import math
+#import math
 from plugin import DefaultBare, PygamePongAgent, LunarLanderAgent, PongAgent
 from query import  Oai, Ollama, Gem, Mis 
 
