@@ -14,7 +14,10 @@ class Oai (DefaultLLM):
         #self.think = False
 
         pass 
+
     def payload_visual_chat(self):
+        self.payload_previous_chat()
+
         content = [{
             'type':'text',
             'text': self.text 
@@ -51,6 +54,8 @@ class Oai (DefaultLLM):
         pass 
 
     def payload_text_chat(self):
+        self.payload_previous_chat()
+
         content = [{
             'type':'text',
             'text': self.text 
@@ -68,6 +73,19 @@ class Oai (DefaultLLM):
         } 
  
         pass
+
+    def payload_previous_chat(self):
+        if len(self.result) > 0:
+            content = [{
+                'type':'text',
+                'text': self.result
+            }]
+            ##
+            self.history += [{
+                "role": 'assistant',
+                "content": content, 
+            }]
+        pass 
 
     def payload_text_generate(self):
         self.data = {
@@ -89,6 +107,7 @@ class Oai (DefaultLLM):
     def query_streaming_chat(self, x):
         for lines in x.iter_lines():
             if lines:
+                #print(lines)
                 if lines.startswith(b"data: "):
                     json_chunk = lines[6:]
                     if json_chunk == b"[DONE]" or not json_chunk:
@@ -121,6 +140,7 @@ class Oai (DefaultLLM):
     def query_chat(self, x):
         self.print(x)
         self.result = x['choices'][0]['message']['content']
+        #print('===', self.result, '===')
         pass
 
     def query_generate(self, x):
