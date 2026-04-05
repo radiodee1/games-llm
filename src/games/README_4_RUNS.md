@@ -79,7 +79,7 @@ step-count: 1080
 Elapsed time: 49:00 minutes
 ```
 
-Another run that went well. Here the Right Bounces are only 3. The history mechanism was improved here and the 'context_size' was set to 3. 
+Below is another run that went well. Here the Right Bounces are only 3. The history mechanism was improved here and the 'context_size' was set to 3. 
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
