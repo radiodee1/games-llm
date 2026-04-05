@@ -171,7 +171,7 @@ def parse():
         model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
         model_class.images_size = plugin_class.queue_len 
         model_class.context_size = plugin_class.context_size
-        model_class.history_size = plugin_class.context_size 
+        model_class.history_size = plugin_class.context_size + 1
         model_class.temperature = plugin_class.temperature
         model_class.top_p = plugin_class.top_p
         model_class.smaller = plugin_class.smaller
