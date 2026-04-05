@@ -144,7 +144,7 @@ class DefaultLLM:
             self.payload_top_p()
 
         self.make_headers()
-        print(self.data)
+        #print(self.data)
 
         ## done ##
 
@@ -227,7 +227,7 @@ class DefaultLLM:
                 else:
                     self.query_streaming_generate(x)
                 self.result = self.think_temp + '\n---\n' + self.r_temp + '\n---'
-            print('===',self.result,'===')
+            #print('===',self.result,'===')
             pass
         else:
             self.raw_result = requests.post(self.url_derived, json=self.data, stream=self.streaming, headers=self.headers)

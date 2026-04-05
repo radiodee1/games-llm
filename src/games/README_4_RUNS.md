@@ -79,4 +79,18 @@ step-count: 1080
 Elapsed time: 49:00 minutes
 ```
 
+Another run that went well. Here the Right Bounces are only 3.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 04/05/26 | 8:00am | AI | gemini-3-flash-preview | ? | 2 | 958 | 33:12 |
+
+```
+model: gemini-3-flash-preview
+serves_num: 0
+l_score: 0 r_score: 2
+step-count: 958
+Elapsed time: 33:12 minutes
+```
+
 
