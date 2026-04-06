@@ -176,7 +176,8 @@ def parse():
         model_class.top_p = plugin_class.top_p
         model_class.smaller = plugin_class.smaller
 
-        model_class.print_to_screen = True
+        #model_class.print_to_screen = True
+        model_class.write_to_text = True
         
         if plugin_class.image_strip > 0 and not plugin_class.video_openai :
             model_class.images_size = 1 
@@ -248,37 +249,37 @@ if __name__ == "__main__":
                         sys.exit()
 
                     z = plugin_class.encode_image_to_base64(f)
-                    
+                   
+                    xx = ''
                     # open in the system browser!!
                     #subprocess.run(['open','data:image/png;base64,' + z])
                     #sys.exit()
 
                     print(m + '\n---')
 
-                    if plugin_class.no_llm <= -1:
+                    if plugin_class.no_llm <= -1 or plugin_class.make_corpus > 0:
                         xx = model_class.do(image=z, context=None, text=m )
                     if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
                         sys.exit()
                     elif plugin_class.no_llm > 0:
                         if not pluginraw in pluginlist:
                             pygame.display.update()
-                        ticks = 15
-                        plugin_class.fps.tick(ticks)
+                        #ticks = 15
+                        #plugin_class.fps.tick(ticks)
                         if plugin_class.make_corpus > 0:
                             #model_class.print_to_screen = True
-                            x = model_class.do(image=z, context=None, text=m)
+                            #x = model_class.do(image=z, context=None, text=m)
+                            print(xx)
+                            x = plugin_class.scrape(xx)
+                            a = plugin_class.action_string
                             print(x)
-                            x = plugin_class.scrape(x)
-                            print(x)
-                            #x = remove(x, xx)
-                            model_class.write(scraped_output=x, raw_output=x, raw_input=m, num_string=img)
+                            model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
                             paddle_message = ''
 
-                        plugin_class.step_count += 1 
-                        if plugin_class.truncated or plugin_class.terminated:
-                            plugin_class.reset()
-
-                        continue
+                        #plugin_class.step_count += 1 
+                        #if plugin_class.truncated or plugin_class.terminated:
+                        #    plugin_class.reset()
+                        #    continue
 
                     print(xx)
                     xx = plugin_class.scrape(xx)
