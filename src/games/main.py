@@ -266,23 +266,14 @@ if __name__ == "__main__":
                             pygame.display.update()
                         #ticks = 15
                         #plugin_class.fps.tick(ticks)
-                        if plugin_class.make_corpus > 0:
-                            #model_class.print_to_screen = True
-                            #x = model_class.do(image=z, context=None, text=m)
-                            print(xx)
-                            x = plugin_class.scrape(xx)
-                            a = plugin_class.action_string
-                            print(x)
-                            model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
-                            paddle_message = ''
-
-                        #plugin_class.step_count += 1 
-                        #if plugin_class.truncated or plugin_class.terminated:
-                        #    plugin_class.reset()
-                        #    continue
 
                     print(xx)
                     xx = plugin_class.scrape(xx)
+
+                    if plugin_class.make_corpus > 0:
+                        a = plugin_class.action_string
+                        model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
+                        paddle_message = ''
 
                     if len(plugin_class.message) > 0:
                         plugin_class.commands.append( str(plugin_class.step_count + 1) + ' ' + plugin_class.action_string + ' --' + str(plugin_class.message) + '--')
