@@ -95,7 +95,7 @@ Elapsed time: 33:12 minutes
 
 ### OpenAI
 
-This run was interrupted when the billing quota was exceeded. The computer scored once as the game started. The number of Right Bounces was observed to be 8.
+This run was interrupted when the billing quota was exceeded. The computer scored once as the game started. The number of Right Bounces was observed to be 8. As above, the history mechanism was improved and the 'context_size' was set to 3.
 
 | Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
