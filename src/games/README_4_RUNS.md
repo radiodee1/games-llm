@@ -109,4 +109,10 @@ step-count: 2158
 Elapsed time: 63:25 minutes
 ```
 
+> #!/bin/bash
+>
+> uv run ./main.py --plugin pong --model gpt-5.2 --sudden_death 2 --context_size 3 --image_strip -1 --q_len 1 --threshold 100 --stream --inverse_size 1 --temperature 0.01 --skip 1
 
+Below is the prompt.
+
+> Pong! Return the ball to the oponent and score to win the game. You are the right paddle. Your paddle is green. Ignore the SCORE at the top of the screen. Notice the y position of the ball. If the ball is higher than you, move up. If the ball is lower than you, move down. If the paddle is lined up to hit the ball, wait. Show some of your thinking process and then give your final answer. These are the actions you can take: "control.move.wait", "control.move.serve", "control.move.up", "control.move.down"
