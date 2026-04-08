@@ -93,4 +93,20 @@ step-count: 958
 Elapsed time: 33:12 minutes
 ```
 
+### OpenAI
+
+This run was interrupted when the billing quota was exceeded. The computer scored once as the game started. The number of Right Bounces was observed to be 8.
+
+| Date | Time | Winner | Model | Serves | Sudden Death | Steps | Elapsed Time   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 04/08/26 | 1:03am | Interrupted | gpt-5.2 | ? | 2 | 2158 | 63:25 |
+
+```
+model: gpt-5.2
+serves_num: 0
+l_score: 1 r_score: 0
+step-count: 2158
+Elapsed time: 63:25 minutes
+```
+
 
