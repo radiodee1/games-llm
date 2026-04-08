@@ -109,6 +109,8 @@ step-count: 2158
 Elapsed time: 63:25 minutes
 ```
 
+Below is the bash script with the command line to run the program.
+
 > #!/bin/bash
 >
 > uv run ./main.py --plugin pong --model gpt-5.2 --sudden_death 2 --context_size 3 --image_strip -1 --q_len 1 --threshold 100 --stream --inverse_size 1 --temperature 0.01 --skip 1
