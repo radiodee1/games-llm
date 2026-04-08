@@ -195,9 +195,10 @@ if __name__ == "__main__":
 
     if not pluginraw in pluginlist:
         plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
-    else:
+    elif plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
-        print(plugin_class.action)
+    
+    print('action', plugin_class.action)
 
 
     try:

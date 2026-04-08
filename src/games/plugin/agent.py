@@ -28,6 +28,7 @@ class PongAgent( DefaultPlugin ):
         super().__init__(mode)
         self.agent = 'PongNoFrameskip-v4'
         #self.agent = 'Pong-v4'
+        self.action = 0
         self.prompt_string = (
                 "Pong! Return the ball to the oponent and score to win the game."
                 " You are the right paddle. Your paddle is green. Ignore the SCORE at the top of the screen."
