@@ -138,7 +138,12 @@ class DefaultBare:
         elapsed_sec = (self.end_time - self.start_time) - elapsed_min * 60
         elapsed_sec = '0000' + str(int(elapsed_sec))
         elapsed_sec = elapsed_sec[-2:]
-        print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
+        elapsed_hrs = elapsed_min // 60
+        if elapsed_hrs > 0:
+            elapsed_min = elapsed_min - elapsed_hrs * 60 
+            print(f"Elapsed time: {elapsed_hrs}:{elapsed_min:.0f}:{elapsed_sec} hrs:min:sec")
+        else:
+            print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
         print('---')
         if short:
             return
