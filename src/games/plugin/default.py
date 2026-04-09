@@ -141,7 +141,9 @@ class DefaultBare:
         elapsed_hrs = elapsed_min // 60
         if elapsed_hrs > 0:
             elapsed_min = elapsed_min - elapsed_hrs * 60 
-            print(f"Elapsed time: {elapsed_hrs}:{elapsed_min:.0f}:{elapsed_sec} hrs:min:sec")
+            elapsed_min = '0000' + str(int(elapsed_min))
+            elapsed_min = elapsed_min[-2:]
+            print(f"Elapsed time: {elapsed_hrs}:{elapsed_min}:{elapsed_sec} hrs:min:sec")
         else:
             print(f"Elapsed time: {elapsed_min:.0f}:{elapsed_sec} minutes")
         print('---')
