@@ -1,7 +1,7 @@
 # games-llm
 Pong and Random LLM Stuff
 
-## Image from PONG
+### Images from PONG
 
 This image comes from the code found in the 'src/games' folder. Here I've tried to get an LLM to play Ping Pong. The first image is included to show the size of the game field, and show the basic operation of the paddles. There is an arrow in the image that points in the direction of the movement of the ball.
 
