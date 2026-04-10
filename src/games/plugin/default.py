@@ -125,7 +125,8 @@ class DefaultBare:
             self.print_in_columns(self.commands)
         print()
         print("model:", self.model)
-        print("serves_num:", self.serves_num)
+        if self.serves_num > 0:
+            print("serves_num:", self.serves_num)
           
         print("l_score:", self.l_score, "r_score:", self.r_score)
         single = 0 
