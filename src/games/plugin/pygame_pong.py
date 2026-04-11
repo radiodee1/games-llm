@@ -77,7 +77,7 @@ class PygamePongAgent(DefaultBare):
 
             }
         ]
-
+        
         self.BORDER_SIZE = 24 // smaller
 
         self.auto = True
@@ -91,7 +91,7 @@ class PygamePongAgent(DefaultBare):
         self.fontsize = 48 // smaller
         self.LOCAL_LLM = 'http://localhost:11434/api/'
 
-        self.prompt_list = []
+        self.prompt_list = [ '1', '2', '3']
 
         self.acceleration = .25
         self.sudden_death_score = -1

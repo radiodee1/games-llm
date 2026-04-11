@@ -38,12 +38,16 @@ whitelist = {
 
 pluginlist = {
     'lunarlander'       : 'LunarLanderAgent',
-    'pong'              : 'PongAgent'
+    'pong'              : 'PongAgent',
+    'pygamepong'        : 'PygamePongAgent',
+    'pygame'            : 'PygamePongAgent'
 }
 
 plugin_class = None
 pluginname = ''
 pluginraw = ''
+
+pygamelist = [ 'pygamepong', 'pygame' ]
 
 def parse():
     global model_class, plugin_class, pluginname, pluginraw 
@@ -142,7 +146,7 @@ def parse():
 
     plugin_class.repeat_action_probability = 0.0
 
-    if not args.plugin in pluginlist:
+    if args.plugin in pygamelist:
         plugin_class.size_init()
 
     #return
@@ -190,7 +194,7 @@ if __name__ == "__main__":
     plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
 
-    if not pluginraw in pluginlist:
+    if pluginraw in pygamelist:
         plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
     elif plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
@@ -205,7 +209,7 @@ if __name__ == "__main__":
         er = 0
         last_code = 200 
         while True:
-            if not pluginraw in pluginlist:
+            if pluginraw in pygamelist:
                 plugin_class.draw(plugin_class.window)
 
             if True:
@@ -214,17 +218,21 @@ if __name__ == "__main__":
                         sys.exit()
 
                 if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
-                    if pluginraw in pluginlist:
+                    if not pluginraw in pygamelist:
                         plugin_class.draw()
 
                     m = plugin_class.make_message()
                     if plugin_class.small_test > -1 :
                         img = num // plugin_class.skip 
-                        p = plugin_class.prompt_list[img % len(plugin_class.prompt_list)]
-                        if not plugin_class.stream_openai:
-                            m = p + ' - ' + m 
+                        if len(plugin_class.prompt_list) > 0:
+
+                            p = plugin_class.prompt_list[img % len(plugin_class.prompt_list)]
+                            if not plugin_class.stream_openai:
+                                m = p + ' - ' + m 
+                            else:
+                                m = plugin_class.prompt_list[0] 
                         else:
-                            m = plugin_class.prompt_list[0] 
+                            m = ''
                     else:
                         img = 0
 
@@ -260,7 +268,7 @@ if __name__ == "__main__":
                     if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
                         sys.exit()
                     elif plugin_class.no_llm > 0:
-                        if not pluginraw in pluginlist:
+                        if pluginraw in pygamelist:
                             pygame.display.update()
                         #ticks = 15
                         #plugin_class.fps.tick(ticks)
@@ -304,7 +312,7 @@ if __name__ == "__main__":
 
                 num += 1  
 
-            if not pluginraw in pluginlist:
+            if pluginraw in pygamelist:
                 pygame.display.update()
 
             ticks = 60
