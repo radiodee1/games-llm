@@ -121,6 +121,7 @@ class PygamePongAgent(DefaultBare):
         self.arrow_surface = None ## for arrow...
         pygame.display.set_caption('Pong')
 
+
     def size_init(self):
         #print('smaller' , self.smaller)
         smaller = self.smaller

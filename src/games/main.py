@@ -68,7 +68,7 @@ def parse():
     parser.add_argument('--image_strip', default=-1, type=int, help="Enable comic strip type image manipulation.")
     parser.add_argument('--no_llm', default=-1, type=int, help="Run for specified number of iterations without LLM.")
     parser.add_argument('--stream', action='store_true', help="Access model in Stream mode.")
-    parser.add_argument('--stream_openai', action='store_true', help="Use OpenAI format and OpenAI endpoint. Only uses stream and chat.")
+    #parser.add_argument('--stream_openai', action='store_true', help="Use OpenAI format and OpenAI endpoint. Only uses stream and chat.")
     parser.add_argument('--video', action='store_true', help="Use video format in the OpenAI code. Must set image_strip to -1.")
     parser.add_argument('--scrape_general', action='store_true', help="Scrape output for simple commands.")
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
@@ -85,7 +85,7 @@ def parse():
     pluginname = ''
     if len(args.plugin) > 0:
         pluginraw = args.plugin 
-        if args.plugin in pluginlist:
+        if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
             plugin_class = globals()[pluginname]()
 
@@ -120,8 +120,8 @@ def parse():
         plugin_class.stream_requests = args.stream 
     if args.scrape_general:
         plugin_class.scrape_general = args.scrape_general
-    if args.stream_openai:
-        plugin_class.stream_openai = args.stream_openai
+    #if args.stream_openai:
+    #    plugin_class.stream_openai = args.stream_openai
     if args.video:
         plugin_class.video = args.video 
     if args.double_arrow:
@@ -146,10 +146,8 @@ def parse():
 
     plugin_class.repeat_action_probability = 0.0
 
-    if args.plugin in pygamelist:
+    if pluginraw in pygamelist or pluginraw == '':
         plugin_class.size_init()
-
-    #return
 
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
@@ -194,7 +192,7 @@ if __name__ == "__main__":
     plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
 
-    if pluginraw in pygamelist:
+    if pluginraw in pygamelist or pluginraw == '':
         plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
     elif plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
@@ -209,7 +207,7 @@ if __name__ == "__main__":
         er = 0
         last_code = 200 
         while True:
-            if pluginraw in pygamelist:
+            if pluginraw in pygamelist or pluginraw == '':
                 plugin_class.draw(plugin_class.window)
 
             if True:
@@ -218,7 +216,7 @@ if __name__ == "__main__":
                         sys.exit()
 
                 if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
-                    if not pluginraw in pygamelist:
+                    if not pluginraw in pygamelist and pluginraw !=  '' :
                         plugin_class.draw()
 
                     m = plugin_class.make_message()
@@ -227,10 +225,7 @@ if __name__ == "__main__":
                         if len(plugin_class.prompt_list) > 0:
 
                             p = plugin_class.prompt_list[img % len(plugin_class.prompt_list)]
-                            if not plugin_class.stream_openai:
-                                m = p + ' - ' + m 
-                            else:
-                                m = plugin_class.prompt_list[0] 
+                            m = p + ' - ' + m 
                         else:
                             m = ''
                     else:
@@ -251,7 +246,7 @@ if __name__ == "__main__":
                     #plugin_class.pygame_save(f)
                     plugin_class.image_save(f)
 
-                    if int(img) > plugin_class.small_test and plugin_class.small_test > -1 and not plugin_class.stream_openai :
+                    if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
 
                     z = plugin_class.encode_image_to_base64(f)
@@ -268,7 +263,7 @@ if __name__ == "__main__":
                     if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
                         sys.exit()
                     elif plugin_class.no_llm > 0:
-                        if pluginraw in pygamelist:
+                        if pluginraw in pygamelist or pluginraw == '':
                             pygame.display.update()
                         #ticks = 15
                         #plugin_class.fps.tick(ticks)
@@ -294,8 +289,9 @@ if __name__ == "__main__":
                     plugin_class.stats(True)
 
                     
-                    if plugin_class.step_count >= plugin_class.small_test and plugin_class.small_test > -1 and plugin_class.stream_openai :
+                    if plugin_class.step_count >= plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
+                        pass
 
                     if plugin_class.truncated or plugin_class.terminated:
                         plugin_class.reset()
@@ -312,7 +308,7 @@ if __name__ == "__main__":
 
                 num += 1  
 
-            if pluginraw in pygamelist:
+            if pluginraw in pygamelist or pluginraw == '':
                 pygame.display.update()
 
             ticks = 60
