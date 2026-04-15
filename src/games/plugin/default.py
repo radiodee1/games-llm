@@ -52,7 +52,7 @@ class DefaultBare:
         self.stream_requests = False
         self.stream_openai = False 
         self.scrape_general = False
-        self.video_openai = False
+        self.video = False
         self.double_arrow = False
         self.use_hinting = False
         self.image_series = False
