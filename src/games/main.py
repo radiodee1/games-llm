@@ -68,7 +68,6 @@ def parse():
     parser.add_argument('--image_strip', default=-1, type=int, help="Enable comic strip type image manipulation.")
     parser.add_argument('--no_llm', default=-1, type=int, help="Run for specified number of iterations without LLM.")
     parser.add_argument('--stream', action='store_true', help="Access model in Stream mode.")
-    #parser.add_argument('--stream_openai', action='store_true', help="Use OpenAI format and OpenAI endpoint. Only uses stream and chat.")
     parser.add_argument('--video', action='store_true', help="Use video format in the OpenAI code. Must set image_strip to -1.")
     parser.add_argument('--scrape_general', action='store_true', help="Scrape output for simple commands.")
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
@@ -120,8 +119,6 @@ def parse():
         plugin_class.stream_requests = args.stream 
     if args.scrape_general:
         plugin_class.scrape_general = args.scrape_general
-    #if args.stream_openai:
-    #    plugin_class.stream_openai = args.stream_openai
     if args.video:
         plugin_class.video = args.video 
     if args.double_arrow:
@@ -239,7 +236,7 @@ if __name__ == "__main__":
                     if plugin_class.make_corpus > 0:
                         f = './pic/' + str(img) + '.png'
 
-                    if plugin_class.no_llm > 0 and plugin_class.step_count  >= plugin_class.no_llm :
+                    if plugin_class.no_llm > 0 and plugin_class.step_count  > plugin_class.no_llm :
                         #print('exit before png save')
                         sys.exit()
 
