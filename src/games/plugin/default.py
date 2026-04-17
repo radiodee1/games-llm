@@ -285,7 +285,8 @@ class DefaultPlugin (DefaultBare):
         if self.show_image:
             #print(f, 'cv2')
             frame_bgr = cv2.cvtColor(r, cv2.COLOR_RGB2BGR)
-            cv2.imshow('', frame_bgr)
+            cv2.namedWindow('Games', cv2.WINDOW_GUI_NORMAL)
+            cv2.imshow('Games', frame_bgr)
             cv2.waitKey(1)
 
         pass 
