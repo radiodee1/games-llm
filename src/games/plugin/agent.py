@@ -57,3 +57,27 @@ class PongAgent( DefaultPlugin ):
         if self.reward < 0:
             self.l_score += int(abs(self.reward))
         return x 
+
+class BreakoutAgent( DefaultPlugin ):
+
+    def __init__(self, mode="rgb_array") -> None:
+        super().__init__(mode)
+        self.agent = 'BreakoutNoFrameskip-v4'
+        #self.agent = ''
+        self.action = 0
+        self.prompt_string = (
+                "Breakout! Return the ball and break down the wall to win the game."
+                " You are on the bottom of the screen. Hit the ball to break up the wall and gain points."
+                " You can move your paddle to the right or left."
+                " Show some of your thinking process and then give your final answer."
+        )
+        self.meaning = [ 'control.move.wait', 'control.move.fire', 'control.move.right', 'control.move.left' ]
+
+
+    def draw(self, surface=None):
+        x = super().draw(surface)
+        if self.reward > 0:
+            self.r_score += int(abs(self.reward))
+        if self.reward < 0:
+            self.l_score += int(abs(self.reward))
+        return x 
