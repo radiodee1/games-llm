@@ -12,7 +12,7 @@ import os
 #import base64
 import argparse 
 #import math
-from plugin import  PygamePongAgent, LunarLanderAgent, PongAgent
+from plugin import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent
 from query import  Oai, Ollama, Gem, Mis 
 
 from dotenv import load_dotenv 
@@ -40,7 +40,8 @@ pluginlist = {
     'lunarlander'       : 'LunarLanderAgent',
     'pong'              : 'PongAgent',
     'pygamepong'        : 'PygamePongAgent',
-    'pygame'            : 'PygamePongAgent'
+    'pygame'            : 'PygamePongAgent',
+    'breakout'          : 'BreakoutAgent'
 }
 
 plugin_class = None
