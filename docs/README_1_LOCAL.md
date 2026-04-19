@@ -59,4 +59,9 @@ That means that I'd be switching from locally hosted models to models hosted on-
 
 Locally, I was using a laptop for testing. I would edit code on my desktop, and commit to github. Then I would pull the github repository on the laptop and run for long periods of time there. I did this several times. This was good, as the models were slow. The laptop in question had a small gpu. The desktop I'm using has no gpu. I could use the laptop to get a little more efficiency, but now I don't need it, as the OpenAI models are fast. I suppose the downside is that they cost money. In any case, I don't need the laptop now.
 
+### Later Testing 
 
+I returned to the Ollama site later to find the gemma4 models. Though the gemma4:e2b model does not answer the 'arrow question' correctly, the gemma4:e4b model does. I would like to try this model out for some extended period of time. This might mean setting up a laptop for that specific purpose.
+
+- gemma4:e2b (does not see the arrow's angle, but detects left and right)
+- gemma4:e4b (can detect arrow angle.)
