@@ -26,6 +26,7 @@ model_class = None
 whitelist = {
     'qwen3-vl:2b'   : 'Ollama',
     'qwen3-vl:4b'   : 'Ollama',
+    'gemma4:e4b'    : 'Ollama',
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
     'gpt-5.4'       : 'Oai',
