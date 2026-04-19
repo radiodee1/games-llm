@@ -173,13 +173,13 @@ class DefaultBare:
             x.append(txt.rfind(xx))
             n.append(discrete)
             s.append(xx)
+        #print(x, n, s)
+
         ## find highest ##
-        old = -1 
         h = -1 
         index = -1 
         for i in range(len(n)):
-            if x[i] > -1 and x[i] > old:
-                old = h 
+            if x[i] > -1 and x[i] > h: # old:
                 h = x[i]
                 index = i 
         if index > -1:
