@@ -309,7 +309,6 @@ if __name__ == "__main__":
                             sys.exit()
 
                 num += 1  
-                #plugin_class.step_count += 1
 
 
             if pluginraw in pygamelist or pluginraw == '':
