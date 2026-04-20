@@ -46,7 +46,7 @@ class PongAgent( DefaultPlugin ):
             frame_skip = 1
         else:
             frame_skip = self.frame_skip
-        for i in range(52 // frame_skip ):
+        for i in range(58 // frame_skip ):
             self.draw()
         return super().start_sequence()
 
