@@ -106,6 +106,7 @@ def parse():
         model = args.model 
     if args.skip >= -1:
         plugin_class.skip = args.skip
+        plugin_class.frame_skip = args.skip 
     if args.q_len >= -1:
         plugin_class.queue_len = args.q_len
     if args.context_size >= -1:
@@ -200,7 +201,6 @@ if __name__ == "__main__":
         plugin_class.action = plugin_class.env.action_space.sample()
     
     print('action', plugin_class.action)
-
 
     try:
         #game loop
@@ -309,6 +309,8 @@ if __name__ == "__main__":
                             sys.exit()
 
                 num += 1  
+                #plugin_class.step_count += 1
+
 
             if pluginraw in pygamelist or pluginraw == '':
                 pygame.display.update()
