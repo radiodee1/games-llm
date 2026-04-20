@@ -81,6 +81,7 @@ def parse():
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
+    parser.add_argument('--no_pic', action='store_true', help="do not display picture from rom.")
     args = parser.parse_args()
 
     pluginname = ''
@@ -142,6 +143,8 @@ def parse():
         plugin_class.temperature = args.temperature
     if args.top_p > -1:
         plugin_class.top_p = args.top_p
+    if args.no_pic:
+        plugin_class.show_image = False
 
     plugin_class.repeat_action_probability = 0.0
 
