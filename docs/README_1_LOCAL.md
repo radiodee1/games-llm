@@ -61,7 +61,7 @@ Locally, I was using a laptop for testing. I would edit code on my desktop, and 
 
 ### Later Testing 
 
-I returned to the Ollama site later to find the gemma4 models. Though the gemma4:e2b model does not answer the 'arrow question' correctly, the gemma4:e4b model does. I would like to try this model out for some extended period of time. This might mean setting up a laptop for that specific purpose.
+I returned to the Ollama site later to find the gemma4 models. Though the gemma4:e2b model does not answer the 'arrow question' correctly, the gemma4:e4b model does. I would like to try this model out for some extended period of time. This might mean setting up a second computer, maybe a laptop, for that specific purpose.
 
 - gemma4:e2b (does not see the arrow's angle, but detects left and right)
 - gemma4:e4b (can detect arrow angle.)
