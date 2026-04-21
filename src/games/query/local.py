@@ -9,7 +9,7 @@ class Ollama (DefaultLLM):
         super().__init__(model, streaming, chat, visual, think, key)
         pass 
 
-class OllamaImages (Oai):
+class OllamaImages (Oai): ## Oai
 
     def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
         super().__init__(model, streaming, chat, visual, think, key)
@@ -22,11 +22,11 @@ class OllamaImages (Oai):
     def payload(self, image=None, context=None, text=None):
         x = super().payload(image, context, text)
         if self.image_token_budget != None:
-            self.data["generation_config"] = { 
+            self.data["options"] = { 
                 "image_token_budget": self.image_token_budget
             }
             
-            #print(self.data)
+        #print('images', len(self.images))
+        print(self.data)
         return x
-
 

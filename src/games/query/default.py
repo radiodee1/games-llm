@@ -98,7 +98,7 @@ class DefaultLLM:
     def payload(self, image=None, context=None, text=None):
         if image is not None and isinstance(image, str):
             self.images.append(image)
-        if image is not None and isinstance(image, list):
+        if image is not None and isinstance(image, list) and False:
             self.images += image
         if context is not None and isinstance(context, list) and not self.chat:
             self.context = context
@@ -159,6 +159,9 @@ class DefaultLLM:
         self.data['top_p'] = self.top_p 
 
     def payload_visual_chat(self):
+        self.payload_previous_chat() 
+        
+        print('images', len(self.images))
         self.history += [{
             "role": "system",
             "content": self.text,
@@ -183,6 +186,8 @@ class DefaultLLM:
         pass 
 
     def payload_text_chat(self):
+        self.payload_previous_chat() 
+
         self.history += [{
             "role": "system",
             "content": self.text,
@@ -197,7 +202,12 @@ class DefaultLLM:
         pass
 
     def payload_previous_chat(self):
-        pass 
+        if len(self.result) > 0:
+            self.history += [{
+                "role": 'assistant',
+                "content": self.result, 
+            }]
+        pass  
 
     def payload_text_generate(self):
         self.data = {
