@@ -15,8 +15,18 @@ class OllamaImages (Oai):
         super().__init__(model, streaming, chat, visual, think, key)
         self.url = 'http://localhost:11434/v1/'
         self.url_ending_chat = 'chat/completions'
+        self.image_token_budget = None 
+        
         pass 
 
-
+    def payload(self, image=None, context=None, text=None):
+        x = super().payload(image, context, text)
+        if self.image_token_budget != None:
+            self.data["generation_config"] = { 
+                "image_token_budget": self.image_token_budget
+            }
+            
+            print(self.data)
+        return x
 
 

@@ -171,6 +171,7 @@ def parse():
             modelname = model
 
         model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
+        
         model_class.images_size = plugin_class.queue_len 
         model_class.context_size = plugin_class.context_size
         model_class.history_size = plugin_class.context_size + 1
@@ -181,6 +182,9 @@ def parse():
         #model_class.print_to_screen = True
         model_class.write_to_text = True
         
+        if modelname == 'OllamaImages':
+            model_class.image_token_budget = 1120
+
         if plugin_class.image_strip > 0 and not plugin_class.video:
             model_class.images_size = 1 
 
