@@ -4,7 +4,7 @@ Some time in early March of 2026 I found Gymnasium and ALE. These let you run ac
 
 
 <div style="display: block; margin: 0 auto;">
- <img src="/pic/figure_3.png">
+ <img src="/pic/figure_3.png" style="display: block; margin: 0 auto;">
 </div>
 
 ### Reformat Code 
