@@ -5,6 +5,10 @@ Some time in early March of 2026 I found Gymnasium and ALE. These let you run ac
 | ![ Image of game ](/pic/figure_3.png) |
 | :--: |
 
+<p align="center">
+    <img src="/pic/figure_3.png" alt="Image of game">
+</p>
+
 ALE stands for 'Arcade Learning Environment'.
 
 ### Reformat Code 
