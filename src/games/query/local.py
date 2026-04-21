@@ -26,7 +26,7 @@ class OllamaImages (Oai):
                 "image_token_budget": self.image_token_budget
             }
             
-            print(self.data)
+            #print(self.data)
         return x
 
 
