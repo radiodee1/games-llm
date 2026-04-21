@@ -4,8 +4,7 @@ Some time in early March of 2026 I found Gymnasium and ALE. These let you run ac
 
 
 <div style="text-align: center;">
-
-![ Image of game ](/pic/figure_3.png)
+ <img src="/pic/figure_3.png">
 </div>
 
 ### Reformat Code 
