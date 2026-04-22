@@ -277,8 +277,9 @@ class DefaultPlugin (DefaultBare):
             return
         r = self.env.render()
         surface = pygame.surfarray.make_surface(r)
-        surface = pygame.transform.rotate(surface, 270)
-        surface = pygame.transform.flip(surface, True, False)
+        if True:
+            surface = pygame.transform.rotate(surface, 270)
+            surface = pygame.transform.flip(surface, True, False)
         surface = pygame.transform.scale_by(surface, 4 // self.smaller )
         pygame.image.save(surface, f)
 

@@ -98,8 +98,8 @@ class DefaultLLM:
     def payload(self, image=None, context=None, text=None):
         if image is not None and isinstance(image, str):
             self.images.append(image)
-        if image is not None and isinstance(image, list) and False:
-            self.images += image
+        #if image is not None and isinstance(image, list) and False:
+        #    self.images += image
         if context is not None and isinstance(context, list) and not self.chat:
             self.context = context
         else:

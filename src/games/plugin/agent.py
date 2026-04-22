@@ -38,6 +38,7 @@ class PongAgent( DefaultPlugin ):
                 " If the paddle is lined up to hit the ball, wait."
                 " Show some of your thinking process and then give your final answer."
         )
+        #self.prompt_string = "Describe the contents of this picture."
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.up', 'control.move.down', None, None ]
 
     def start_sequence(self):

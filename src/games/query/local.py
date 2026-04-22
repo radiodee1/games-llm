@@ -27,6 +27,6 @@ class OllamaImages (Oai): ## Oai
             }
             
         #print('images', len(self.images))
-        print(self.data)
+        #print(self.data)
         return x
 
