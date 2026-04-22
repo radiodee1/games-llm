@@ -65,3 +65,5 @@ I returned to the 'Ollama' site later to find the `gemma4` models. Though the `g
 
 - gemma4:e2b (does not see the arrow's angle, but detects left and right)
 - gemma4:e4b (can detect arrow angle.)
+
+The gemma4:e4b model does seem to see the images you pass to it, but there is some lack of understanding, because when it's asked to estimate the height of the ball, it gets the relationship wrong. It thinks the ball is higher or lower than the paddle, when just the opposite is true.
