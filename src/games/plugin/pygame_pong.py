@@ -17,15 +17,16 @@ from plugin import DefaultBare
 
 class PygamePongAgent(DefaultBare):
 
-    def __init__(self, mode='human') -> None:
-        super().__init__(mode)
+    def __init__(self, mode='human', inverse_size=4) -> None:
+        super().__init__(mode=mode, inverse_size=inverse_size)
+        self.size_init() 
         pygame.init()
         self.fps = pygame.time.Clock()
         self.start_time = time.perf_counter()
 
         self.model = ''
         #size adjustment
-        self.smaller = 4
+        self.smaller = inverse_size
         self.window = None
 
         #colors

@@ -12,7 +12,7 @@ import math
 
 class DefaultBare:
 
-    def __init__(self, mode="rgb_array") -> None:
+    def __init__(self, mode="rgb_array", inverse_size=4) -> None:
         self.agent = ""
         self.render_mode = mode 
         self.env = None
@@ -20,7 +20,7 @@ class DefaultBare:
         self.truncated = False
         self.terminated = False
 
-        self.smaller = 4 
+        self.smaller = inverse_size 
         smaller = self.smaller
         self.auto = True
         self.text_input = True

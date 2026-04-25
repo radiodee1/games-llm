@@ -84,12 +84,17 @@ def parse():
     parser.add_argument('--no_pic', action='store_true', help="do not display picture from rom.")
     args = parser.parse_args()
 
+    smaller = 4 
+    if args.inverse_size > 0:
+        smaller = args.inverse_size
+
+
     pluginname = ''
     if len(args.plugin) > 0:
         pluginraw = args.plugin 
         if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
-            plugin_class = globals()[pluginname]()
+            plugin_class = globals()[pluginname](inverse_size=smaller)
 
     if args.generate:
         plugin_class.use_chat = not args.generate 
@@ -150,7 +155,8 @@ def parse():
     plugin_class.repeat_action_probability = 0.0
 
     if pluginraw in pygamelist or pluginraw == '':
-        plugin_class.size_init()
+        #plugin_class.size_init()
+        pass
 
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
