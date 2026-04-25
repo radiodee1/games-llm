@@ -138,8 +138,8 @@ def parse():
         plugin_class.image_series = args.image_series
     if args.strategy > 0:
         plugin_class.prompt_strategy = args.strategy
-    if args.inverse_size > 0:
-        plugin_class.smaller = args.inverse_size
+    #if args.inverse_size > 0: ## <-- we set this multiple times...
+    #    plugin_class.smaller = args.inverse_size
     if args.make_corpus > 0:
         plugin_class.make_corpus = args.make_corpus
         plugin_class.no_llm = args.make_corpus
@@ -154,9 +154,9 @@ def parse():
 
     plugin_class.repeat_action_probability = 0.0
 
-    if pluginraw in pygamelist or pluginraw == '':
+    #if pluginraw in pygamelist or pluginraw == '':
         #plugin_class.size_init()
-        pass
+        #pass
 
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
