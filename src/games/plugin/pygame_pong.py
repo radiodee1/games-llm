@@ -17,8 +17,8 @@ from plugin import DefaultBare
 
 class PygamePongAgent(DefaultBare):
 
-    def __init__(self, mode='human', inverse_size=4) -> None:
-        super().__init__(mode=mode, inverse_size=inverse_size)
+    def __init__(self, mode='human', inverse_size=4, show_image=True) -> None:
+        super().__init__(mode=mode, inverse_size=inverse_size, show_image=show_image)
         self.size_init() 
         pygame.init()
         self.fps = pygame.time.Clock()
@@ -119,7 +119,6 @@ class PygamePongAgent(DefaultBare):
         self.top_p = -1 
 
         self.arrow_surface = None ## for arrow...
-        pygame.display.set_caption('Pong')
 
 
     def size_init(self):
@@ -137,7 +136,12 @@ class PygamePongAgent(DefaultBare):
         self.vel_const = 8 // smaller
         self.vel_const_right = 4 // smaller # 16!
         self.fontsize = 48 // smaller
-        self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        print('show_image', self.show_image)
+        if self.show_image:
+            pygame.display.set_caption('Pong')
+            self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        else:
+            self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.HIDDEN)
 
 
     # helper function that spawns a ball, returns a position vector and a velocity vector

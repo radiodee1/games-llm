@@ -12,7 +12,7 @@ import math
 
 class DefaultBare:
 
-    def __init__(self, mode="rgb_array", inverse_size=4) -> None:
+    def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
         self.agent = ""
         self.render_mode = mode 
         self.env = None
@@ -70,7 +70,7 @@ class DefaultBare:
 
         self.prompt_string = ''
         self.fps = None
-        self.show_image = True 
+        self.show_image = show_image
 
         self.l_score = 0
         self.r_score = 0

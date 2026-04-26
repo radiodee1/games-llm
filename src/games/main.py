@@ -84,17 +84,19 @@ def parse():
     parser.add_argument('--no_pic', action='store_true', help="do not display picture from rom.")
     args = parser.parse_args()
 
-    smaller = 4 
+    smaller = 4
+    show_image = True
     if args.inverse_size > 0:
         smaller = args.inverse_size
-
+    if args.no_pic:
+        show_image = False
 
     pluginname = ''
     if len(args.plugin) > 0:
         pluginraw = args.plugin 
         if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
-            plugin_class = globals()[pluginname](inverse_size=smaller)
+            plugin_class = globals()[pluginname](inverse_size=smaller, show_image=show_image)
 
     if args.generate:
         plugin_class.use_chat = not args.generate 
@@ -149,8 +151,6 @@ def parse():
         plugin_class.temperature = args.temperature
     if args.top_p > -1:
         plugin_class.top_p = args.top_p
-    if args.no_pic:
-        plugin_class.show_image = False
 
     plugin_class.repeat_action_probability = 0.0
 
@@ -207,8 +207,6 @@ if __name__ == "__main__":
 
     if pluginraw not in pygamelist and pluginraw != '' and plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
-    
-    print('action', plugin_class.action)
 
     try:
         #game loop
