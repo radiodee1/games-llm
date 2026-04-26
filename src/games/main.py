@@ -205,10 +205,7 @@ if __name__ == "__main__":
     plugin_class.reset()
     plugin_class.fps = pygame.time.Clock()
 
-    if pluginraw in pygamelist or pluginraw == '':
-        #plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
-        pass 
-    elif plugin_class.action == None:
+    if pluginraw not in pygamelist and pluginraw != '' and plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
     
     print('action', plugin_class.action)
