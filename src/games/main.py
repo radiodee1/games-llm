@@ -206,7 +206,8 @@ if __name__ == "__main__":
     plugin_class.fps = pygame.time.Clock()
 
     if pluginraw in pygamelist or pluginraw == '':
-        plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+        #plugin_class.window = pygame.display.set_mode((plugin_class.WIDTH, plugin_class.HEIGHT))
+        pass 
     elif plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
     
@@ -220,7 +221,7 @@ if __name__ == "__main__":
         last_code = 200 
         while True:
             if pluginraw in pygamelist or pluginraw == '':
-                plugin_class.draw(plugin_class.window)
+                plugin_class.draw()
 
             if True:
                 for event in pygame.event.get():

@@ -27,7 +27,6 @@ class PygamePongAgent(DefaultBare):
         self.model = ''
         #size adjustment
         self.smaller = inverse_size
-        self.window = None
 
         #colors
         self.WHITE = (255,255,255)
@@ -138,6 +137,7 @@ class PygamePongAgent(DefaultBare):
         self.vel_const = 8 // smaller
         self.vel_const_right = 4 // smaller # 16!
         self.fontsize = 48 // smaller
+        self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
 
     # helper function that spawns a ball, returns a position vector and a velocity vector
@@ -167,7 +167,9 @@ class PygamePongAgent(DefaultBare):
         self.arrow_surface = self.draw_arrow() 
 
     #draw function of canvas
-    def draw(self, canvas):
+    def draw(self, canvas=None):
+        if canvas == None:
+            canvas = self.window
         canvas.fill(self.BLACK)
         pygame.draw.line(canvas, self.WHITE, [self.WIDTH // 2, 0],[self.WIDTH // 2, self.HEIGHT], 1)
         pygame.draw.line(canvas, self.WHITE, [self.PAD_WIDTH, 0],[self.PAD_WIDTH, self.HEIGHT], 1)

@@ -152,7 +152,7 @@ class DefaultBare:
             return
         return 
 
-    def draw(self, surface=None):
+    def draw(self, canvas=None):
         pass 
 
     def init(self):
