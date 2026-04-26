@@ -5,8 +5,8 @@ from .default import DefaultPlugin
 
 class LunarLanderAgent( DefaultPlugin ):
 
-    def __init__(self, mode="rgb_array") -> None:
-        super().__init__(mode)
+    def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
+        super().__init__(mode, inverse_size, show_image)
         self.agent = 'LunarLander-v3'
         self.prompt_string = "LunarLander! Land the spacecraft on the spot between the flags."
         self.meaning = ['NOOP', 'GO_LEFT', 'MAIN_ENGINE', 'GO_RIGHT']
@@ -24,8 +24,8 @@ class LunarLanderAgent( DefaultPlugin ):
 
 class PongAgent( DefaultPlugin ):
 
-    def __init__(self, mode="rgb_array") -> None:
-        super().__init__(mode)
+    def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
+        super().__init__(mode, inverse_size, show_image)
         self.agent = 'PongNoFrameskip-v4'
         #self.agent = 'Pong-v4'
         self.action = 0
@@ -61,8 +61,8 @@ class PongAgent( DefaultPlugin ):
 
 class BreakoutAgent( DefaultPlugin ):
 
-    def __init__(self, mode="rgb_array") -> None:
-        super().__init__(mode)
+    def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
+        super().__init__(mode, inverse_size, show_image)
         self.agent = 'BreakoutNoFrameskip-v4'
         #self.agent = ''
         self.action = 0

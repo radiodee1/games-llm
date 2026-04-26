@@ -222,8 +222,8 @@ class DefaultBare:
 
 class DefaultPlugin (DefaultBare):
 
-    def __init__(self, mode="rgb_array") -> None:
-        super().__init__(mode)
+    def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
+        super().__init__(mode, inverse_size, show_image)
         self.agent = ""
         self.render_mode = mode 
         self.env = None
@@ -231,6 +231,7 @@ class DefaultPlugin (DefaultBare):
         self.truncated = False
         self.terminated = False
         self.reward = 0 
+        self.show_image = show_image
         pass 
 
     def draw(self, surface=None):

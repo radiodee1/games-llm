@@ -97,6 +97,10 @@ def parse():
         if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
             plugin_class = globals()[pluginname](inverse_size=smaller, show_image=show_image)
+    else:
+        print('must specify game agent with --plugin flag. Try "--plugin pong"')
+        sys.exit()
+    #print(args.plugin ,'show_image', show_image, 'pluginname', pluginname, plugin_class)
 
     if args.generate:
         plugin_class.use_chat = not args.generate 
@@ -152,10 +156,6 @@ def parse():
 
     plugin_class.repeat_action_probability = 0.0
 
-    #if pluginraw in pygamelist or pluginraw == '':
-        #plugin_class.size_init()
-        #pass
-
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')
@@ -195,9 +195,8 @@ def parse():
 
 if __name__ == "__main__":
 
-    plugin_class = PygamePongAgent()
+    #plugin_class = PygamePongAgent()
     parse()
-    #model_class.start_time()
 
     plugin_class.init()
     plugin_class.reset()
@@ -217,9 +216,6 @@ if __name__ == "__main__":
                 plugin_class.draw()
 
             if True:
-                for event in pygame.event.get():
-                    if event.type == QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        sys.exit()
 
                 if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
                     if not pluginraw in pygamelist and pluginraw !=  '' :
