@@ -140,8 +140,6 @@ def parse():
         plugin_class.image_series = args.image_series
     if args.strategy > 0:
         plugin_class.prompt_strategy = args.strategy
-    #if args.inverse_size > 0: ## <-- we set this multiple times...
-    #    plugin_class.smaller = args.inverse_size
     if args.make_corpus > 0:
         plugin_class.make_corpus = args.make_corpus
         plugin_class.no_llm = args.make_corpus
