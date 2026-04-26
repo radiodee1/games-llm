@@ -81,7 +81,7 @@ def parse():
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
-    parser.add_argument('--no_pic', action='store_true', help="do not display picture from rom.")
+    parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
     args = parser.parse_args()
 
     smaller = 4

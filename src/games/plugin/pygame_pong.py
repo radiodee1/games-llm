@@ -142,6 +142,7 @@ class PygamePongAgent(DefaultBare):
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         else:
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.HIDDEN)
+            pass
 
 
     # helper function that spawns a ball, returns a position vector and a velocity vector
