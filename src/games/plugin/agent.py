@@ -72,7 +72,7 @@ class BreakoutAgent( DefaultPlugin ):
                 " You can move your paddle to the right or left."
                 " Show some of your thinking process and then give your final answer."
         )
-        self.meaning = [ 'control.move.wait', 'control.move.fire', 'control.move.right', 'control.move.left' ]
+        self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.right', 'control.move.left' ]
 
 
     def draw(self, surface=None):
