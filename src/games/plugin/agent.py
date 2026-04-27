@@ -69,7 +69,7 @@ class BreakoutAgent( DefaultPlugin ):
         self.prompt_string = (
                 "Breakout! Return the ball and break down the wall to win the game."
                 " You are on the bottom of the screen. Hit the ball to break up the wall and gain points."
-                " You can move your paddle to the right or left."
+                " You can move your paddle to the right or left. You can only do one action at a time."
                 " Show some of your thinking process and then give your final answer."
         )
         self.meaning = [ 'control.move.wait', 'control.move.serve', 'control.move.right', 'control.move.left' ]
