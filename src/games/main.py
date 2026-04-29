@@ -15,9 +15,10 @@ import argparse
 from plugin import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent
 from query import  Oai, Ollama, Gem, Mis, OllamaImages 
 
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 
-load_dotenv()
+user_env = os.path.expanduser('~') + '/.llm.env'
+load_dotenv(user_env)
 
 
 model = "qwen3-vl:2b"
@@ -82,7 +83,18 @@ def parse():
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
-    args = parser.parse_args()
+    GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
+    launch_args = []
+
+    for i in GAME_LAUNCH_ARGS.split(' '):
+        if i.strip() != '':
+            launch_args.append(i)
+
+    for i in sys.argv[1:]:
+        if i.strip() != '':
+            launch_args.append(i)
+
+    args = parser.parse_args(launch_args) 
 
 
     pluginname = ''
