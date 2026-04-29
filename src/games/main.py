@@ -84,75 +84,45 @@ def parse():
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
     args = parser.parse_args()
 
-    smaller = 4
-    show_image = True
-    if args.inverse_size > 0:
-        smaller = args.inverse_size
-    if args.no_pic:
-        show_image = False
 
     pluginname = ''
     if len(args.plugin) > 0:
         pluginraw = args.plugin 
         if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
-            plugin_class = globals()[pluginname](inverse_size=smaller, show_image=show_image)
+            plugin_class = globals()[pluginname](inverse_size=args.inverse_size, show_image=not args.no_pic)
     else:
         print('must specify game agent with --plugin flag. Try "--plugin pong"')
         sys.exit()
     #print(args.plugin ,'show_image', show_image, 'pluginname', pluginname, plugin_class)
 
-    if args.generate:
-        plugin_class.use_chat = not args.generate 
-    if args.no_opponent:
-        plugin_class.auto = not args.no_opponent
-    if args.key_input:
-        plugin_class.text_input = not args.key_input
-    if args.small_test >= -1:
-        plugin_class.small_test = args.small_test
-    if args.sudden_death >= -1:
-        plugin_class.sudden_death_score = args.sudden_death
-    if len(args.model) > 0:
-        plugin_class.model = args.model
-        model = args.model 
-    if args.skip >= -1:
-        plugin_class.skip = args.skip
-        plugin_class.frame_skip = args.skip 
-    if args.q_len >= -1:
-        plugin_class.queue_len = args.q_len
-    if args.context_size >= -1:
-        plugin_class.context_size = args.context_size
-    if args.thinking:
-        plugin_class.disable_thinking = not args.thinking
-    if args.threshold > 0:
-        plugin_class.random_threshold = args.threshold
-    if args.image_strip > -1:
-        plugin_class.image_strip = args.image_strip
-    if args.no_llm > 0:
-        plugin_class.no_llm = args.no_llm - 1
-    if args.stream:
-        plugin_class.stream_requests = args.stream 
-    if args.scrape_general:
-        plugin_class.scrape_general = args.scrape_general
-    if args.video:
-        plugin_class.video = args.video 
-    if args.double_arrow:
-        plugin_class.double_arrow = args.double_arrow
-    if args.hinting:
-        plugin_class.use_hinting = args.hinting
-    if args.image_series:
-        plugin_class.image_series = args.image_series
-    if args.strategy > 0:
-        plugin_class.prompt_strategy = args.strategy
-    if args.make_corpus > 0:
-        plugin_class.make_corpus = args.make_corpus
-        plugin_class.no_llm = args.make_corpus
-    if args.corpus_offset > -1:
-        plugin_class.corpus_offset = args.corpus_offset
-    if args.temperature > -1:
-        plugin_class.temperature = args.temperature
-    if args.top_p > -1:
-        plugin_class.top_p = args.top_p
+    plugin_class.use_chat = not args.generate 
+    plugin_class.auto = not args.no_opponent
+    plugin_class.text_input = not args.key_input
+    plugin_class.small_test = args.small_test
+    plugin_class.sudden_death_score = args.sudden_death
+    plugin_class.model = args.model
+    model = args.model 
+    plugin_class.skip = args.skip
+    plugin_class.frame_skip = args.skip 
+    plugin_class.queue_len = args.q_len
+    plugin_class.context_size = args.context_size
+    plugin_class.disable_thinking = not args.thinking
+    plugin_class.random_threshold = args.threshold
+    plugin_class.image_strip = args.image_strip
+    plugin_class.no_llm = args.no_llm - 1
+    plugin_class.stream_requests = args.stream 
+    plugin_class.scrape_general = args.scrape_general
+    plugin_class.video = args.video 
+    plugin_class.double_arrow = args.double_arrow
+    plugin_class.use_hinting = args.hinting
+    plugin_class.image_series = args.image_series
+    plugin_class.prompt_strategy = args.strategy
+    plugin_class.make_corpus = args.make_corpus
+    plugin_class.no_llm = args.make_corpus
+    plugin_class.corpus_offset = args.corpus_offset
+    plugin_class.temperature = args.temperature
+    plugin_class.top_p = args.top_p
 
     plugin_class.repeat_action_probability = 0.0
 
