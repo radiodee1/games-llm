@@ -15,42 +15,23 @@ import argparse
 from plugin import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent
 from query import  Oai, Ollama, Gem, Mis, OllamaImages 
 
+from query import whitelist
+from plugin import pluginlist, pygamelist
+
 from dotenv import load_dotenv
 
 user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
 
+#print('GAME_LAUNCH_ARGS' , os.getenv('GAME_LAUNCH_ARGS'))
 
 model = "qwen3-vl:2b"
 model_class = None 
-
-whitelist = {
-    'qwen3-vl:2b'   : 'Ollama',
-    'qwen3-vl:4b'   : 'Ollama',
-    'gemma4:e4b'    : 'OllamaImages',
-    'gpt-5.2'       : 'Oai',
-    'gpt-4o'        : 'Oai',
-    'gpt-5.4'       : 'Oai',
-    'gemini-3-flash-preview' : 'Gem',
-    'gemini-3-pro-preview'   : 'Gem',
-    'gemini-2.5-flash'       : 'Gem',
-    'mistral-large-2512'     : 'Mis',
-    'pixtral-large-2411'     : 'Mis'
-}
-
-pluginlist = {
-    'lunarlander'       : 'LunarLanderAgent',
-    'pong'              : 'PongAgent',
-    'pygamepong'        : 'PygamePongAgent',
-    'pygame'            : 'PygamePongAgent',
-    'breakout'          : 'BreakoutAgent'
-}
 
 plugin_class = None
 pluginname = ''
 pluginraw = ''
 
-pygamelist = [ 'pygamepong', 'pygame' ]
 
 def parse():
     global model_class, plugin_class, pluginname, pluginraw 
