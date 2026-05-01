@@ -2,9 +2,9 @@
 
 ### OpenAI, Google, Mistral
 
-OpenAI, Google Gemini models, and Mistral models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `.env` file.
+OpenAI, Google Gemini models, and Mistral models need to be paid for. You need to set up an account, and after doing that you can download an API KEY. The key is secret, and goes in the `~/.llm.env` file.
 
-The `.env` file should look like this. Commented lines are not important:
+The `~/.llm.env` file should look like this. Commented lines are not important:
 
 ```
 OPENAI_API_KEY="openai-api-key-here"
