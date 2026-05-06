@@ -1,0 +1,15 @@
+[project]
+name = "games-llm"
+version = "0.1.0"
+description = "Pong and Random LLM Stuff"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "ale-py>=0.11.2",
+    "gymnasium[box2d]>=1.2.3",
+    "opencv-python>=4.13.0.92",
+    "pygame>=2.6.1",
+    "python-dotenv>=1.2.1",
+    "requests>=2.32.5",
+    "swig>=4.4.1",
+]
