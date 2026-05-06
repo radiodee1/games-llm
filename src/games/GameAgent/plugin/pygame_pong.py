@@ -12,7 +12,7 @@ import time
 import base64
 #import argparse 
 import math
-from plugin import DefaultBare
+from . import DefaultBare
 #from query import  Oai, Ollama, Gem, Mis 
 
 class PygamePongAgent(DefaultBare):
