@@ -1,8 +1,8 @@
 [project]
-name = "llm-do"
+name = "llm_do"
 version = "0.1.0"
 description = "Random LLM API Stuff"
-readme = "./query/README.md"
+readme = "./llm_do/README.md"
 requires-python = ">=3.10"
 dependencies = [
     "requests>=2.32.5",
@@ -14,5 +14,5 @@ requires = ["uv>=0.1.0", "uv_build>=0.11.9,<0.12"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "query"
+module-name = "llm_do"
 module-root = "."
