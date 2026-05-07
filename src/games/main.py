@@ -13,10 +13,10 @@ import os
 import argparse 
 #import math
 from GameAgent.plugin import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent
-from LLM.query import  Oai, Ollama, Gem, Mis, OllamaImages 
+from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages 
 
 from GameAgent.plugin import pluginlist, pygamelist
-from LLM.query import whitelist
+from LLM.llm_do import whitelist
 
 from dotenv import load_dotenv
 
