@@ -8,10 +8,8 @@ The `~/.llm.env` file should look like this. Commented lines are not important:
 
 ```
 OPENAI_API_KEY="openai-api-key-here"
-#OPENAI_MODEL="gpt-4o-mini"
 
 GEMINI_API_KEY="gemini-api-key-here"
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials/file.json
 
 MISTRAL_API_KEY="mistral-api-key-here"
 ```
