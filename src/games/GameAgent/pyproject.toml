@@ -1,8 +1,8 @@
 [project]
-name = "game-agent"
+name = "game_agent"
 version = "0.1.0"
 description = "Pong and ALE Stuff"
-readme = "./plugin/README.md"
+readme = "./game_agent/README.md"
 requires-python = ">=3.10"
 dependencies = [
     "ale-py>=0.11.2",
@@ -17,5 +17,5 @@ requires = ["uv>=0.1.0", "uv_build>=0.11.9,<0.12"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
-module-name = "plugin"
+module-name = "game_agent"
 module-root = "."
