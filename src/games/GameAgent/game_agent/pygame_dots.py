@@ -4,6 +4,7 @@
 
 #import json
 import random
+import re
 import pygame #, sys
 from pygame.locals import *
 #import os 
@@ -100,8 +101,8 @@ class PygameDotAgent(DefaultBare):
         self.temperature = -1 
         self.top_p = -1 
 
-        self.arrow_surface = None ## for arrow...
-
+        self.total_samples = 10
+        self.drawable_dots = []
 
     def size_init(self):
         #print('smaller' , self.smaller)
@@ -110,15 +111,9 @@ class PygameDotAgent(DefaultBare):
         self.WIDTH = 600 // smaller
         self.HEIGHT = 400 // smaller      
         self.BALL_RADIUS = 20 // smaller
-        self.PAD_WIDTH = 16 // smaller
-        self.PAD_HEIGHT = 80 // smaller
-        self.HALF_PAD_WIDTH = self.PAD_WIDTH // 2
-        self.HALF_PAD_HEIGHT = self.PAD_HEIGHT // 2
         self.BORDER_SIZE = 24 // smaller
-        self.vel_const = 8 // smaller
-        self.vel_const_right = 4 // smaller # 16!
         self.fontsize = 48 // smaller
-        print('show_image', self.show_image)
+        #print('show_image', self.show_image)
         if self.show_image:
             pygame.display.set_caption('Pong')
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -130,4 +125,56 @@ class PygameDotAgent(DefaultBare):
         if canvas == None:
             canvas = self.window
         canvas.fill(self.BLACK)
+        i = math.floor(random.random() * self.total_samples)
+        for j in range(i):
+            r = self.place_dot(j)
+            if r != None:
+                self.drawable_dots += [ { 'center' : r , 'radius' : self.BALL_RADIUS, 'color': self.WHITE } ]
+        print(len(self.drawable_dots), 'drawable_dots')
+        self.draw_all_dots()
 
+    def place_dot(self, i):
+        num = 0
+        x = self.WIDTH // 2 
+        y = self.HEIGHT // 2 
+        center = (x, y)
+        while num < 1000:
+            x = math.floor( random.random() * self.WIDTH)
+            y = math.floor( random.random() * self.HEIGHT)
+            center = (x, y)
+            if  x + self.BALL_RADIUS < self.WIDTH and x - self.BALL_RADIUS > 0 and y + self.BALL_RADIUS < self.HEIGHT and y - self.BALL_RADIUS > 0:
+                break 
+            num += 1 
+
+        num = 0 
+        background_color = self.BLACK
+
+        r = random.randint(0, 3)
+        background_color = self.window.get_at(center)
+        while num < 1000:
+            for i in range(x - self.BALL_RADIUS, x + self.BALL_RADIUS):
+                for j in range(y - self.BALL_RADIUS, y + self.BALL_RADIUS):
+                    if self.window.get_at((i,j)) == self.WHITE:
+                        background_color = self.WHITE
+            if background_color == self.WHITE:
+                if r == 0 and x - 2 > 0:
+                    x = x - 2 
+                elif r == 1 and x + 2 < self.WIDTH:
+                    x = x + 2 
+                elif r == 2 and y - 2 > 0:
+                    y = y - 2
+                elif r == 3 and y + 2 < self.HEIGHT:
+                    y = y + 2
+                else:
+                    return None
+                center = (x, y)
+            else :
+                pygame.draw.circle(self.window, self.WHITE, center, self.BALL_RADIUS, 0)
+                return center
+            num += 1 
+        
+        print(i)
+        return None
+
+    def draw_all_dots(self):
+        print(self.drawable_dots)
