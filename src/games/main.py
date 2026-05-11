@@ -44,6 +44,7 @@ def parse():
     parser.add_argument('--small_test', default=-1, type=int, help='Set small_test variable to integer value.')
     parser.add_argument('--sudden_death', default=-1, type=int, help='Set a sudden_death_score to integer value.')
     parser.add_argument('--model', default='qwen3-vl:2b', type=str, help='Set model for local LLMs. default is "qwen3-vl:2b"')
+    parser.add_argument('--force', default='', type=str, help='Force which model class to use.')
     parser.add_argument('--skip', default=4, type=int, help='Number of computer iterations to skip for each call to the LLM.')
     parser.add_argument('--q_len', default=3, type=int, help="Set queue length for video images.")
     parser.add_argument('--context_size', default=4096, type=int, help="Set context_size for memory.")
@@ -136,6 +137,10 @@ def parse():
             modelname = whitelist[model]
         else:
             modelname = model
+
+        if len(args.force.strip()) > 0:
+            modelname = args.force.strip()
+            
 
         model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
         
