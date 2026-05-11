@@ -150,11 +150,12 @@ class PygameDotAgent(DefaultBare):
         background_color = self.BLACK
 
         r = random.randint(0, 3)
-        background_color = self.window.get_at(center)
+        current_surface = pygame.display.get_surface()
+        background_color = current_surface.get_at(center)
         while num < 1000:
             for i in range(x - self.BALL_RADIUS, x + self.BALL_RADIUS):
                 for j in range(y - self.BALL_RADIUS, y + self.BALL_RADIUS):
-                    if self.window.get_at((i,j)) == self.WHITE:
+                    if current_surface.get_at((i,j)) == self.WHITE:
                         background_color = self.WHITE
             if background_color == self.WHITE:
                 if r == 0 and x - 2 > 0:
@@ -178,3 +179,38 @@ class PygameDotAgent(DefaultBare):
 
     def draw_all_dots(self):
         print(self.drawable_dots)
+
+    def make_message(self) -> str:
+        return "\n---\ncount the dots.\n---\n"
+
+    def image_save(self, filename):
+        self.pygame_save(filename)
+
+    def pygame_save(self, f):
+        print(f)
+        border_rect = pygame.Surface((self.WIDTH + 2 * self.BORDER_SIZE, self.HEIGHT + 2 * self.BORDER_SIZE))
+        border_rect.fill(self.GRAY)
+        border_rect.blit(self.window, (self.BORDER_SIZE, self.BORDER_SIZE))
+
+
+        if  self.image_strip < 0:
+            pygame.image.save(border_rect, f)
+        elif self.image_strip > 0 :
+            self.strip.append(border_rect.copy() )
+            i = 0 
+            while len(self.strip) > self.image_strip and i < 10:
+                self.strip.pop(0)
+                print('pop strip img', len(self.strip))
+                i += 1
+            window_strip = pygame.Surface(( (self.WIDTH + 2 * self.BORDER_SIZE) * len(self.strip) , self.HEIGHT + 2 * self.BORDER_SIZE))
+            window_strip.fill(self.GRAY)
+            ii = 0 
+            for i in self.strip:
+                if self.image_strip > 1:
+                    i = self.label(i, ii + 0) 
+                window_strip.blit(i, ((self.WIDTH + 2 * self.BORDER_SIZE) * ii, 0))
+                ii += 1 
+            
+            pygame.image.save(window_strip, f)
+
+
