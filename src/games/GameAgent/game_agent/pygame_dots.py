@@ -126,5 +126,8 @@ class PygameDotAgent(DefaultBare):
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.HIDDEN)
             pass
 
-
+    def draw(self, canvas=None):
+        if canvas == None:
+            canvas = self.window
+        canvas.fill(self.BLACK)
 
