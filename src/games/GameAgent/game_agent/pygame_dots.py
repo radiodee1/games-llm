@@ -153,7 +153,7 @@ class PygameDotAgent(DefaultBare):
         while num < 1000:
             for i in range(x - self.BALL_RADIUS, x + self.BALL_RADIUS):
                 for j in range(y - self.BALL_RADIUS, y + self.BALL_RADIUS):
-                    if i < 0 or i > self.WIDTH or j < 0 or j > self.HEIGHT:
+                    if i <= 0 or i >= self.WIDTH or j <= 0 or j >= self.HEIGHT:
                         return None
                     if current_surface.get_at((i,j)) == self.WHITE:
                         background_color = self.WHITE
