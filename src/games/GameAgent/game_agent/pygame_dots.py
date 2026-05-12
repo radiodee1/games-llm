@@ -221,7 +221,10 @@ class PygameDotAgent(DefaultBare):
             for i in self.frame_info:
                 if i['guess'] == i['computed']:
                     x += 1 
-            y = x / (len(self.frame_info ) -1)
+            frame_info = len(self.frame_info)
+            if self.frame_info[-1]['guess'] == None:
+                frame_info = frame_info - 1 
+            y = x / frame_info
             y = math.floor(y * 100)
         super().stats(short)
         if not short:
