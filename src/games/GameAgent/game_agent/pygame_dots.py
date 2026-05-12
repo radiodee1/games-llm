@@ -89,8 +89,9 @@ class PygameDotAgent(DefaultBare):
         self.temperature = -1 
         self.top_p = -1 
 
-        self.total_samples = 10
+        self.total_samples = 9
         self.drawable_dots = []
+        self.frame_info = []
 
         self.action_meaning = [ ]
         for i in range(self.total_samples):
@@ -129,9 +130,9 @@ class PygameDotAgent(DefaultBare):
             else:
                 num += 1 
         #print(len(self.drawable_dots), 'drawable_dots')
+        self.frame_info += [ { 'computed': j, 'guess': None } ]
         self.draw_all_dots()
         self.message += ' computed=' + str(j  ) + ' ' 
-        print(self.message)
 
     def place_dot(self, i):
         num = 0
@@ -197,4 +198,17 @@ class PygameDotAgent(DefaultBare):
 
         pygame.image.save(border_rect, f)
 
-
+    def stats(self, short=True):
+        if short:
+            x = int(self.action_string)
+            if self.frame_info[-1]['guess'] == None:
+                self.frame_info[-1]['guess'] = x 
+        else:
+            x = 0 
+            for i in self.frame_info:
+                if i['guess'] == i['computed']:
+                    x += 1 
+            y = x / len(self.frame_info)
+            y = math.floor(y * 100)
+            print('percent right' , y)
+        return super().stats(short)

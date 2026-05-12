@@ -152,7 +152,7 @@ def parse():
         model_class.smaller = plugin_class.smaller
 
         #model_class.print_to_screen = True
-        model_class.show_payload = True
+        #model_class.show_payload = True
         model_class.write_to_text = True
         
         if modelname == 'OllamaImages':
@@ -252,7 +252,7 @@ if __name__ == "__main__":
                     else:
                         plugin_class.commands.append(str(plugin_class.step_count + 1) + ' ' + plugin_class.action_string)
                     print('[' + str(plugin_class.step_count + 1) + ']', plugin_class.action_string)
-
+                    print(plugin_class.message)
                     #print('ball_vel', ball_vel, 'ball_pos', ball_pos)
                     
                     plugin_class.step_count += 1
