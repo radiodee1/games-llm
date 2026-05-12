@@ -180,6 +180,19 @@ class PygameDotAgent(DefaultBare):
         #print(i)
         return None
 
+    def extract_numbers(self, text):
+        pattern = r'\d+(?:\.\d+)?'
+        i = re.findall(pattern, text)
+        if len(i) > 1:
+            i = i[-1]
+        else:
+            i = i[0]
+        return i 
+
+    def scrape(self, txt, replace=False):
+        t = self.extract_numbers(txt)
+        self.action_string = str(t)
+        return t 
 
     def make_message(self) -> str:
         print(self.message.strip())
@@ -202,12 +215,13 @@ class PygameDotAgent(DefaultBare):
             x = int(self.action_string)
             if self.frame_info[-1]['guess'] == None:
                 self.frame_info[-1]['guess'] = x 
+            #print(self.frame_info)
         else:
             x = 0 
             for i in self.frame_info:
                 if i['guess'] == i['computed']:
                     x += 1 
-            y = x / len(self.frame_info)
+            y = x / (len(self.frame_info ) -1)
             y = math.floor(y * 100)
         super().stats(short)
         if not short:
