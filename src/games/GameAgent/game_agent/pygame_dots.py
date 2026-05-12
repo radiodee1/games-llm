@@ -226,3 +226,5 @@ class PygameDotAgent(DefaultBare):
         super().stats(short)
         if not short:
             print('percent right' , y)
+
+
