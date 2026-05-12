@@ -199,6 +199,7 @@ class PygameDotAgent(DefaultBare):
         pygame.image.save(border_rect, f)
 
     def stats(self, short=True):
+        y = 0
         if short:
             x = int(self.action_string)
             if self.frame_info[-1]['guess'] == None:
@@ -210,5 +211,6 @@ class PygameDotAgent(DefaultBare):
                     x += 1 
             y = x / len(self.frame_info)
             y = math.floor(y * 100)
+        super().stats(short)
+        if not short:
             print('percent right' , y)
-        return super().stats(short)
