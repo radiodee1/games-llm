@@ -120,7 +120,7 @@ class PygameDotAgent(DefaultBare):
         i = math.floor(random.random() * self.total_samples - 1) + 1
         j = 0
         num = 0 
-        while j < i and num < 100:
+        while j <= i and num < 100:
             #for j in range(i):
             r = self.place_dot(j)
             if r != None:
@@ -137,8 +137,8 @@ class PygameDotAgent(DefaultBare):
         y = self.HEIGHT // 2 
         center = (x, y)
         while num < 1000:
-            x = math.floor( random.random() * self.WIDTH)
-            y = math.floor( random.random() * self.HEIGHT)
+            x = math.floor( random.random() * (self.WIDTH - self.BALL_RADIUS) + self.BALL_RADIUS)
+            y = math.floor( random.random() * (self.HEIGHT - self.BALL_RADIUS ) + self.BALL_RADIUS)
             center = (x, y)
             if  x + self.BALL_RADIUS < self.WIDTH and x - self.BALL_RADIUS > 0 and y + self.BALL_RADIUS < self.HEIGHT and y - self.BALL_RADIUS > 0:
                 break 
