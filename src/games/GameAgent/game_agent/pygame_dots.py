@@ -131,7 +131,6 @@ class PygameDotAgent(DefaultBare):
                 num += 1 
         #print(len(self.drawable_dots), 'drawable_dots')
         self.frame_info += [ { 'computed': j, 'guess': None } ]
-        self.draw_all_dots()
         self.message += ' computed=' + str(j  ) + ' ' 
 
     def place_dot(self, i):
@@ -161,6 +160,7 @@ class PygameDotAgent(DefaultBare):
                     if current_surface.get_at((i,j)) == self.WHITE:
                         background_color = self.WHITE
             if background_color == self.WHITE:
+                #print('backoff', x, y)
                 if r == 0 and x - 2 > 0:
                     x = x - 2 
                 elif r == 1 and x + 2 < self.WIDTH:
@@ -180,12 +180,10 @@ class PygameDotAgent(DefaultBare):
         #print(i)
         return None
 
-    def draw_all_dots(self):
-        #print(self.drawable_dots)
-        pass 
 
     def make_message(self) -> str:
-        return "\n---\ncount the dots in the image.\n---\n"
+        print(self.message.strip())
+        return "count the dots in the image."
 
     def image_save(self, filename):
         self.pygame_save(filename)
