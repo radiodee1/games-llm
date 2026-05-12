@@ -152,6 +152,7 @@ def parse():
         model_class.smaller = plugin_class.smaller
 
         #model_class.print_to_screen = True
+        model_class.show_payload = True
         model_class.write_to_text = True
         
         if modelname == 'OllamaImages':

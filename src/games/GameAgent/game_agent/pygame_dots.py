@@ -48,7 +48,6 @@ class PygameDotAgent(DefaultBare):
         self.paddle2_bounce = 0
         self.serves_num = 0
 
-        self.action_meaning = [ ]
         
         self.BORDER_SIZE = 24 // smaller
 
@@ -93,6 +92,10 @@ class PygameDotAgent(DefaultBare):
         self.total_samples = 10
         self.drawable_dots = []
 
+        self.action_meaning = [ ]
+        for i in range(self.total_samples):
+            self.action_meaning += [ {'name': i, 'num': i , 'meaning': i } ]
+
     def size_init(self):
         #print('smaller' , self.smaller)
         smaller = self.smaller
@@ -115,10 +118,16 @@ class PygameDotAgent(DefaultBare):
             canvas = self.window
         canvas.fill(self.BLACK)
         i = math.floor(random.random() * self.total_samples)
-        for j in range(i):
+        j = 0
+        num = 0 
+        while j < i and num < 100:
+            #for j in range(i):
             r = self.place_dot(j)
             if r != None:
                 self.drawable_dots += [ { 'center' : r , 'radius' : self.BALL_RADIUS, 'color': self.WHITE } ]
+                j += 1 
+            else:
+                num += 1 
         print(len(self.drawable_dots), 'drawable_dots')
         self.draw_all_dots()
 
@@ -144,6 +153,8 @@ class PygameDotAgent(DefaultBare):
         while num < 1000:
             for i in range(x - self.BALL_RADIUS, x + self.BALL_RADIUS):
                 for j in range(y - self.BALL_RADIUS, y + self.BALL_RADIUS):
+                    if i < 0 or i > self.WIDTH or j < 0 or j > self.HEIGHT:
+                        return None
                     if current_surface.get_at((i,j)) == self.WHITE:
                         background_color = self.WHITE
             if background_color == self.WHITE:
@@ -182,4 +193,5 @@ class PygameDotAgent(DefaultBare):
         border_rect.blit(self.window, (self.BORDER_SIZE, self.BORDER_SIZE))
 
         pygame.image.save(border_rect, f)
+
 

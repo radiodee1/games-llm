@@ -25,6 +25,7 @@ class DefaultLLM:
         self.history = []
         self.time_start = -1
         self.time_end = -1
+        self.show_payload = False
 
         self.context_size = -1 
         self.images_size = 3 
@@ -142,7 +143,8 @@ class DefaultLLM:
             self.payload_top_p()
 
         self.make_headers()
-        #print(self.data)
+        if self.show_payload:
+            print(self.data)
 
         ## done ##
 
