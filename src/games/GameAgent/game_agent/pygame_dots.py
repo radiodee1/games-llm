@@ -117,7 +117,7 @@ class PygameDotAgent(DefaultBare):
         if canvas == None:
             canvas = self.window
         canvas.fill(self.BLACK)
-        i = math.floor(random.random() * self.total_samples)
+        i = math.floor(random.random() * self.total_samples - 1) + 1
         j = 0
         num = 0 
         while j < i and num < 100:
