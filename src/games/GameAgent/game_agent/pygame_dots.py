@@ -107,7 +107,7 @@ class PygameDotAgent(DefaultBare):
         self.fontsize = 48 // smaller
         #print('show_image', self.show_image)
         if self.show_image:
-            pygame.display.set_caption('Pong')
+            pygame.display.set_caption('Dots')
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         else:
             self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.HIDDEN)
@@ -130,7 +130,7 @@ class PygameDotAgent(DefaultBare):
                 num += 1 
         #print(len(self.drawable_dots), 'drawable_dots')
         self.draw_all_dots()
-        self.message += ' actually ' + str(j  ) + ' ' 
+        self.message += ' computed=' + str(j  ) + ' ' 
 
     def place_dot(self, i):
         num = 0
