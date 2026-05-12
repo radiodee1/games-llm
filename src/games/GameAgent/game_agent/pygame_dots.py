@@ -94,7 +94,7 @@ class PygameDotAgent(DefaultBare):
 
         self.action_meaning = [ ]
         for i in range(self.total_samples):
-            self.action_meaning += [ {'name': i, 'num': i , 'meaning': i } ]
+            self.action_meaning += [ {'name': str(i), 'num': i , 'meaning': str(i) } ]
 
     def size_init(self):
         #print('smaller' , self.smaller)
