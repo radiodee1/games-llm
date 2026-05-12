@@ -128,7 +128,7 @@ class PygameDotAgent(DefaultBare):
                 j += 1 
             else:
                 num += 1 
-        print(len(self.drawable_dots), 'drawable_dots')
+        #print(len(self.drawable_dots), 'drawable_dots')
         self.draw_all_dots()
 
     def place_dot(self, i):
@@ -174,11 +174,12 @@ class PygameDotAgent(DefaultBare):
                 return center
             num += 1 
         
-        print(i)
+        #print(i)
         return None
 
     def draw_all_dots(self):
-        print(self.drawable_dots)
+        #print(self.drawable_dots)
+        pass 
 
     def make_message(self) -> str:
         return "\n---\ncount the dots in the image.\n---\n"
