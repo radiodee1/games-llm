@@ -131,6 +131,7 @@ class PygameDotAgent(DefaultBare):
         #print(len(self.drawable_dots), 'drawable_dots')
         self.draw_all_dots()
         self.message += ' computed=' + str(j  ) + ' ' 
+        print(self.message)
 
     def place_dot(self, i):
         num = 0
