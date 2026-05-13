@@ -163,6 +163,13 @@ class Gem (Oai):
         self.think = False
         pass
 
+    def make_headers_x(self): ## do not use for now.
+        if self.api_key is not None:
+            self.headers = {
+                "Content-Type": "application/json",
+                "x-goog-api-key": str( self.api_key ) 
+            }
+
 class Mis (Oai):
 
     def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:

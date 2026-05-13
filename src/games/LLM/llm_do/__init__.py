@@ -11,7 +11,7 @@ whitelist = {
     'gpt-4o'        : 'Oai',
     'gpt-5.4'       : 'Oai',
     'gemini-3-flash-preview' : 'Gem',
-    'gemini-3-pro-preview'   : 'Gem',
+    'gemini-3.1-pro-preview' : 'Gem',
     'gemini-2.5-flash'       : 'Gem',
     'mistral-large-2512'     : 'Mis',
     'pixtral-large-2411'     : 'Mis'

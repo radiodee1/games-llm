@@ -26,6 +26,7 @@ This is a ridiculously small sample of output.
 | Date | Time | Total | Model | Average | Percent Right | Elapsed Time | Image Size | Description |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | 05/13/26 | 12:12pm | 50 | gemma4:e4b | 4 | 62 | 9:29 | Largest | Local |
+| 05/13/26 | 2:17pm | 50 | gpt-5.2 | 4 | 96 | 0:57 | Largest | Large Remote |
 
 Below is some screen content for the first row of the table.
 

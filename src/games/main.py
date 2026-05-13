@@ -143,9 +143,8 @@ def parse():
         if len(args.force.strip()) > 0:
             modelname = args.force.strip()
             
-
         model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
-        
+
         model_class.images_size = plugin_class.queue_len 
         model_class.context_size = plugin_class.context_size
         model_class.history_size = plugin_class.context_size + 1
