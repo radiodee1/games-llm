@@ -12,3 +12,7 @@ Making this image, the LLM was not used. For this reason the right paddle does n
 Another screenshot. This shot uses the Arari 2600 version of Pong.
 
 ![ Image of game ](./pic/atari.gif)
+
+Another image. This is from `pygame_dots.py` 
+
+![Dots](./pic/dots.png)
