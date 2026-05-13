@@ -2,9 +2,9 @@
 
 This is a ridiculously small sample of output.
 
-| Date | Time | Total | Model | Average | Percent Right | Elapsed Time   |
-|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 05/13/26 | 8:37am | 3 | gpt-5.2 | 7 | 0 | 0:32 |
+| Date | Time | Total | Model | Average | Percent Right | Elapsed Time | Description |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 05/13/26 | 8:37am | 3 | gemma4:e4b | 7 | 0 | 0:32 | Local |
 
 
 ```
