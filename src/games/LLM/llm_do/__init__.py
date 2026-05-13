@@ -5,6 +5,7 @@ from .local import Ollama, OllamaImages
 whitelist = {
     'qwen3-vl:2b'   : 'Ollama',
     'qwen3-vl:4b'   : 'Ollama',
+    'qwen3-vl:8b'   : 'Ollama',
     'gemma4:e4b'    : 'OllamaImages',
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
