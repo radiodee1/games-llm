@@ -41,3 +41,13 @@ average 4
 ```
 
 Note, there's content in this screen shot that applies only to the Pong environment. Below is some text from the second row of the table.
+
+```
+model: gpt-5.2
+l_score: 0 r_score: 0
+step-count: 50
+Elapsed time: 0:57 minutes
+---
+percent right 96
+average 4
+```
