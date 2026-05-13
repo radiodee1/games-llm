@@ -42,6 +42,7 @@ def parse():
     parser.add_argument('--no_opponent', action='store_true', help='Computer opponent or adversary.')
     parser.add_argument('--key_input', action='store_true', help='Dis-allow text input so LLM can not control one player.')
     parser.add_argument('--small_test', default=-1, type=int, help='Set small_test variable to integer value.')
+    parser.add_argument('--total', default=-1, type=int, help='Set a total number of example frames.')
     parser.add_argument('--sudden_death', default=-1, type=int, help='Set a sudden_death_score to integer value.')
     parser.add_argument('--model', default='qwen3-vl:2b', type=str, help='Set model for local LLMs. default is "qwen3-vl:2b"')
     parser.add_argument('--force', default='', type=str, help='Force which model class to use.')
@@ -94,6 +95,7 @@ def parse():
     plugin_class.auto = not args.no_opponent
     plugin_class.text_input = not args.key_input
     plugin_class.small_test = args.small_test
+    plugin_class.total = args.total 
     plugin_class.sudden_death_score = args.sudden_death
     plugin_class.model = args.model
     model = args.model 
@@ -219,6 +221,10 @@ if __name__ == "__main__":
 
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
+
+                    if plugin_class.step_count >= plugin_class.total and plugin_class.total > -1 :
+                        sys.exit()
+
 
                     z = plugin_class.encode_image_to_base64(f)
                    

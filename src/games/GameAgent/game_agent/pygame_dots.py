@@ -185,8 +185,11 @@ class PygameDotAgent(DefaultBare):
         i = re.findall(pattern, text)
         if len(i) > 1:
             i = i[-1]
+        elif len(i) == 0:
+            i = -1 
         else:
             i = i[0]
+            pass 
         return i 
 
     def scrape(self, txt, replace=False):
@@ -227,9 +230,10 @@ class PygameDotAgent(DefaultBare):
             frame_info = len(self.frame_info)
             if self.frame_info[-1]['guess'] == None:
                 frame_info = frame_info - 1 
-            mean = math.floor(mean / frame_info)
-            y = x / frame_info
-            y = math.floor(y * 100)
+            if frame_info > 0:
+                mean = math.floor(mean / frame_info)
+                y = x / frame_info
+                y = math.floor(y * 100)
         super().stats(short)
         if not short:
             print('percent right' , y)

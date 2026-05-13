@@ -67,6 +67,7 @@ class DefaultBare:
         self.action_string = ''
         self.frame_skip = 1
         self.repeat_action_probability = 0.0 
+        self.total = -1 
 
         self.prompt_string = ''
         self.fps = None
