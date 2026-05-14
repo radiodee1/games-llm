@@ -169,6 +169,7 @@ class Gem (Oai):
                 "Content-Type": "application/json",
                 "x-goog-api-key": str( self.api_key ) 
             }
+        print(self.headers)
 
 class Mis (Oai):
 
