@@ -23,7 +23,9 @@ from dotenv import load_dotenv
 user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
 
-#print('GAME_LAUNCH_ARGS' , os.getenv('GAME_LAUNCH_ARGS'))
+GAME_LAUNCH_ARGS = None
+
+print('GAME_LAUNCH_ARGS' , os.getenv('GAME_LAUNCH_ARGS'))
 
 model = "qwen3-vl:2b"
 model_class = None 
@@ -34,7 +36,7 @@ pluginraw = ''
 
 
 def parse():
-    global model_class, plugin_class, pluginname, pluginraw 
+    global model_class, plugin_class, pluginname, pluginraw , GAME_LAUNCH_ARGS
 
     parser = argparse.ArgumentParser(description='Games for llm')
     parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
@@ -66,12 +68,14 @@ def parse():
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
-    GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
+    if os.getenv('GAME_LAUNCH_ARGS') != None:
+        GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
     launch_args = []
 
-    for i in GAME_LAUNCH_ARGS.split(' '):
-        if i.strip() != '':
-            launch_args.append(i)
+    if GAME_LAUNCH_ARGS != None:
+        for i in GAME_LAUNCH_ARGS.split(' '):
+            if i != None and i.strip() != '' :
+                launch_args.append(i)
 
     for i in sys.argv[1:]:
         if i.strip() != '':
