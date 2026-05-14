@@ -221,10 +221,6 @@ if __name__ == "__main__":
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
 
-                    if plugin_class.step_count >= plugin_class.total and plugin_class.total > -1 :
-                        sys.exit()
-
-
                     z = plugin_class.encode_image_to_base64(f)
                    
                     xx = ''
@@ -264,7 +260,9 @@ if __name__ == "__main__":
                     plugin_class.message = ''
                     plugin_class.stats(True)
 
-                    
+                    if plugin_class.step_count >= plugin_class.total and plugin_class.total > -1 :
+                        sys.exit()
+
                     if plugin_class.step_count >= plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
                         pass

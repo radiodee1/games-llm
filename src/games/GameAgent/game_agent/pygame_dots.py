@@ -199,7 +199,7 @@ class PygameDotAgent(DefaultBare):
 
     def make_message(self) -> str:
         print(self.message.strip())
-        return "count the dots in the image."
+        return "Count the dots in the image. Use a numeral as a reply."
 
     def image_save(self, filename):
         self.pygame_save(filename)
