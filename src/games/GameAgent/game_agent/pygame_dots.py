@@ -214,7 +214,8 @@ class PygameDotAgent(DefaultBare):
 
     def stats(self, short=True):
         y = 0
-        mean = 0 
+        mean = 0
+        frame_info = 0 
         if short:
             x = int(self.action_string)
             if self.frame_info[-1]['guess'] == None:
@@ -236,6 +237,7 @@ class PygameDotAgent(DefaultBare):
                 y = math.floor(y * 100)
         super().stats(short)
         if not short:
+            print('accepted steps', frame_info)
             print('percent right' , y)
             print('average', mean)
 
