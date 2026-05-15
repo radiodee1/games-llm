@@ -1,5 +1,7 @@
 # Epic Runs - `pygame_dots.py` 
 
+The idea here is to construct an image, once for each time step, that shows a group of dots. Then you ask the model to tell you how many are in the picture. Not all LLMs can do this. It seems, though, that the larger models can, and some of the smaller models cannot. It goes without saying that the models in question need to have visual input.
+
 Here is an image showing a typical group of dots.
 
 ![ Dots Image ](/pic/dots.png)
