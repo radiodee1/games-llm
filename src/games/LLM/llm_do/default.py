@@ -50,6 +50,7 @@ class DefaultLLM:
         self.write_message = ""
         self.temperature = -1 
         self.top_p = -1 
+        self.reasoning_effort = None ## 'none', 'low', 'medium', 'high'
         self.print('Default', model)
         pass
 
@@ -152,7 +153,8 @@ class DefaultLLM:
         self.data['think'] = True
 
     def payload_temperature(self):
-        self.data['reasoning_effort'] = 'none'
+        if str(type(self).__name__) == 'Oai' and self.reasoning_effort != None:
+            self.data['reasoning_effort'] = self.reasoning_effort
         self.data['temperature'] = self.temperature 
 
     def payload_top_p(self):
