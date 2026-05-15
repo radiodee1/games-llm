@@ -1,5 +1,9 @@
 # Epic Runs - `pygame_dots.py` 
 
+Here is an image showing a typical group of dots.
+
+![ Dots Image ](/pic/dots.png)
+
 This is a ridiculously small sample of output.
 
 | Date | Time | Total | Model | Average | Percent Right | Elapsed Time | Image Size | Description |
