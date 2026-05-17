@@ -143,6 +143,9 @@ class DefaultLLM:
         if self.top_p > -1:
             self.payload_top_p()
 
+        if self.reasoning_effort != None and len(self.reasoning_effort ) > 0:
+            self.payload_reasoning_effort() 
+
         self.make_headers()
         if self.show_payload:
             print(self.data)
@@ -153,9 +156,10 @@ class DefaultLLM:
         self.data['think'] = True
 
     def payload_temperature(self):
-        if str(type(self).__name__) == 'Oai' and self.reasoning_effort != None:
-            self.data['reasoning_effort'] = self.reasoning_effort
         self.data['temperature'] = self.temperature 
+
+    def payload_reasoning_effort(self):
+        self.data['reasoning_effort'] = self.reasoning_effort
 
     def payload_top_p(self):
         self.data['top_p'] = self.top_p 
