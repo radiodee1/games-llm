@@ -11,6 +11,7 @@ class Oai (DefaultLLM):
         self.url ='https://api.openai.com/v1/' 
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
+        self.image_type_label = 'image_url'
         #self.think = False
 
         pass 
@@ -24,8 +25,8 @@ class Oai (DefaultLLM):
         },
         *[ 
             {
-                'type': 'image_url',
-                'image_url': {"url": f"data:image/png;base64,{q}", 'detail': 'high' } 
+                'type': self.image_type_label,
+                self.image_type_label: {"url": f"data:image/png;base64,{q}", 'detail': 'high' } 
             } for q in self.images ]
           ##
         ]
@@ -178,11 +179,12 @@ class Anth (Oai):
 
     def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
         super().__init__(model, streaming, chat, visual, think, key)
-        self.url ='https://anthropic.com/v1/' 
+        self.url ='https://api.anthropic.com/v1/' 
         self.url_ending_chat = 'messages'
-        self.url_ending_generate = ''
+        self.url_ending_generate = 'completions'
         self.header_anthropic_version = '2023-06-01'
         self.max_tokens = 1024
+        self.image_type_label = 'image'
         self.think = False
         pass
 
@@ -198,4 +200,36 @@ class Anth (Oai):
         self.data['max_tokens'] = self.max_tokens 
         return x  
 
+    def query_chat(self, x):
+        self.result = str(x['content'][0])
+
+    def payload_visual_chat(self):
+        self.payload_previous_chat()
+
+        content = [{
+            'type':'text',
+            'text': self.text 
+        },
+        *[ 
+            {
+                'type': self.image_type_label,
+                   'source': {'type': 'base64', 'media_type': 'image/png'  ,"data": f"{q}" } 
+            } for q in self.images ]
+          ##
+        ]
+        ##
+        self.history += [{
+            "role": 'user',
+            "content": content, 
+        }]
+
+        self.data = {
+            "model": self.model,
+            "messages": self.history,
+            "stream": self.streaming,
+            #"reasoning_effort": "none",
+            #"temperature": 0.1
+        }
+        #print(self.data)
+        pass 
 
