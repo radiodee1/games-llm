@@ -119,7 +119,8 @@ def parse():
     plugin_class.prompt_strategy = args.strategy
     plugin_class.make_corpus = args.make_corpus
     plugin_class.no_llm = args.make_corpus
-    plugin_class.no_llm = args.no_llm ## <-- place after args.make_corpus !! 
+    if args.no_llm > -1:
+        plugin_class.no_llm = args.no_llm ## <-- place after args.make_corpus !! 
     plugin_class.corpus_offset = args.corpus_offset
     plugin_class.temperature = args.temperature
     plugin_class.top_p = args.top_p
