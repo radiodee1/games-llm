@@ -110,7 +110,6 @@ def parse():
     plugin_class.disable_thinking = not args.thinking
     plugin_class.random_threshold = args.threshold
     plugin_class.image_strip = args.image_strip
-    plugin_class.no_llm = args.no_llm - 1
     plugin_class.stream_requests = args.stream 
     plugin_class.scrape_general = args.scrape_general
     plugin_class.video = args.video 
@@ -120,6 +119,7 @@ def parse():
     plugin_class.prompt_strategy = args.strategy
     plugin_class.make_corpus = args.make_corpus
     plugin_class.no_llm = args.make_corpus
+    plugin_class.no_llm = args.no_llm ## <-- place after args.make_corpus !! 
     plugin_class.corpus_offset = args.corpus_offset
     plugin_class.temperature = args.temperature
     plugin_class.top_p = args.top_p
@@ -216,7 +216,7 @@ if __name__ == "__main__":
                     if plugin_class.make_corpus > 0:
                         f = './pic/' + str(img) + '.png'
 
-                    if plugin_class.no_llm > 0 and plugin_class.step_count  > plugin_class.no_llm :
+                    if plugin_class.no_llm > -1 and plugin_class.step_count  >= plugin_class.no_llm :
                         #print('exit before png save')
                         sys.exit()
 
@@ -237,9 +237,9 @@ if __name__ == "__main__":
 
                     if plugin_class.no_llm <= -1 or plugin_class.make_corpus > 0:
                         xx = model_class.do(image=z, context=None, text=m )
-                    if plugin_class.no_llm > 0 and plugin_class.step_count > plugin_class.no_llm :
+                    if plugin_class.no_llm > -1 and plugin_class.step_count >= plugin_class.no_llm :
                         sys.exit()
-                    elif plugin_class.no_llm > 0:
+                    elif plugin_class.no_llm > -1:
                         if pluginraw in pygamelist or pluginraw == '':
                             pygame.display.update()
                         #ticks = 15
