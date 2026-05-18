@@ -1,5 +1,5 @@
 from .default import DefaultLLM
-from .remote import Oai, Gem, Mis 
+from .remote import Oai, Gem, Mis, Anth 
 from .local import Ollama, OllamaImages
 
 whitelist = {
@@ -13,7 +13,8 @@ whitelist = {
     'gemini-3-flash-preview' : 'Gem',
     'gemini-2.5-flash'       : 'Gem',
     'mistral-large-2512'     : 'Mis',
-    'pixtral-large-2411'     : 'Mis'
+    'pixtral-large-2411'     : 'Mis',
+    'claude-3-5-sonnet-20240620'    : 'Anth'
 }
 
 def whitelist_helper(model):

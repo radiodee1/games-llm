@@ -174,4 +174,28 @@ class Mis (Oai):
         self.think = False
         pass
 
+class Anth (Oai):
+
+    def __init__(self, model, streaming=False, chat=True, visual=True, think=False, key=None) -> None:
+        super().__init__(model, streaming, chat, visual, think, key)
+        self.url ='https://anthropic.com/v1/' 
+        self.url_ending_chat = 'messages'
+        self.url_ending_generate = ''
+        self.header_anthropic_version = '2023-06-01'
+        self.max_tokens = 1024
+        self.think = False
+        pass
+
+    def make_headers(self):
+        self.headers = {
+            "Content-Type": "application/json",
+            "x-api-key": str( self.api_key ),
+            "anthropic-version": self.header_anthropic_version
+        }
+
+    def payload(self, image=None, context=None, text=None):
+        x = super().payload(image, context, text)
+        self.data['max_tokens'] = self.max_tokens 
+        return x  
+
 

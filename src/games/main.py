@@ -13,7 +13,7 @@ import os
 import argparse 
 #import math
 from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent, PygameDotAgent
-from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages 
+from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages, Anth
 
 from GameAgent.game_agent import pluginlist, pygamelist
 from LLM.llm_do import whitelist, whitelist_helper
@@ -144,6 +144,8 @@ def parse():
             model_key = os.getenv('GEMINI_API_KEY')
         if modelname == 'Mis':
             model_key = os.getenv('MISTRAL_API_KEY')
+        if modelname == 'Anth':
+            model_key = os.getenv('ANTHROPIC_API_KEY')
         
 
         if len(args.force.strip()) > 0:
