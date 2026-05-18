@@ -12,6 +12,8 @@ OPENAI_API_KEY="openai-api-key-here"
 GEMINI_API_KEY="gemini-api-key-here"
 
 MISTRAL_API_KEY="mistral-api-key-here"
+
+ANTHROPIC_API_KEY="anthropic-api-key-here"
 ```
 
 To use OpenAI models you need to set up an account with them and pay some money. Then you can get an OPENAI_API_KEY. This key must be placed in your `~/.llm.env` file.
