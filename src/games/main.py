@@ -16,7 +16,7 @@ from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, 
 from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages 
 
 from GameAgent.game_agent import pluginlist, pygamelist
-from LLM.llm_do import whitelist
+from LLM.llm_do import whitelist, whitelist_helper
 
 from dotenv import load_dotenv
 
@@ -129,20 +129,21 @@ def parse():
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')
-            sys.exit()
-
-        model_key = ''
-        if whitelist[model] == 'Oai':
-            model_key = os.getenv('OPENAI_API_KEY')
-        if whitelist[model] == 'Gem':
-            model_key = os.getenv('GEMINI_API_KEY')
-        if whitelist[model] == 'Mis':
-            model_key = os.getenv('MISTRAL_API_KEY')
+            #sys.exit()
         
         if model in whitelist:
             modelname = whitelist[model]
         else:
-            modelname = model
+            modelname = whitelist_helper(model)
+
+        model_key = ''
+        if modelname == 'Oai':
+            model_key = os.getenv('OPENAI_API_KEY')
+        if modelname == 'Gem':
+            model_key = os.getenv('GEMINI_API_KEY')
+        if modelname == 'Mis':
+            model_key = os.getenv('MISTRAL_API_KEY')
+        
 
         if len(args.force.strip()) > 0:
             modelname = args.force.strip()
