@@ -233,3 +233,21 @@ class Anth (Oai):
         #print(self.data)
         pass 
 
+    def query_streaming_chat(self, x):
+        for lines in x.iter_lines():
+            if lines:
+                #print(lines)
+                if lines.startswith(b"data: "):
+                    decoded_line = lines.decode('utf-8')
+                    if decoded_line.startswith("data: "):
+
+                        json_str = decoded_line[6:]
+                        event_data = json.loads(json_str)
+                    
+                        # Check for the 'content_block_delta' event type for actual text
+                        if event_data.get("type") == "content_block_delta":
+                            text = event_data["delta"].get("text", "")
+                            #print(text, end="", flush=True)
+                            self.r_temp += str(text)
+
+
