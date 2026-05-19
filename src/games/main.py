@@ -1,17 +1,9 @@
 #!/usr/bin/env python3
 
-#PONG pygame
-
-#import json
-#import random
 import pygame, sys
 from pygame.locals import *
 import os 
-#import time
-#import subprocess
-#import base64
 import argparse 
-#import math
 from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent, PygameDotAgent
 from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages, Anth
 
@@ -24,8 +16,6 @@ user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
 
 GAME_LAUNCH_ARGS = None
-
-print('GAME_LAUNCH_ARGS' , os.getenv('GAME_LAUNCH_ARGS'))
 
 model = "qwen3-vl:2b"
 model_class = None 

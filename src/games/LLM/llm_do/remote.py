@@ -185,6 +185,7 @@ class Anth (Oai):
         self.header_anthropic_version = '2023-06-01'
         self.max_tokens = 1024
         self.image_type_label = 'image'
+        self.chat = True ## <-- only chat option 
         self.think = False
         pass
 
