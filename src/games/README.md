@@ -8,6 +8,10 @@ This list shows the first set of launcher scripts. More may be added later witho
 - `ale_20_lunarlander.sh` - Simple script for launching Lunar Lander.
 - `ale_30_pong_gpt54.sh` - Simple script for launching the ALE / Gymnasium Pong game.
 - `ale_40_gemini3flash.sh` - Simple script for launching the ALE / Gymnasium Pong game.
+- `ale_50_no_llm.sh` - Test out main without calls to LLM.
+- `ale_60_breakout_gemini.sh` - Breakout.
+- `ale_70_gemma4_pong.sh` - More pong.
+- `ale_80_test_dots.sh` - Test dots.
 
 These launcher scripts are for local LLMs and remote LLMs with the pygame Pong code.
 
