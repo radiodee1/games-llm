@@ -137,6 +137,7 @@ def parse():
         if modelname == 'Anth':
             model_key = os.getenv('ANTHROPIC_API_KEY')
         
+        model_key = None
 
         if len(args.force.strip()) > 0:
             modelname = args.force.strip()
