@@ -67,7 +67,7 @@ class DefaultLLM:
             print(*args)
 
     def check_api_key(self):
-        if self.api_key == None and self.api_key_name != None:
+        if (self.api_key == None or len(self.api_key.strip()) == 0 ) and self.api_key_name != None:
             if os.getenv(self.api_key_name) != None:
                 self.api_key = os.getenv(self.api_key_name)
             else:
