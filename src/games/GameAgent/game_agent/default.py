@@ -98,7 +98,8 @@ class DefaultBare:
         m = [ str( '"' + i['meaning'] + '"') for i in self.action_meaning ]
         #print(m, 'm')
         txt = self.prompt_string + ' ' 
-        txt += 'These are the actions you can take: ' + ', '.join(m)
+        if len(self.action_meaning) > 0:
+            txt += 'These are the actions you can take: ' + ', '.join(m)
         return str(txt)
 
     def read_actions(self):
