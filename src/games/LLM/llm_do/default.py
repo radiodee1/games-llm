@@ -6,9 +6,10 @@ import os
 import time
 import base64
 
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-#load_dotenv()
+user_env = os.path.expanduser('~') + '/.llm.env'
+load_dotenv(user_env)
 
 class DefaultLLM:
 
@@ -40,6 +41,7 @@ class DefaultLLM:
         self.url_ending_chat = 'chat'
         self.url_ending_generate = 'generate'
         self.api_key = key 
+        self.api_key_name = None
 
         self.r_temp = ''
         self.think_temp = ''
@@ -63,6 +65,13 @@ class DefaultLLM:
     def print(self, *args):
         if self.print_to_screen:
             print(*args)
+
+    def check_api_key(self):
+        if self.api_key == None and self.api_key_name != None:
+            if os.getenv(self.api_key_name) != None:
+                self.api_key = os.getenv(self.api_key_name)
+            else:
+                self.api_key = ''
 
     def image_to_string(self, image_path):
         with open(image_path, "rb") as image_file:
@@ -355,6 +364,7 @@ class DefaultLLM:
             self.print('len history', len(self.history), self.history_size)
 
     def do(self, image=None, context=None, text=None):
+        self.check_api_key()
         self.payload(image=image, context=context, text=text)
         #self.print(self.data)
         self.query()

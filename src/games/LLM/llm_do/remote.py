@@ -12,6 +12,7 @@ class Oai (DefaultLLM):
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
         self.image_type_label = 'image_url'
+        self.api_key_name = "OPENAI_API_KEY"
         #self.think = False
 
         pass 
@@ -162,6 +163,7 @@ class Gem (Oai):
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
         self.think = False
+        self.api_key_name = "GEMINI_API_KEY"
         pass
 
 
@@ -173,6 +175,7 @@ class Mis (Oai):
         self.url_ending_chat = 'chat/completions'
         self.url_ending_generate = 'responses'
         self.think = False
+        self.api_key_name = "MISTRAL_API_KEY"
         pass
 
 class Anth (Oai):
@@ -187,6 +190,7 @@ class Anth (Oai):
         self.image_type_label = 'image'
         self.chat = True ## <-- only chat option 
         self.think = False
+        self.api_key_name = "ANTHROPIC_API_KEY"
         pass
 
     def make_headers(self):

@@ -5,8 +5,9 @@ description = "Random LLM API Stuff"
 readme = "./llm_do/README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "dotenv>=0.9.9",
     "requests>=2.32.5",
-    "uv_build>=0.11.9,<0.12"
+    "uv_build>=0.11.9,<0.12",
 ]
 
 [build-system]
