@@ -4,7 +4,7 @@ import pygame, sys
 from pygame.locals import *
 import os 
 import argparse 
-from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent, PygameDotAgent
+from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent, PygameDotAgent , ChatAgent
 from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages, Anth
 
 from GameAgent.game_agent import pluginlist, pygamelist
@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     if pluginraw not in pygamelist and pluginraw != '' and plugin_class.action == None:
         plugin_class.action = plugin_class.env.action_space.sample()
-
+        
     try:
         #game loop
         plugin_class.step_count = 0 
@@ -179,7 +179,8 @@ if __name__ == "__main__":
                 if num % plugin_class.skip == 0 or len(plugin_class.message) > 0:  
                     if not pluginraw in pygamelist and pluginraw !=  '' :
                         plugin_class.draw()
-
+                    
+                    plugin_class.prompt_string = input('here> ')
                     m = plugin_class.make_message()
                     if plugin_class.small_test > -1 :
                         img = num // plugin_class.skip 
@@ -273,7 +274,8 @@ if __name__ == "__main__":
 
 
             if pluginraw in pygamelist or pluginraw == '':
-                pygame.display.update()
+                #pygame.display.update()
+                pass 
 
             ticks = 60
             plugin_class.fps.tick(ticks)

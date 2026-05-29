@@ -9,4 +9,8 @@ class ChatAgent ( DefaultBare ):
         self.prompt_string = ""
         self.action_meaning = []
 
+    def make_message(self) -> str:
+        return self.prompt_string
 
+    def scrape(self, txt, replace=False):
+        return txt
