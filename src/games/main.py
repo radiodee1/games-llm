@@ -127,21 +127,11 @@ def parse():
         else:
             modelname = whitelist_helper(model)
 
-        model_key = ''
-        if modelname == 'Oai':
-            model_key = os.getenv('OPENAI_API_KEY')
-        if modelname == 'Gem':
-            model_key = os.getenv('GEMINI_API_KEY')
-        if modelname == 'Mis':
-            model_key = os.getenv('MISTRAL_API_KEY')
-        if modelname == 'Anth':
-            model_key = os.getenv('ANTHROPIC_API_KEY')
-        
-        model_key = None
-
         if len(args.force.strip()) > 0:
             modelname = args.force.strip()
             
+        model_key = None
+
         model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
 
         model_class.images_size = plugin_class.queue_len 
