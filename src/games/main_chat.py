@@ -18,7 +18,7 @@ load_dotenv(user_env)
 GAME_LAUNCH_ARGS = None
 
 model = "qwen3-vl:2b"
-model_class = None 
+a_model_class = None 
 
 plugin_class = None
 pluginname = ''
@@ -26,7 +26,7 @@ pluginraw = ''
 
 
 def parse():
-    global model_class, plugin_class, pluginname, pluginraw , GAME_LAUNCH_ARGS
+    global a_model_class, plugin_class, pluginname, pluginraw , GAME_LAUNCH_ARGS
 
     parser = argparse.ArgumentParser(description='Games for llm')
     parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
@@ -88,8 +88,8 @@ def parse():
     plugin_class.use_chat = not args.generate 
     plugin_class.auto = not args.no_opponent
     plugin_class.text_input = not args.key_input
-    plugin_class.small_test = args.small_test
-    plugin_class.total = args.total 
+    plugin_class.small_test = args.small_test * 2 
+    plugin_class.total = args.total * 2 
     plugin_class.sudden_death_score = args.sudden_death
     plugin_class.model = args.model
     model = args.model 
@@ -110,8 +110,8 @@ def parse():
     plugin_class.make_corpus = args.make_corpus
     plugin_class.no_llm = args.make_corpus
     if args.no_llm > -1:
-        plugin_class.no_llm = args.no_llm ## <-- place after args.make_corpus !! 
-    plugin_class.corpus_offset = args.corpus_offset
+        plugin_class.no_llm = args.no_llm * 2 ## <-- place after args.make_corpus !! 
+    plugin_class.corpus_offset = args.corpus_offset * 2
     plugin_class.temperature = args.temperature
     plugin_class.top_p = args.top_p
 
@@ -132,24 +132,44 @@ def parse():
             
         model_key = None
 
-        model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
+        a_model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
 
-        model_class.images_size = plugin_class.queue_len 
-        model_class.context_size = plugin_class.context_size
-        model_class.history_size = plugin_class.context_size + 1
-        model_class.temperature = plugin_class.temperature
-        model_class.top_p = plugin_class.top_p
-        model_class.smaller = plugin_class.smaller
+        a_model_class.images_size = plugin_class.queue_len 
+        a_model_class.context_size = plugin_class.context_size
+        a_model_class.history_size = plugin_class.context_size + 1
+        a_model_class.temperature = plugin_class.temperature
+        a_model_class.top_p = plugin_class.top_p
+        a_model_class.smaller = plugin_class.smaller
 
-        #model_class.print_to_screen = True
-        #model_class.show_payload = True
-        model_class.write_to_text = True
+        #a_model_class.print_to_screen = True
+        #a_model_class.show_payload = True
+        a_model_class.write_to_text = True
         
         if modelname == 'OllamaImages':
-            model_class.image_token_budget = 1120
+            a_model_class.image_token_budget = 1120
 
         if plugin_class.image_strip > 0 and not plugin_class.video:
-            model_class.images_size = 1 
+            a_model_class.images_size = 1 
+
+        b_model_class = globals()[modelname](model, streaming=plugin_class.stream_requests, chat=plugin_class.use_chat, visual=True, think=not plugin_class.disable_thinking, key=model_key)
+
+        b_model_class.images_size = plugin_class.queue_len 
+        b_model_class.context_size = plugin_class.context_size
+        b_model_class.history_size = plugin_class.context_size + 1
+        b_model_class.temperature = plugin_class.temperature
+        b_model_class.top_p = plugin_class.top_p
+        b_model_class.smaller = plugin_class.smaller
+
+        #a_model_class.print_to_screen = True
+        #a_model_class.show_payload = True
+        b_model_class.write_to_text = True
+        
+        if modelname == 'OllamaImages':
+            b_model_class.image_token_budget = 1120
+
+        if plugin_class.image_strip > 0 and not plugin_class.video:
+            b_model_class.images_size = 1 
+
 
 
 if __name__ == "__main__":
@@ -182,6 +202,7 @@ if __name__ == "__main__":
                     
                     plugin_class.prompt_string = input('here> ')
                     m = plugin_class.make_message()
+                    
                     if plugin_class.small_test > -1 :
                         img = num // plugin_class.skip 
                         if len(plugin_class.prompt_list) > 0:
@@ -200,18 +221,17 @@ if __name__ == "__main__":
                     
                     if plugin_class.make_corpus > 0:
                         f = './pic/' + str(img) + '.png'
-
+                    
                     if plugin_class.no_llm > -1 and plugin_class.step_count  >= plugin_class.no_llm :
                         #print('exit before png save')
                         sys.exit()
 
-                    #plugin_class.pygame_save(f)
-                    plugin_class.image_save(f)
+                    #plugin_class.image_save(f)
 
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
 
-                    z = plugin_class.encode_image_to_base64(f)
+                    #z = plugin_class.encode_image_to_base64(f)
                    
                     xx = ''
                     # open in the system browser!!
@@ -221,7 +241,11 @@ if __name__ == "__main__":
                     print(m + '\n---')
 
                     if plugin_class.no_llm <= -1 or plugin_class.make_corpus > 0:
-                        xx = model_class.do(image=z, context=None, text=m )
+                        i = plugin_class.step_count % 2
+                        if i == 0:
+                            xx = a_model_class.do(image=None, context=None, text=m )
+                        if i == 1:
+                            xx = b_model_class.do(image=None, context=None, text=m )
                     if plugin_class.no_llm > -1 and plugin_class.step_count >= plugin_class.no_llm :
                         sys.exit()
                     elif plugin_class.no_llm > -1:
@@ -235,7 +259,9 @@ if __name__ == "__main__":
 
                     if plugin_class.make_corpus > 0:
                         a = plugin_class.action_string
-                        model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
+                        a_model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
+                        b_model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
+
                         paddle_message = ''
 
                     if len(plugin_class.message) > 0:
