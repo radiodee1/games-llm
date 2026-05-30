@@ -273,7 +273,7 @@ if __name__ == "__main__":
                     if len(plugin_class.message) > 0:
                         plugin_class.commands.append( str(plugin_class.step_count + 1) + ' ' + plugin_class.action_string + ' --' + str(plugin_class.message) + '--')
                     else:
-                        plugin_class.commands.append(str(plugin_class.step_count + 1) + ' ' + plugin_class.action_string)
+                        plugin_class.commands.append( str(plugin_class.step_count + 1) + ' ' + plugin_class.action_string)
                     print('[' + str(plugin_class.step_count + 1) + ']', plugin_class.action_string)
                     print(plugin_class.message)
                     #print('ball_vel', ball_vel, 'ball_pos', ball_pos)
@@ -324,8 +324,8 @@ if __name__ == "__main__":
     finally:
         print('---')
         plugin_class.stats(False)
-        a_model_class.stats(False)
-        #b_model_class.stats(False)
+        b_model_class.stats(False)
+        #a_model_class.stats(False)
         pass 
         
 
