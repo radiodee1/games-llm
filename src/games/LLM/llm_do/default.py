@@ -402,16 +402,20 @@ class DefaultLLM:
     def remove_formatting(self, text):
         if not isinstance(text, str):
             return []
-        
+
+        # Remove punctuation
+        text = re.sub(r'[\.?!]', ' ', text)
+
         # Remove markdown formatting characters
         clean_text = re.sub(r'[*_`~#\-+=>[\](){}\\|]', ' ', text)
+        clean_text = clean_text.replace("\u2014", " ")
         # Split by whitespace and filter out empty strings
         words = clean_text.split()
         for i in words:
-            if i in self.word_frequency:
-                self.word_frequency[i] += 1
+            if i.lower() in self.word_frequency:
+                self.word_frequency[i.lower()] += 1
             else:
-                self.word_frequency[i] = 1 
+                self.word_frequency[i.lower()] = 1 
         return words 
 
     def stats(self, short=True):

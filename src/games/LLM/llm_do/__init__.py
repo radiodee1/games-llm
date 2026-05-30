@@ -9,6 +9,7 @@ whitelist = {
     'gemma4:e4b'    : 'OllamaImages',
     'gpt-5.2'       : 'Oai',
     'gpt-4o'        : 'Oai',
+    'gpt-4o-mini'   : 'Oai',
     'gpt-5.4'       : 'Oai',
     'gemini-3-flash-preview' : 'Gem',
     'gemini-2.5-flash'       : 'Gem',

@@ -204,6 +204,8 @@ if __name__ == "__main__":
                     
                     if xx == None:
                         xx = input("here> ")
+                        if len(xx.strip()) == 0 and len(plugin_class.prompt_list) > 0:
+                            xx = plugin_class.prompt_list[0]
 
                     plugin_class.prompt_string = xx 
                     m = plugin_class.make_message()
@@ -323,7 +325,7 @@ if __name__ == "__main__":
         print('---')
         plugin_class.stats(False)
         a_model_class.stats(False)
-        b_model_class.stats(False)
+        #b_model_class.stats(False)
         pass 
         
 

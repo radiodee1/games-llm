@@ -8,6 +8,7 @@ class ChatAgent ( DefaultBare ):
         self.agent = 'Chat'
         self.prompt_string = ""
         self.action_meaning = []
+        self.prompt_list = [ 'Say something inspirational about how to use your time wisely.' ]
 
     def make_message(self) -> str:
         return self.prompt_string
