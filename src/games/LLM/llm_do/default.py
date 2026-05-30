@@ -5,6 +5,7 @@ import requests
 import os 
 import time
 import base64
+import re 
 
 from dotenv import load_dotenv
 
@@ -53,6 +54,7 @@ class DefaultLLM:
         self.temperature = -1 
         self.top_p = -1 
         self.reasoning_effort = None ## 'none', 'low', 'medium', 'high'
+        self.word_frequency = {}
         self.print('Default', model)
         pass
 
@@ -396,3 +398,23 @@ class DefaultLLM:
             w.write(json.dumps(f) + '\n')
 
         return
+
+    def remove_formatting(self, text):
+        if not isinstance(text, str):
+            return []
+        
+        # Remove markdown formatting characters
+        clean_text = re.sub(r'[*_`~#\-+=>[\](){}\\|]', ' ', text)
+        # Split by whitespace and filter out empty strings
+        words = clean_text.split()
+        for i in words:
+            if i in self.word_frequency:
+                self.word_frequency[i] += 1
+            else:
+                self.word_frequency[i] = 1 
+        return words 
+
+    def stats(self, short=True):
+        if not short:
+            print(self.word_frequency)
+        pass 

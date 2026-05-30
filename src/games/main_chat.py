@@ -266,7 +266,6 @@ if __name__ == "__main__":
                         a = plugin_class.action_string
                         a_model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
                         b_model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
-
                         paddle_message = ''
 
                     if len(plugin_class.message) > 0:
@@ -277,9 +276,15 @@ if __name__ == "__main__":
                     print(plugin_class.message)
                     #print('ball_vel', ball_vel, 'ball_pos', ball_pos)
                     
+                    a_model_class.remove_formatting(xx)
+                    b_model_class.remove_formatting(xx)
+
+                    
                     plugin_class.step_count += 1
                     plugin_class.message = ''
                     plugin_class.stats(True)
+                    a_model_class.stats(True)
+                    b_model_class.stats(True)
 
                     if plugin_class.step_count >= plugin_class.total and plugin_class.total > -1 :
                         sys.exit()
@@ -317,6 +322,8 @@ if __name__ == "__main__":
     finally:
         print('---')
         plugin_class.stats(False)
+        a_model_class.stats(False)
+        b_model_class.stats(False)
         pass 
         
 
