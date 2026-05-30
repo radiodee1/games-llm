@@ -19,6 +19,7 @@ GAME_LAUNCH_ARGS = None
 
 model = "qwen3-vl:2b"
 a_model_class = None 
+b_model_class = None
 
 plugin_class = None
 pluginname = ''
@@ -26,7 +27,7 @@ pluginraw = ''
 
 
 def parse():
-    global a_model_class, plugin_class, pluginname, pluginraw , GAME_LAUNCH_ARGS
+    global a_model_class, b_model_class, plugin_class, pluginname, pluginraw , GAME_LAUNCH_ARGS
 
     parser = argparse.ArgumentParser(description='Games for llm')
     parser.add_argument('--plugin', default='', type=str, help='Game plugin for tests.')
@@ -190,6 +191,7 @@ if __name__ == "__main__":
         num = 0
         er = 0
         last_code = 200 
+        xx = None
         while True:
             if pluginraw in pygamelist or pluginraw == '':
                 plugin_class.draw()
@@ -200,7 +202,10 @@ if __name__ == "__main__":
                     if not pluginraw in pygamelist and pluginraw !=  '' :
                         plugin_class.draw()
                     
-                    plugin_class.prompt_string = input('here> ')
+                    if xx == None:
+                        xx = input("here> ")
+
+                    plugin_class.prompt_string = xx 
                     m = plugin_class.make_message()
                     
                     if plugin_class.small_test > -1 :
@@ -233,7 +238,7 @@ if __name__ == "__main__":
 
                     #z = plugin_class.encode_image_to_base64(f)
                    
-                    xx = ''
+                    #xx = ''
                     # open in the system browser!!
                     #subprocess.run(['open','data:image/png;base64,' + z])
                     #sys.exit()
