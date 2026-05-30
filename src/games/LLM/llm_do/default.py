@@ -425,5 +425,7 @@ class DefaultLLM:
     def stats(self, short=True):
         if not short:
             #print(self.word_frequency)
-            print(self.sort_dict_by_values(self.word_frequency, descending=True))
+            x = self.sort_dict_by_values(self.word_frequency, descending=True)
+            print(x)
+            self.word_frequency = x 
         pass 
