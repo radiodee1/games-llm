@@ -418,7 +418,12 @@ class DefaultLLM:
                 self.word_frequency[i.lower()] = 1 
         return words 
 
+    def sort_dict_by_values(self, input_dict, descending=False):
+        """Sorts a dictionary by its values and returns a new dictionary."""
+        return dict(sorted(input_dict.items(), key=lambda item: item[1], reverse=descending))
+
     def stats(self, short=True):
         if not short:
-            print(self.word_frequency)
+            #print(self.word_frequency)
+            print(self.sort_dict_by_values(self.word_frequency, descending=True))
         pass 
