@@ -14,13 +14,14 @@ class ChatAgent ( DefaultBare ):
         return self.prompt_string
 
     def scrape(self, txt, replace=False):
+        self.action_string = txt 
         return txt
 
     def stats(self, short=True):
         if not short:
             print('-+', self.prompt_string, '+-')
             with open('./pic/llm.' + self.agent + '.txt', 'w') as x:
-                x.write(self.agent + ' : '  + ' '.join( self.prompt_string.strip().strip('--').strip().split('\n'))  )
+                x.write(self.agent + ' : '  + ' '.join( self.action_string.strip().strip('--').strip().split('\n'))  )
                 x.close()
 
 
