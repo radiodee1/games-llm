@@ -44,6 +44,7 @@ class DefaultLLM:
         self.api_key = key 
         self.api_key_name = None
 
+        self.system_prompt = 'You are a helpful assistant.'
         self.r_temp = ''
         self.think_temp = ''
         self.print_to_screen = False
@@ -134,12 +135,14 @@ class DefaultLLM:
                 self.payload_visual_chat()
             else:
                 self.payload_text_chat()
+            self.payload_system_prompt_chat()
         else:
             self.url_derived = self.url + self.url_ending_generate
             if self.visual:
                 self.payload_visual_generate()
             else:
                 self.payload_text_generate()
+            self.payload_system_prompt_generate() 
 
         p = self.payload_overload()
         if len(p) > 0:
@@ -163,6 +166,17 @@ class DefaultLLM:
 
         ## done ##
 
+    def payload_system_prompt_chat(self):
+        self.history += [{
+            "role": "system",
+            "content": self.system_prompt,
+        }]
+
+        pass
+
+    def payload_system_prompt_generate(self):
+        self.data['system'] = self.system_prompt
+
     def payload_think(self):
         self.data['think'] = True
 
@@ -180,7 +194,7 @@ class DefaultLLM:
         
         print('images', len(self.images))
         self.history += [{
-            "role": "system",
+            "role": "user",
             "content": self.text,
             "images" : self.images
         }]

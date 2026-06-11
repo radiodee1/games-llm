@@ -207,7 +207,10 @@ class Anth (Oai):
 
     def query_chat(self, x):
         self.result = str(x['content'][0])
-
+    
+    def payload_system_prompt_chat(self):
+        self.data['system'] = self.system_prompt
+        
     def payload_visual_chat(self):
         self.payload_previous_chat()
 
