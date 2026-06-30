@@ -7,7 +7,7 @@ https://gist.github.com/vinothpandian/4337527
 
 * Ollama supports some models that take images as input. I'm interested in seeing if these models can play video games. 
 
-* I'm not doing any training at all. The test is weather or not the model in question can play a game at inference time, after training is over. 
+* I'm not doing any training at all. The test is whether or not the model in question can play a game at inference time, after training is over. 
 
 * In this folder at least for starters I am trying to get `qwen3-vl:2b` to play `pong` against the computer. I pass the visual model a series of `png` files and some text, and ask the model to move one of the paddles with a special command. So far the model will use the command, but does not win the game. The model loses. It should be noted that the game plays out very slowly. The model takes several minutes to respond to each set of images because I am using just CPU processing.
 

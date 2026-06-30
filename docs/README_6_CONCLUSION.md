@@ -6,4 +6,4 @@ Companies like OpenAI are constantly working on new Large Language Models. They 
 
 These models do other things very well, but they cannot be AGI if they cannot do everything very well.
 
-It is not clear to me weather or not OpenAI trains their models with Atari 2600 games. The so called AGI model, regardless, would be able to win despite it's specific training.
+It is not clear to me whether or not OpenAI trains their models with Atari 2600 games. The so called AGI model, regardless, would be able to win despite it's specific training.
