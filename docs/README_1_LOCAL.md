@@ -1,9 +1,9 @@
 # Visual Models - Initial Coding With Local Models
 * This is the url for the original PONG code. The code is found in the file `pong_original.py`.
 
-```
-https://gist.github.com/vinothpandian/4337527
-```
+  ```
+  https://gist.github.com/vinothpandian/4337527
+  ```
 
 * Ollama supports some models that take images as input. I'm interested in seeing if these models can play video games. 
 
