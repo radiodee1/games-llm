@@ -9,6 +9,7 @@ import base64
 import time
 import shutil
 import math
+import ffmpeg  
 
 class DefaultBare:
 
@@ -84,6 +85,30 @@ class DefaultBare:
         with open(image_path, "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         return encoded_string
+
+    def convert_video(self, num=0):
+        try:
+            (
+                ffmpeg
+                .input("pic/figure_%010d.png")
+                #.option("y") # Overwrite output file if it exists
+                .filter('fps', fps=16, round='up')
+                .filter('scale', w=648, h=448, flags='neighbor')
+                .output(
+                    "pic/output_" + str(num) + ".mp4",
+                    pix_fmt='yuv444p',
+                    vcodec="libx264", # Video codec
+                    preset="medium"
+                )
+                .overwrite_output()
+                .run(capture_stdout=True, capture_stderr=True)
+            )
+            print("Processing video...")
+            print("Done!")
+        except ffmpeg.Error as e:
+            print("ffmpeg error:",  e.stderr.decode())
+
+        return 
 
     def pygame_save(self, f):
         pass

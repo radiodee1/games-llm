@@ -207,6 +207,9 @@ if __name__ == "__main__":
                     #plugin_class.pygame_save(f)
                     plugin_class.image_save(f)
 
+                    if plugin_class.video > 0:
+                        plugin_class.convert_video()
+
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
 
