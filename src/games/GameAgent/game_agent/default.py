@@ -9,7 +9,9 @@ import base64
 import time
 import shutil
 import math
-import ffmpeg  
+import ffmpeg 
+import glob
+import os 
 
 class DefaultBare:
 
@@ -86,11 +88,54 @@ class DefaultBare:
             encoded_string = base64.b64encode(image_file.read()).decode("utf-8")
         return encoded_string
 
+    def prune_png(self, num=3):
+        ## get latest figure
+        ii = 'pic/figure_0.png'
+        img = ('00000000000' + str(0))[- 10:]
+        print(num, 'num')
+        ## find latest number
+        g = glob.glob('pic/figure_x*.png')
+        g.sort()
+        print(g)
+        if len(g) > 0:
+            i = g[-1]
+            n = i[len('pic/figure_x'): - len('.png')]
+            print(i, n)
+            j = int(n)
+            print('int', j)
+            j = j + 1 
+            img = ('00000000000' + str(j))[- 10:]
+
+        ## put file in queue 
+        os.rename(ii, 'pic/figure_x' + str(img) + ".png")   
+        ## get whole queue
+        g = glob.glob('pic/figure_x*.png')
+        g.sort()
+        z = 0 
+        ## trim beginning of queue
+        while len(g) > num and z < 100:
+            os.remove(g[0])
+
+            g = glob.glob('pic/figure_x*.png')
+            g.sort() 
+            z += 1
+        print(len(g), 'g len', g)
+        ## move all of queue to low position 
+        g = glob.glob('pic/figure_x*.png')
+        g.sort()
+        j = 0 
+        for i in g:
+            img = ('00000000000' + str(j))[- 10:]
+            os.rename(i, 'pic/figure_x' + str(img) + '.png')
+            j += 1 
+        print(len(g), 'final g len', g)
+        return
+
     def convert_video(self, num=0):
         try:
             (
                 ffmpeg
-                .input("pic/figure_%010d.png")
+                .input("pic/figure_x%010d.png")
                 #.option("y") # Overwrite output file if it exists
                 .filter('fps', fps=16, round='up')
                 .filter('scale', w=648, h=448, flags='neighbor')
@@ -103,7 +148,7 @@ class DefaultBare:
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
             )
-            print("Processing video...")
+            print("Processing video...", 'pic/figure_%010d.png')
             print("Done!")
         except ffmpeg.Error as e:
             print("ffmpeg error:",  e.stderr.decode())

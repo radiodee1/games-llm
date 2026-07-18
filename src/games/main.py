@@ -207,14 +207,16 @@ if __name__ == "__main__":
                     #plugin_class.pygame_save(f)
                     plugin_class.image_save(f)
 
-                    if plugin_class.video > 0:
-                        plugin_class.convert_video()
-
                     if int(img) > plugin_class.small_test and plugin_class.small_test > -1 :
                         sys.exit()
 
                     z = plugin_class.encode_image_to_base64(f)
-                   
+                    
+                    if plugin_class.video > 0:
+                        plugin_class.prune_png(plugin_class.video)
+                        plugin_class.convert_video()
+
+                  
                     xx = ''
                     # open in the system browser!!
                     #subprocess.run(['open','data:image/png;base64,' + z])
