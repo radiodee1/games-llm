@@ -123,11 +123,18 @@ class DefaultBare:
         ## move all of queue to low position 
         g = glob.glob('pic/figure_x*.png')
         g.sort()
-        j = 0 
-        for i in g:
-            img = ('00000000000' + str(j))[- 10:]
-            os.rename(i, 'pic/figure_x' + str(img) + '.png')
-            j += 1 
+        j = 0
+        
+        for i in range(len(g)):
+            n = g[i][len('pic/figure_x'): - len('.png')]
+            print(i, n)
+            j = int(n)
+            if j != i:
+                img_i = ('00000000000' + str(i))[- 10:]
+                img_j = ('00000000000' + str(j))[- 10:]
+                os.rename('pic/figure_x' + str(img_j) + '.png', 'pic/figure_x' + str(img_i) + '.png')
+        g = glob.glob('pic/figure_x*.png')
+        g.sort() 
         print(len(g), 'final g len', g)
         return
 
