@@ -46,7 +46,7 @@ def parse():
     parser.add_argument('--image_strip', default=-1, type=int, help="Enable comic strip type image manipulation.")
     parser.add_argument('--no_llm', default=-1, type=int, help="Run for specified number of iterations without LLM.")
     parser.add_argument('--stream', action='store_true', help="Access model in Stream mode.")
-    parser.add_argument('--video', action='store_true', help="Use video format in the OpenAI code. Must set image_strip to -1.")
+    parser.add_argument('--video', default=-1, type=int, help="Use video format in the OpenAI code. Must set image_strip to -1.")
     parser.add_argument('--scrape_general', action='store_true', help="Scrape output for simple commands.")
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
@@ -142,13 +142,13 @@ def parse():
         model_class.smaller = plugin_class.smaller
 
         #model_class.print_to_screen = True
-        model_class.show_payload = False
+        model_class.show_payload = True
         model_class.write_to_text = True
         
         if modelname == 'OllamaImages':
             model_class.image_token_budget = 1120
 
-        if plugin_class.image_strip > 0 and not plugin_class.video:
+        if plugin_class.image_strip > 0 and  plugin_class.video == -1:
             model_class.images_size = 1 
 
 
