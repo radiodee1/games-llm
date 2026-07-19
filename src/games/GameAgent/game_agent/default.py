@@ -107,7 +107,22 @@ class DefaultBare:
             img = ('00000000000' + str(j))[- 10:]
 
         ## put file in queue 
-        os.rename(ii, 'pic/figure_x' + str(img) + ".png")   
+        os.rename(ii, 'pic/figure_x' + str(img) + ".png")  
+        ## pad list 
+        g = glob.glob('pic/figure_x*.png')
+        g.sort()
+        z = 0 
+        while len(g) < num and z < 100:
+            i = g[-1]
+            n = i[len('pic/figure_x'): - len('.png')]
+            #print(i, n)
+            j = int(n)
+            #print('int', j)
+            j = j + 1 
+            img = ('00000000000' + str(j))[- 10:]
+            shutil.copy( i, 'pic/figure_x' + str(img) + '.png')
+            z += 1 
+
         ## get whole queue
         g = glob.glob('pic/figure_x*.png')
         g.sort()

@@ -5,7 +5,7 @@ from pygame.locals import *
 import os 
 import argparse 
 from GameAgent.game_agent import  PygamePongAgent, LunarLanderAgent, PongAgent, BreakoutAgent, PygameDotAgent
-from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages, Anth
+from LLM.llm_do import  Oai, Ollama, Gem, Mis, OllamaImages, Anth, Vjepa2Demo
 
 from GameAgent.game_agent import pluginlist, pygamelist
 from LLM.llm_do import whitelist, whitelist_helper
