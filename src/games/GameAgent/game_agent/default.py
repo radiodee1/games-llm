@@ -92,17 +92,17 @@ class DefaultBare:
         ## get latest figure
         ii = 'pic/figure_0.png'
         img = ('00000000000' + str(0))[- 10:]
-        print(num, 'num')
+        #print(num, 'num')
         ## find latest number
         g = glob.glob('pic/figure_x*.png')
         g.sort()
-        print(g)
+        #print(g)
         if len(g) > 0:
             i = g[-1]
             n = i[len('pic/figure_x'): - len('.png')]
-            print(i, n)
+            #print(i, n)
             j = int(n)
-            print('int', j)
+            #print('int', j)
             j = j + 1 
             img = ('00000000000' + str(j))[- 10:]
 
@@ -119,7 +119,7 @@ class DefaultBare:
             g = glob.glob('pic/figure_x*.png')
             g.sort() 
             z += 1
-        print(len(g), 'g len', g)
+        #print(len(g), 'g len', g)
         ## move all of queue to low position 
         g = glob.glob('pic/figure_x*.png')
         g.sort()
@@ -127,15 +127,15 @@ class DefaultBare:
         
         for i in range(len(g)):
             n = g[i][len('pic/figure_x'): - len('.png')]
-            print(i, n)
+            #print(i, n)
             j = int(n)
             if j != i:
                 img_i = ('00000000000' + str(i))[- 10:]
                 img_j = ('00000000000' + str(j))[- 10:]
                 os.rename('pic/figure_x' + str(img_j) + '.png', 'pic/figure_x' + str(img_i) + '.png')
-        g = glob.glob('pic/figure_x*.png')
-        g.sort() 
-        print(len(g), 'final g len', g)
+        #g = glob.glob('pic/figure_x*.png')
+        #g.sort() 
+        #print(len(g), 'final g len', g)
         return
 
     def convert_video(self, num=0):
