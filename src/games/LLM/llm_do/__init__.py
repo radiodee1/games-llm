@@ -1,6 +1,6 @@
 from .default import DefaultLLM
 from .remote import Oai, Gem, Mis, Anth 
-from .local import Ollama, OllamaImages
+from .local import Ollama, OllamaImages, Vjepa2Demo
 
 whitelist = {
     'qwen3-vl:2b'   : 'Ollama',
@@ -15,7 +15,8 @@ whitelist = {
     'gemini-2.5-flash'       : 'Gem',
     'mistral-large-2512'     : 'Mis',
     'pixtral-large-2411'     : 'Mis',
-    'claude-3-5-sonnet-20240620'    : 'Anth'
+    'claude-3-5-sonnet-20240620'    : 'Anth',
+    'vjepa':       'Vjepa2Demo'
 }
 
 def whitelist_helper(model):
