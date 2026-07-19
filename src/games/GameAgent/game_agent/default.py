@@ -122,6 +122,8 @@ class DefaultBare:
             img = ('00000000000' + str(j))[- 10:]
             shutil.copy( i, 'pic/figure_x' + str(img) + '.png')
             z += 1 
+            g = glob.glob('pic/figure_x*.png')
+            g.sort()
 
         ## get whole queue
         g = glob.glob('pic/figure_x*.png')
