@@ -145,7 +145,7 @@ class DefaultBare:
                 .input("pic/figure_x%010d.png")
                 #.option("y") # Overwrite output file if it exists
                 .filter('fps', fps=16, round='up')
-                .filter('scale', w=648, h=448, flags='neighbor')
+                .filter('scale', w=320, h=420, flags='neighbor')
                 .output(
                     "pic/output_" + str(num) + ".mp4",
                     pix_fmt='yuv444p',
