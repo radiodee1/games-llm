@@ -89,15 +89,9 @@ class DefaultBare:
         return encoded_string
 
     def prune_png(self, num=3):
-        ## get latest figure
-        g = glob.glob('pic/figure_x*.png')
-        g.sort()
-        
+        ## get latest figure        
         img = ('00000000000' + str(0))[- 10:]
-        ii = 'pic/figure_x' + str(img) + ".png"
-
-        if len(g) > 0:
-            ii = g[-1]
+        ii = "pic/figure_0.png"
 
         ## find latest number
         g = glob.glob('pic/figure_x*.png')
@@ -113,7 +107,7 @@ class DefaultBare:
             img = ('00000000000' + str(j))[- 10:]
 
             ## put file in queue 
-            os.rename(ii, 'pic/figure_x' + str(img) + ".png")  
+        shutil.copy(ii, 'pic/figure_x' + str(img) + ".png")  
 
         ## pad list 
         g = glob.glob('pic/figure_x*.png')
@@ -179,7 +173,8 @@ class DefaultBare:
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
             )
-            print("Processing video...", 'pic/figure_%010d.png')
+            print("Processing video...", glob.glob('pic/figure_x*.png').sort())
+
             print("Done!")
         except ffmpeg.Error as e:
             print("ffmpeg error:",  e.stderr.decode())
