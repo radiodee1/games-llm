@@ -90,11 +90,15 @@ class DefaultBare:
 
     def prune_png(self, num=3):
         ## get latest figure
-
-        #ii = 'pic/figure_0.png'
+        g = glob.glob('pic/figure_x*.png')
+        g.sort()
+        
         img = ('00000000000' + str(0))[- 10:]
         ii = 'pic/figure_x' + str(img) + ".png"
-        #print(num, 'num')
+
+        if len(g) > 0:
+            ii = g[-1]
+
         ## find latest number
         g = glob.glob('pic/figure_x*.png')
         g.sort()
