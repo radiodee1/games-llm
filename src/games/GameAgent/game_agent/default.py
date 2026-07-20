@@ -90,8 +90,10 @@ class DefaultBare:
 
     def prune_png(self, num=3):
         ## get latest figure
-        ii = 'pic/figure_0.png'
+
+        #ii = 'pic/figure_0.png'
         img = ('00000000000' + str(0))[- 10:]
+        ii = 'pic/figure_x' + str(img) + ".png"
         #print(num, 'num')
         ## find latest number
         g = glob.glob('pic/figure_x*.png')
@@ -106,8 +108,9 @@ class DefaultBare:
             j = j + 1 
             img = ('00000000000' + str(j))[- 10:]
 
-        ## put file in queue 
-        os.rename(ii, 'pic/figure_x' + str(img) + ".png")  
+            ## put file in queue 
+            os.rename(ii, 'pic/figure_x' + str(img) + ".png")  
+
         ## pad list 
         g = glob.glob('pic/figure_x*.png')
         g.sort()

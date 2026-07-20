@@ -38,4 +38,6 @@ class Vjepa2Demo (DefaultLLM):
 
     def do(self, image=None, context=None, text=None):
         from notebooks.vjepa2_demo_cpu import run_sample_inference 
-        return run_sample_inference()
+        x = run_sample_inference()
+        print('=====',x)
+        return x 
