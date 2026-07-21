@@ -158,12 +158,13 @@ class DefaultBare:
 
     def convert_video(self, num=0):
         try:
+            print("Processing video...", glob.glob('pic/figure_x*.png').sort())
             (
                 ffmpeg
                 .input("pic/figure_x%010d.png")
                 #.option("y") # Overwrite output file if it exists
-                .filter('fps', fps=16, round='up')
-                .filter('scale', w=320, h=420, flags='neighbor')
+                #.filter('fps', fps=16, round='up')
+                .filter('scale', w=420, h=320, flags='neighbor') ## w320 h420
                 .output(
                     "pic/output_" + str(num) + ".mp4",
                     pix_fmt='yuv444p',
@@ -173,7 +174,6 @@ class DefaultBare:
                 .overwrite_output()
                 .run(capture_stdout=True, capture_stderr=True)
             )
-            print("Processing video...", glob.glob('pic/figure_x*.png').sort())
 
             print("Done!")
         except ffmpeg.Error as e:
