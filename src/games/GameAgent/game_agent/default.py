@@ -158,7 +158,7 @@ class DefaultBare:
 
     def convert_video(self, num=0):
         try:
-            print("Processing video...", glob.glob('pic/figure_x*.png').sort())
+            #print("Processing video...", glob.glob('pic/figure_x*.png').sort())
             (
                 ffmpeg
                 .input("pic/figure_x%010d.png")

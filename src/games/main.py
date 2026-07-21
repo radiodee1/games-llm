@@ -11,7 +11,7 @@ from GameAgent.game_agent import pluginlist, pygamelist
 from LLM.llm_do import whitelist, whitelist_helper
 
 from dotenv import load_dotenv
-import time
+#import time
 
 user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
@@ -215,7 +215,7 @@ if __name__ == "__main__":
                     
                     if plugin_class.video > 0:
                         plugin_class.prune_png(plugin_class.video)
-                        time.sleep(5)
+                        #time.sleep(5)
                         plugin_class.convert_video()
 
                   
