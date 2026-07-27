@@ -181,6 +181,13 @@ class DefaultBare:
 
         return 
 
+    def number_video(self, num):
+        i = ('00000000000' + str(num))[- 5:]
+        if os.path.exists('pic/output_0.mp4'):
+            shutil.copy('pic/output_0.mp4', 'pic/train/output_' + i + '.mp4')
+
+        pass 
+
     def pygame_save(self, f):
         pass
 

@@ -47,14 +47,14 @@ def parse():
     parser.add_argument('--image_strip', default=-1, type=int, help="Enable comic strip type image manipulation.")
     parser.add_argument('--no_llm', default=-1, type=int, help="Run for specified number of iterations without LLM.")
     parser.add_argument('--stream', action='store_true', help="Access model in Stream mode.")
-    parser.add_argument('--video', default=-1, type=int, help="Use video format in the OpenAI code. Must set image_strip to -1.")
+    parser.add_argument('--video', default=-1, type=int, help="Use video format with this many frames for vjepa2. Must set image_strip to -1.")
     parser.add_argument('--scrape_general', action='store_true', help="Scrape output for simple commands.")
     parser.add_argument('--double_arrow', action='store_true', help="Include double_arrow with ball position and ball movement.")
     parser.add_argument('--hinting', action='store_true', help="Use ball direction hinting to help the AI.")
     parser.add_argument('--image_series', action='store_true', help="Save png images for later video manipulation.")
     parser.add_argument('--strategy', default=3, type=int, help="Set prompt strategy. Use '1' - '3'. Default is '3'.")
     parser.add_argument('--inverse_size', default=4, type=int, help="Set inverse size adjustment. Use '1' '2' or '4'.")
-    parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 1000?)")
+    parser.add_argument('--make_corpus', default=-1, type=int, help="Make training corpus. (Try 100?)")
     parser.add_argument('--corpus_offset', default=0, type=int, help="Offset number for the make_corpus functionality. (Default 0)")
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
@@ -193,12 +193,12 @@ if __name__ == "__main__":
                     else:
                         img = 0
 
-                    if plugin_class.image_series or plugin_class.make_corpus > 0:
+                    if (plugin_class.image_series or plugin_class.make_corpus > 0) and plugin_class.video < 1:
                         img = ('00000000000' + str(plugin_class.step_count + plugin_class.corpus_offset))[- 10:]
                         print(img)
                     f = './pic/figure_' + str(img) + '.png'
                     
-                    if plugin_class.make_corpus > 0:
+                    if plugin_class.make_corpus > 0 and plugin_class.video < 1:
                         f = './pic/' + str(img) + '.png'
 
                     if plugin_class.no_llm > -1 and plugin_class.step_count  >= plugin_class.no_llm :
@@ -215,9 +215,9 @@ if __name__ == "__main__":
                     
                     if plugin_class.video > 0:
                         plugin_class.prune_png(plugin_class.video)
-                        #time.sleep(5)
                         plugin_class.convert_video()
-
+                        if plugin_class.make_corpus > 0:
+                            plugin_class.number_video(plugin_class.step_count + plugin_class.corpus_offset)
                   
                     xx = ''
                     # open in the system browser!!
