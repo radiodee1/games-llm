@@ -403,7 +403,7 @@ class DefaultLLM:
         with open(filename_string, 'w') as w:
             w.write(json.dumps(self.write_json) + '\n')
 
-        if not self.write_single_json:
+        if self.write_single_json:
             return
         filename_string = './pic/' + str(num_string) + '.json'
         f = {
