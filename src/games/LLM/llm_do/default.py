@@ -49,8 +49,11 @@ class DefaultLLM:
         self.think_temp = ''
         self.print_to_screen = False
         self.write_to_text = False
+        self.write_single_json = False
         self.skip_errors = False
         self.write_only = False
+        self.write_json = {}
+        self.write_json_directory = ''
         self.write_message = ""
         self.temperature = -1 
         self.top_p = -1 
@@ -390,7 +393,17 @@ class DefaultLLM:
         self.print('some data', 'scraped_output', scraped_output,'raw_output', raw_output,'raw_input', raw_input,'num_string', num_string)
         #image_string = './pic/' + str(num_string) + '.png'
         image_string =   str(num_string) + '.png'
-        if not self.write_to_text:
+        if not self.write_to_text and not self.write_single_json:
+            return
+        n = str('00000000' + str(num_string))[-5:]
+        filename_string = './pic/video_image_label.json'
+        pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/train/output_' + n + '.mp4' )
+        self.write_json[pic_string] = scraped_output 
+        print('===',self.write_json,'===')
+        with open(filename_string, 'w') as w:
+            w.write(json.dumps(self.write_json) + '\n')
+
+        if not self.write_single_json:
             return
         filename_string = './pic/' + str(num_string) + '.json'
         f = {

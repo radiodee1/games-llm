@@ -152,6 +152,10 @@ def parse():
         if plugin_class.image_strip > 0 and  plugin_class.video == -1:
             model_class.images_size = 1 
 
+        if args.video > 0 and args.make_corpus > 0:
+            model_class.write_to_text = False
+            model_class.write_single_json = True
+            model_class.write_json_directory = 'workspace/VJEPA2_FILES/demo'
 
 if __name__ == "__main__":
 
@@ -241,7 +245,8 @@ if __name__ == "__main__":
 
                     if plugin_class.make_corpus > 0:
                         a = plugin_class.action_string
-                        model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=img)
+                        i = plugin_class.step_count + plugin_class.corpus_offset
+                        model_class.write(scraped_output=a, raw_output=xx, raw_input=m, num_string=i)
                         paddle_message = ''
 
                     if len(plugin_class.message) > 0:
