@@ -422,19 +422,19 @@ class DefaultLLM:
         if not os.path.exists(pong_classes_path):
             return
         PONG_CLASSES = json.load(open(pong_classes_path, "r"))
-        print(PONG_CLASSES,'PONG_CLASSES')
+        #print(PONG_CLASSES,'PONG_CLASSES')
         class_labels = [k for k,v in PONG_CLASSES.items() if v == scraped_output]
-        print(class_labels)
+        #print(class_labels)
         if len(class_labels) > 0:
             scraped_output = class_labels[0]
         else:
             scraped_output = 0
-        print(scraped_output, class_labels, 'num <===')
+        #print(scraped_output, class_labels, 'num <===')
         n = str('00000000' + str(num_string))[-5:]
         filename_string = './pic/video_image_label.json'
         pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/train/output_' + n + '.mp4' )
         self.write_json[pic_string] = scraped_output 
-        print('===',self.write_json,'===')
+        #print('===',self.write_json,'===')
         with open(filename_string, 'w') as w:
             w.write(json.dumps(self.write_json) + '\n')
 
