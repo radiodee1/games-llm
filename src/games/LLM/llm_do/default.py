@@ -422,7 +422,8 @@ class DefaultLLM:
         if not os.path.exists(pong_classes_path):
             return
         PONG_CLASSES = json.load(open(pong_classes_path, "r"))
-        class_labels = [v for k,v in PONG_CLASSES.items() if k == scraped_output]
+        print(PONG_CLASSES,'PONG_CLASSES')
+        class_labels = [k for k,v in PONG_CLASSES.items() if v == scraped_output]
         print(class_labels)
         if len(class_labels) > 0:
             scraped_output = class_labels[0]
