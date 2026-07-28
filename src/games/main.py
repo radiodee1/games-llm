@@ -59,6 +59,7 @@ def parse():
     parser.add_argument('--temperature', default=-1, type=float, help="Set the temperature.")
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
+    parser.add_argument('--show_payload', action='store_true', help="Show payload")
     if os.getenv('GAME_LAUNCH_ARGS') != None:
         GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
     launch_args = []
@@ -143,7 +144,7 @@ def parse():
         model_class.smaller = plugin_class.smaller
 
         #model_class.print_to_screen = True
-        model_class.show_payload = True
+        model_class.show_payload = args.show_payload
         model_class.write_to_text = True
         
         if modelname == 'OllamaImages':
