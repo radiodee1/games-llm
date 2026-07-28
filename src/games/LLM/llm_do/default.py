@@ -420,6 +420,7 @@ class DefaultLLM:
     def write_only_one_file(self, scraped_output, raw_output , raw_input, num_string):
         pong_classes_path = os.path.join(os.path.expanduser('~'), self.write_json_directory, "json/classes_pong.json")
         if not os.path.exists(pong_classes_path):
+            print('PONG_CLASSES not found', pong_classes_path)
             return
         PONG_CLASSES = json.load(open(pong_classes_path, "r"))
         self.print(PONG_CLASSES,'PONG_CLASSES')
