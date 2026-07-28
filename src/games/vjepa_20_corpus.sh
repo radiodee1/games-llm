@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir ./pic/train
+mkdir -p ./pic/train
 
 uv run ./main.py --model gpt-5.2 --plugin ssv --sudden_death 2 --context_size 0 --image_strip -1 --q_len 3 --video 4 --thinking --stream --inverse_size 2 --make_corpus 2
