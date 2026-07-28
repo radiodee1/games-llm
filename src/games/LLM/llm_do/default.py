@@ -394,6 +394,7 @@ class DefaultLLM:
         #image_string = './pic/' + str(num_string) + '.png'
         image_string =   str(num_string) + '.png'
         if self.write_single_json:
+            self.write_only_one_file(scraped_output, raw_output, raw_input, num_string)
             return
         filename_string = './pic/' + str(num_string) + '.json'
         f = {
@@ -415,6 +416,27 @@ class DefaultLLM:
             w.write(json.dumps(f) + '\n')
 
         return
+
+    def write_only_one_file(self, scraped_output, raw_output , raw_input, num_string):
+        pong_classes_path = os.path.join(os.path.expanduser('~'), self.write_json_directory, "json/classes_pong.json")
+        if not os.path.exists(pong_classes_path):
+            return
+        PONG_CLASSES = json.load(open(pong_classes_path, "r"))
+        class_labels = [v for k,v in PONG_CLASSES.items() if k == scraped_output]
+        print(class_labels)
+        if len(class_labels) > 0:
+            scraped_output = class_labels[0]
+        else:
+            scraped_output = 0
+        print(scraped_output, class_labels, 'num <===')
+        n = str('00000000' + str(num_string))[-5:]
+        filename_string = './pic/video_image_label.json'
+        pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/train/output_' + n + '.mp4' )
+        self.write_json[pic_string] = scraped_output 
+        print('===',self.write_json,'===')
+        with open(filename_string, 'w') as w:
+            w.write(json.dumps(self.write_json) + '\n')
+
 
     def remove_formatting(self, text):
         if not isinstance(text, str):
