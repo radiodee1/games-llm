@@ -38,7 +38,8 @@ class Vjepa2Demo (DefaultLLM):
         pass 
 
     def do(self, image=None, context=None, text=None):
-        from notebooks.vjepa2_demo_cpu import run_sample_inference 
+        from notebooks.vjepa2_demo_cpu import run_sample_inference, set_checkpoint_weights 
+        set_checkpoint_weights(True)
         x = run_sample_inference()
         return x 
 
