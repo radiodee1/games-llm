@@ -81,6 +81,7 @@ class DefaultBare:
         self.model = ''
         self.step_count = 0
         self.serves_num = 0
+        self.foldername = 'train'
         pass 
 
     def encode_image_to_base64(self, image_path: str) -> str:
@@ -184,7 +185,7 @@ class DefaultBare:
     def number_video(self, num):
         i = ('00000000000' + str(num))[- 5:]
         if os.path.exists('pic/output_0.mp4'):
-            shutil.copy('pic/output_0.mp4', 'pic/train/output_' + i + '.mp4')
+            shutil.copy('pic/output_0.mp4', 'pic/' + self.foldername + '/output_' + i + '.mp4')
 
         pass 
 

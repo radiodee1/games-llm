@@ -59,6 +59,7 @@ class DefaultLLM:
         self.top_p = -1 
         self.reasoning_effort = None ## 'none', 'low', 'medium', 'high'
         self.word_frequency = {}
+        self.foldername = 'train'
         self.print('Default', model)
         pass
 
@@ -432,8 +433,8 @@ class DefaultLLM:
             scraped_output = 0
         self.print(scraped_output, class_labels, 'num <===')
         n = str('00000000' + str(num_string))[-5:]
-        filename_string = './pic/video_image_label.json'
-        pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/train/output_' + n + '.mp4' )
+        filename_string = './pic/' + self.foldername + '/video_image_label.json'
+        pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/' + self.foldername + '/output_' + n + '.mp4' )
         self.write_json[pic_string] = scraped_output 
         self.print('===',self.write_json,'===')
         with open(filename_string, 'w') as w:

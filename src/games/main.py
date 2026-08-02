@@ -60,6 +60,7 @@ def parse():
     parser.add_argument('--top_p', default=-1, type=float, help="Set top_p. Use '0.0' to '1.0'. (Default 1.0)")
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
     parser.add_argument('--show_payload', action='store_true', help="Show payload")
+    parser.add_argument('--foldername', type=str, default='train', help="store corpus to named folder.")
     if os.getenv('GAME_LAUNCH_ARGS') != None:
         GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
     launch_args = []
@@ -119,6 +120,8 @@ def parse():
 
     plugin_class.repeat_action_probability = 0.0
 
+    plugin_class.foldername = args.foldername
+
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')
@@ -142,6 +145,7 @@ def parse():
         model_class.temperature = plugin_class.temperature
         model_class.top_p = plugin_class.top_p
         model_class.smaller = plugin_class.smaller
+        model_class.foldername = args.foldername
 
         #model_class.print_to_screen = True
         model_class.show_payload = args.show_payload
