@@ -10,6 +10,7 @@ dependencies = [
     "gymnasium[box2d]>=1.2.3",
     "opencv-python>=4.13.0.92",
     "pygame>=2.6.1",
+    "pynput>=1.8.2",
     "python-dotenv>=1.2.1",
     "requests>=2.32.5",
     "swig>=4.4.1",

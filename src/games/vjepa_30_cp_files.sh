@@ -4,7 +4,4 @@ mkdir -p ~/workspace/VJEPA2_FILES/demo/pic/train
 
 cp ./pic/train/* ~/workspace/VJEPA2_FILES/demo/pic/train/.
 
-cp ./pic/video*.json ~/workspace/VJEPA2_FILES/demo/json/.
-cp ./pic/video*.json ~/workspace/VJEPA2_FILES/demo/pic/train/.
-
 echo "cp files"
