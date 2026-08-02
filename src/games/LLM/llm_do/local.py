@@ -2,6 +2,7 @@
 
 from .default import DefaultLLM
 from .remote import Oai
+import sys 
 
 class Ollama (DefaultLLM):
 
@@ -52,95 +53,58 @@ class Vjepa2MT (DefaultLLM):
         pass 
 
     def do(self, image=None, context=None, text=None):
-        x = self.evdev_get_key()
+        x = self.pygame_mechanical()
 
         print(x , 'get_single_key here')
         return x 
 
-    def get_single_key(self):
-        from pynput import keyboard
-        self.result = None
 
-        '''
-        import keyboard
-        import time
+    def pygame_mechanical(self):
+        import pygame 
+        # 1. Start Pygame
+        pygame.init()
 
-        print("Press 'q' to exit the loop...")
+        # 2. Set screen size (width, height)
+        screen = pygame.display.set_mode((320, 420))
+        pygame.display.set_caption("Show Image and Wait for Key")
 
-        while True:
-            # Check if a specific key is pressed
-            if keyboard.is_pressed('q'):
-                print("You pressed 'q'. Exiting...")
-                break
-                
-            # Read and print any key as it is pressed
-            key = keyboard.read_key()
-            print(f"Key pressed: {key}")
-            
-            time.sleep(0.1)  # Small delay to prevent high CPU usage
+        # 3. Load the image (replace 'example.png' with your file)
+        try:
+            image = pygame.image.load("./pic/figure_0.png")
+        except pygame.error:
+            # Fallback plain surface if no image file exists
+            image = pygame.Surface((320, 420))
+            image.fill((200, 50, 50))
 
-        
-        with keyboard.Events() as events:
-            for event in events:
-                if event.key == keyboard.Key.esc:
-                    self.result = 'wait'
-                    break
-                else:
-                    print('Received event {}'.format(event))
+        # 4. Draw image to screen once
+        screen.fill((255, 255, 255))  # White background
+        screen.blit(image, (0, 0))  # Position x, y
+        pygame.display.flip()
 
-        '''
-        # Start the listener and block until a target key is pressed
-        with keyboard.Listener(on_press=self.on_press) as listener:
-            try:
-                listener.join()
-            except Exception as e:
-                print('{0} was pressed'.format(e.args[0]))
-                
-        print(self.result, '<<<<')
-        return self.result
+        # 5. Wait for a single key press or quit event
+        waiting = True
+        while waiting:
+            event = pygame.event.wait()  # Pauses CPU until an event happens
+            if event.type == pygame.QUIT:
+                waiting = False
+            elif event.type == pygame.KEYDOWN:
+                key_name = pygame.key.name(event.key)
 
-    def on_press(self, key):
-        #from pynput import keyboard
-        if key == keyboard.Key.up:
-            self.result = "UP_PRESSED"
-            return False
-        elif key == keyboard.Key.down:
-            self.result = "DOWN_PRESSED"
-            return False
-        elif key == keyboard.Key.space:
-            self.result = "SPACE_PRESSED"
-            return False
-        elif key == keyboard.Key.esc:
-            self.result = "ESC_PRESSED"
-            return False
+                if key_name == 'space':
+                    return 'wait'
+                if key_name == 'up':
+                    return 'right.move.up'
+                if key_name == 'down':
+                    return 'right.move.down'
+                if key_name == 'esc':
+                    print('esc')
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                print(key_name)
+                waiting = False  # Exit loop on any key press
 
-    def evdev_get_key(self):
-        import evdev
-        from evdev import InputDevice, categorize, ecodes
 
-        # Find your keyboard device (e.g., /dev/input/event0)
-        # You can list devices using: python3 -c "import evdev; print([evdev.InputDevice(fn) for fn in evdev.list_devices()])"
-        devices = [InputDevice(fn) for fn in evdev.list_devices()]
-        keyboard = None
-
-        for dev in devices:
-            if 'keyboard' in dev.name.lower() or 'kbd' in dev.name.lower():
-                keyboard = dev
-                break
-
-        if not keyboard:
-            # Fallback to a specific path if auto-detect fails
-            keyboard = InputDevice('/dev/input/event0')
-
-        print(f"Listening on {keyboard.path} ({keyboard.name})")
-
-        # Loop through events
-        for event in keyboard.read_loop():
-            if event.type == ecodes.EV_KEY:
-                data = categorize(event)
-                print('data', data)
-                if data.keystate == data.key_down:
-                    print(f"Key pressed: {data.keycode}")
-                    self.result = data.keycode
-                    return
+        pygame.quit()
+        sys.exit()
 
