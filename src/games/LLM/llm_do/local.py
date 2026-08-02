@@ -90,12 +90,12 @@ class Vjepa2MT (DefaultLLM):
             elif event.type == pygame.KEYDOWN:
                 key_name = pygame.key.name(event.key)
 
-                if key_name == 'space':
-                    return 'wait'
                 if key_name == 'up':
                     return 'right.move.up'
                 if key_name == 'down':
                     return 'right.move.down'
+                if key_name == 'space':
+                    return 'wait'
                 if key_name == 'esc':
                     print('esc')
                 if event.key == pygame.K_ESCAPE:
