@@ -66,7 +66,7 @@ class Vjepa2MT (DefaultLLM):
 
         # 2. Set screen size (width, height)
         screen = pygame.display.set_mode((320, 420))
-        pygame.display.set_caption("Show Image and Wait for Key")
+        pygame.display.set_caption("Escape Key to quit.")
 
         # 3. Load the image (replace 'example.png' with your file)
         try:
@@ -90,19 +90,20 @@ class Vjepa2MT (DefaultLLM):
             elif event.type == pygame.KEYDOWN:
                 key_name = pygame.key.name(event.key)
 
+                if key_name == 'esc':
+                    print('esc')
                 if key_name == 'up':
                     return 'right.move.up'
                 if key_name == 'down':
                     return 'right.move.down'
                 if key_name == 'space':
                     return 'wait'
-                if key_name == 'esc':
-                    print('esc')
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
                 print(key_name)
                 waiting = False  # Exit loop on any key press
+                return 'wait'
 
 
         pygame.quit()

@@ -147,6 +147,10 @@ def parse():
         model_class.smaller = plugin_class.smaller
         model_class.foldername = args.foldername
 
+        temp_path = os.path.join(os.getcwd(), 'pic', args.foldername )
+        print(temp_path)
+        os.makedirs(temp_path, exist_ok=True)
+        
         #model_class.print_to_screen = True
         model_class.show_payload = args.show_payload
         model_class.write_to_text = True
