@@ -75,14 +75,17 @@ def parse():
             launch_args.append(i)
 
     args = parser.parse_args(launch_args) 
-
+    
+    show_image_plugin = not args.no_pic
+    if args.video > 0 and args.make_corpus > 0:
+        show_image_plugin = False
 
     pluginname = ''
     if len(args.plugin) > 0:
         pluginraw = args.plugin 
         if pluginraw in pluginlist or pluginraw == '':
             pluginname = pluginlist[args.plugin]
-            plugin_class = globals()[pluginname](inverse_size=args.inverse_size, show_image=not args.no_pic)
+            plugin_class = globals()[pluginname](inverse_size=args.inverse_size, show_image=show_image_plugin)
     else:
         print('must specify game agent with --plugin flag. Try "--plugin pong"')
         sys.exit()
