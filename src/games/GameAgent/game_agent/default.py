@@ -320,7 +320,7 @@ class DefaultBare:
             for col in range(num_cols):
                 index = col * num_rows + row
                 if index < num_items:
-                    d = str(data[index]) + '          '
+                    d = str(data[index]) + '                    '
                     d = d[: column_width]
                     print(d, end="")
             print() # Newline at the end of each row
