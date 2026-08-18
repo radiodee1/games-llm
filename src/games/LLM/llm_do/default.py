@@ -435,7 +435,8 @@ class DefaultLLM:
         self.print(scraped_output, class_labels, 'num <===')
         n = str('00000000' + str(num_string))[-5:]
         filename_string = './pic/' + self.foldername + '/video_image_label.json'
-        self.write_json = json.load(open(os.path.join(filename_string), "r"))
+        if os.path.exists(filename_string) and len(self.write_json) == 0:
+            self.write_json = json.load(open(os.path.join(filename_string), "r"))
 
         if not self.use_short_path:
             pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/' + self.foldername + '/output_' + n + '.mp4' )
