@@ -441,7 +441,7 @@ class DefaultLLM:
         if not self.use_short_path:
             pic_string = os.path.join( os.path.expanduser('~') , self.write_json_directory  ,'pic/' + self.foldername + '/output_' + n + '.mp4' )
         else:
-            pic_string = os.path.join( '~' , self.write_json_directory  ,'pic/' + self.foldername + '/output_' + n + '.mp4' )
+            pic_string = os.path.join( 'output_' + n + '.mp4' )
 
         self.write_json[pic_string] = scraped_output 
         self.print('===',self.write_json,'===')
