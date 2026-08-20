@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd ~/workspace/games-llm/src/games
+cd ../
 
-cp -r GameAgent LLM main.py vjepa_*.sh ~/workspace/vjepa2/.
+cp -r GameAgent LLM main.py ~/workspace/vjepa2/.
 
 echo "files copied to vjepa2 folder"
