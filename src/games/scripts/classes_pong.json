@@ -1,0 +1,8 @@
+{
+  "0": "right.move.up",
+  "1": "right.move.down",
+  "2": "left.move.up",
+  "3": "left.move.down",
+  "4": "serve",
+  "5": "wait"
+}
