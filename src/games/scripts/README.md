@@ -9,6 +9,7 @@ If you want to use a folder other than the `workspace` folder, you need to rewri
 ## Execute this command in your 'workspace' directory. 
 
 ```
+cd ~/workspace 
 git clone https://github.com/facebookresearch/vjepa2.git
 ```
 
