@@ -330,9 +330,7 @@ def run_sample_inference():
     if pt_key == 'vitl' and change_hidden_dim:
         hidden_dim = 1024 
     # HuggingFace model repo name
-    hf_model_name = PT_FILENAME[pt_key][1] # "facebook/vjepa2-vitg-fpc64-384"  # Replace with your favored model, e.g. facebook/vjepa2-vitg-fpc64-384
-    file_pattern = os.path.join(os.path.expanduser('~'), LOCAL_FILE_STORE, 'pic/' + args_foldername + '/output_00*.mp4')
-   
+    hf_model_name = PT_FILENAME[pt_key][1] #    
     # Path to local PyTorch weights
     pt_model_path = os.path.join(home_dir, LOCAL_FILE_STORE, PT_FILENAME[pt_key][2] )# "vitg-384.pt")
 
@@ -353,7 +351,8 @@ def run_sample_inference():
         huggingface_flag = True
 
     else:
-        print(model_hf, hf_transform)
+        #print(model_hf, hf_transform)
+        pass
 
     img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
     print(hf_transform.crop_size["height"], 'height')
