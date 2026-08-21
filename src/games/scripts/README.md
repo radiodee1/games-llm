@@ -4,7 +4,9 @@ For this set of scripts it is assumed that the user will set up a directory on t
 
 There are three important directories in the `workspace` folder. The first is this repo. It holds the Pong game files. The second is the `vjepa2` folder. This goes in the `workspace` file also. Finally there is the home of all the data for the `vjepa2` project. This goes in the `workspace` folder also. The data folder is `VJEPA2_FILES/demo/`.
 
-If you want to use a folder other than the `workspace` folder, you need to rewrite some of the code in the `notebooks` folder, and if you use the launcher scripts, you may need to edit some of them also. There is also code in the `games-llm` project that uses the `workspace` foldername for the default file storage location.
+The original `games-llm` project uses LLMs to play 'pong.' That code is called from this repo, in the `~/workspace/games-llm/src/games/` folder. This `games-llm` repo also houses code that tries to use `vjepa2` to play 'pong.' Some of the code for this experiment is found in this directory and the `notebooks` directory. The code from the `notebooks` directory needs to be copied to the `vjepa2` repo, and then executed there.
+
+If you want to use a folder other than the `workspace` folder, you need to rewrite some of the code in the `notebooks` folder, and if you use the launcher scripts, you may need to edit some of them also. There is also code in the `games-llm` project that uses the `workspace` folder name for the default file storage location.
 
 ## Execute this command in your 'workspace' directory. 
 
