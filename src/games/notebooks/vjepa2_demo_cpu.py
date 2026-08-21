@@ -330,7 +330,9 @@ def run_sample_inference():
     if pt_key == 'vitl' and change_hidden_dim:
         hidden_dim = 1024 
     # HuggingFace model repo name
-    hf_model_name = PT_FILENAME[pt_key][1] #    
+    hf_model_name = PT_FILENAME[pt_key][1] # 
+    file_pattern = os.path.join(os.path.expanduser('~'), LOCAL_FILE_STORE, 'pic/' + args_foldername + '/output_00*.mp4')
+   
     # Path to local PyTorch weights
     pt_model_path = os.path.join(home_dir, LOCAL_FILE_STORE, PT_FILENAME[pt_key][2] )# "vitg-384.pt")
 
