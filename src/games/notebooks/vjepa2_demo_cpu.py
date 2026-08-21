@@ -368,7 +368,7 @@ def run_sample_inference():
 
     elif pt_key == 'vitl':
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
-        model_pt.to(device) #.eval()
+        model_pt.to(device).eval()
         load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
 
     # Build PyTorch preprocessing transform
