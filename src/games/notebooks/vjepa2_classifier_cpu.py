@@ -80,7 +80,7 @@ def train_simple(model, out_patch_features_pt):
     optimizer = optim.AdamW(
         #model.parameters()
         filter(lambda p: p.requires_grad, model.parameters())
-        , lr=5e-2, weight_decay=1e-4) ## lr=1e-3
+        , lr=5e-3, weight_decay=1e-4) ## lr=1e-3
 
     #pretrained_dict = model.state_dict()
 
