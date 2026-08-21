@@ -352,6 +352,9 @@ def run_sample_inference():
         hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim)
         huggingface_flag = True
 
+    else:
+        print(model_hf, hf_transform)
+
     img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
     print(hf_transform.crop_size["height"], 'height')
     # Initialize the PyTorch model, load pretrained weights
