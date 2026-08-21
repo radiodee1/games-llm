@@ -32,6 +32,8 @@ old_num_classes = 174
 num_classes =  6 ## 174 
 out_classifier = None
 classifier = None
+model_hf = None
+hf_transform = None
 hidden_dim = 0  
 torch.set_default_device('cpu')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -56,6 +58,7 @@ VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE
 encoder_flag = False
 eval_flag = False
 classifier_flag = False
+huggingface_flag = False
 
 #facebook/vjepa2-vitl-fpc64-256
 PT_FILENAME = {
@@ -318,6 +321,7 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
 def run_sample_inference():
     global  demo_weights, video_list, choose_img, args_foldername, VIDEO_PONG_CLASSES
+    global model_hf, hf_transform, huggingface_flag
 
     VIDEO_PONG_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
    
@@ -341,13 +345,12 @@ def run_sample_inference():
     num = 0 
 
     # Initialize the HuggingFace model, load pretrained weights
-    model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True) 
-    #model_hf.embed_dim = hidden_dim
-    model_hf.to(device).eval()
-
-    # Build HuggingFace preprocessing transform
-    hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim)
-    #hf_transform.embed_dim = hidden_dim
+    if not huggingface_flag:
+        model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True) 
+        model_hf.to(device).eval()
+        # Build HuggingFace preprocessing transform
+        hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim)
+        huggingface_flag = True
 
     img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
     print(hf_transform.crop_size["height"], 'height')
