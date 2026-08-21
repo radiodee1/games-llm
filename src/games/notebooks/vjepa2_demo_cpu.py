@@ -86,6 +86,7 @@ def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
 
 def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
     global encoder_flag
+    print(model_path, 'model_path')
     if encoder_flag == True:
         print('model not None')
         return
@@ -129,6 +130,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     pretrained_dict = edit_weights(pretrained_dict)
     print('before del')
     #show_keys(pretrained_dict)
+    print(weight_path_used, 'weight_path_used')
 
     if 'linear.weight' not in  pretrained_dict or pretrained_dict['linear.weight'].shape[0] != num_classes:
         print('adjust num_classes')
