@@ -1,5 +1,5 @@
 # vjepa2_scripts
-some vjepa2 scripts
+some vjepa2 scripts. These scripts are to be copied to the `vjepa2` folder. Then they should function correctly. There is a script in this folder that will do the copying. It's called `./02_copy_scripts.sh` There is another script called `./03_copy_games.sh` that copies the relevant game code to the `vjepa2` folder.
 
 ## some system packages need to be present
 
