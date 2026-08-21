@@ -17,9 +17,10 @@ sudo pacman -S swig hdf5 vtk
 ```
 
 ## also, set up uv on vjepa2 folder.
+Do this after copying all the `vjepa2` scripts to the `vjepa2` folder. The author of the `vjepa2` project uses 'conda' or 'miniconda' but we try to use 'uv.'
 
 ```
-cd ../vjepa2/ 
+cd ~/workspace/vjepa2/ 
 uv init 
 ```
 
