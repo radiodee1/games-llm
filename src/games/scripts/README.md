@@ -24,10 +24,12 @@ cd ~/workspace/vjepa2/
 uv init 
 ```
 
-## Use this code as example and also execute this command in your 'workspace' directory. 
+## Execute this command in your 'workspace' directory. 
 
 ```
 git clone https://github.com/facebookresearch/vjepa2.git
 ```
+
+## Follow this link to the original 'vjepa2' project.
 
 https://github.com/facebookresearch/vjepa2
