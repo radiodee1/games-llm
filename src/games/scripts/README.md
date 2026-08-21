@@ -10,10 +10,11 @@ The original `games-llm` project uses LLMs to play 'pong.' That code is called f
 
 If you want to use a folder other than the `workspace` folder, you need to rewrite some of the code in the `notebooks` folder, and if you use the launcher scripts, you may need to edit some of them also. There is also code in the `games-llm` project that uses the `workspace` folder name for the default file storage location.
 
-## Execute this command in your 'workspace' directory. 
+## Execute these commands in your 'workspace' directory. 
 
 ```
 cd ~/workspace 
+git clone https://github.com/radiodee1/games-llm.git ## <-- this may be private...
 git clone https://github.com/facebookresearch/vjepa2.git
 ```
 
