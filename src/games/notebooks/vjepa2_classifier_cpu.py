@@ -64,10 +64,6 @@ def train_simple(model, out_patch_features_pt):
     print('train_simple')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
    
-    ## this is not needed! ##
-    #if load_checkpoint:
-    #    model = load_simple(model)
-
     for name, param in model.named_parameters():
         if 'linear.weight' in name or 'linear.bias' in name:
             param.requires_grad = True
