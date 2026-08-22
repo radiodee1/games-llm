@@ -74,13 +74,14 @@ def train_simple(model, out_patch_features_pt):
             print('requires_grad', name)
         else:
             param.requires_grad = False
+            #print('not requires_grad', name)
 
     criterion = nn.CrossEntropyLoss()
     #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
     optimizer = optim.AdamW(
         #model.parameters()
         filter(lambda p: p.requires_grad, model.parameters())
-        , lr=5e-3, weight_decay=1e-4) ## lr=1e-3
+        , lr=5e-3, weight_decay=0.01) ## lr=1e-3
 
     #pretrained_dict = model.state_dict()
 

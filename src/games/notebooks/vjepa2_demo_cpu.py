@@ -109,7 +109,6 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     if classifier_flag == True:
         print('load classifier no')
         return classifier
-    weight_path_custom = os.path.join(home_dir, LOCAL_FILE_STORE, 'vjepa2_' + pt_key + '_custom_classifier.pt')
     weight_path_pretrain = os.path.join(home_dir, LOCAL_FILE_STORE , PT_FILENAME[pt_key][0] )# 'ssv2-vitg-384-64x2x3.pt')
     weight_path_ckpt =  os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
 
@@ -121,14 +120,10 @@ def load_pretrained_vjepa_classifier_weights(classifier):
         pretrained_dict = torch.load(weight_path_ckpt, weights_only=True, map_location="cpu")
         weight_path_used = weight_path_ckpt
         print('checkpoint', weight_path_ckpt)
-    elif os.path.exists(weight_path_custom):
-        pretrained_dict = torch.load(weight_path_custom, weights_only=True, map_location="cpu")
-        weight_path_used = weight_path_custom
-        print('not trained')
     else:
         pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
         weight_path_used = weight_path_pretrain
-        print('pretrained')
+        print('pretrained', weight_path_pretrain)
 
     pretrained_dict = edit_weights(pretrained_dict)
     print('before del')
@@ -155,7 +150,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
         msg = classifier.load_state_dict(pretrained_dict, strict=False)
 
     if weight_path_used == weight_path_pretrain:# not os.path.exists(weight_path_ckpt) and not os.path.exists(weight_path_custom):
-
+        print('weight_path_pretrain', weight_path_pretrain)
         in_features = classifier.linear.in_features
 
         #classifier = ModelWithLayer(classifier)
