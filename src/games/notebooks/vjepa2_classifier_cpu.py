@@ -32,6 +32,7 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
     print(i)
     if len(i) > 0:
         csv_output_pic_filenumber = len(i)
+    output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
     i = glob.glob(output_path + '*')
     print('output_path', i)
     if len(i) > 0:
