@@ -63,7 +63,8 @@ huggingface_flag = False
 #facebook/vjepa2-vitl-fpc64-256
 PT_FILENAME = {
     'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' ],
-    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ]
+    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
+    '21vitl': ['ssv2-vitl-16x2x3.pt', 'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vjepa2_1_vitl_dist_vitG_384.pt']
 }
 pt_key = 'vitl'
 
@@ -340,15 +341,18 @@ def run_sample_inference():
     num = 0 
 
     # Initialize the HuggingFace model, load pretrained weights
-    if not huggingface_flag:
+    if not huggingface_flag and pt_key in ['vitg', 'vitl']:
         model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True) 
         model_hf.to(device).eval()
-        # Build HuggingFace preprocessing transform
         hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim)
         huggingface_flag = True
 
+    elif not huggingface_flag and pt_key == '21vitl':
+        hf_transform = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_preprocessor')
+        model_hf = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_1_vit_large_384')
+        model_hf.to(device).eval()
+        huggingface_flag = True
     else:
-        #print(model_hf, hf_transform)
         pass
 
     img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
@@ -361,7 +365,7 @@ def run_sample_inference():
         model_pt.to(device).eval()
         load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
 
-    elif pt_key == 'vitl':
+    elif pt_key == 'vitl' or pt_key == '21vitl':
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
         model_pt.to(device).eval()
         load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
