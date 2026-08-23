@@ -28,6 +28,8 @@ import argparse
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
 old_num_classes = 174 
 num_classes =  6 ## 174 
 out_classifier = None
@@ -64,7 +66,7 @@ huggingface_flag = False
 PT_FILENAME = {
     'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' ],
     'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
-    '21vitl': ['ssv2-vitl-16x2x3.pt', 'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vjepa2_1_vitl_dist_vitG_384.pt']
+    '21vitl': ['ssv2-vitl-16x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt']
 }
 pt_key = 'vitl'
 
@@ -297,10 +299,10 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
     SOMETHING_SOMETHING_V2_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
+    print(f"Classifier output shape: {out_patch_features_pt.shape}")
     with torch.inference_mode():
         out_classifier = classifier(out_patch_features_pt)
 
-    print(f"Classifier output shape: {out_classifier.shape}")
     print("Top 6 predicted class names:\n-----\n")
     high_id = ""
     high_prob = 0 
@@ -328,7 +330,7 @@ def run_sample_inference():
     # HuggingFace model repo name
     hf_model_name = PT_FILENAME[pt_key][1] # 
     file_pattern = os.path.join(os.path.expanduser('~'), LOCAL_FILE_STORE, 'pic/' + args_foldername + '/output_00*.mp4')
-   
+
     # Path to local PyTorch weights
     pt_model_path = os.path.join(home_dir, LOCAL_FILE_STORE, PT_FILENAME[pt_key][2] )# "vitg-384.pt")
 
@@ -342,33 +344,41 @@ def run_sample_inference():
 
     # Initialize the HuggingFace model, load pretrained weights
     if not huggingface_flag and pt_key in ['vitg', 'vitl']:
-        model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True) 
+        model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True, trust_remote_code=True) 
         model_hf.to(device).eval()
-        hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim)
+        hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim, trust_remote_code=True)
         huggingface_flag = True
 
     elif not huggingface_flag and pt_key == '21vitl':
-        hf_transform = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_preprocessor')
-        model_hf = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_1_vit_large_384')
+        
+        hf_transform, model_hf = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_ac_vit_giant')
+        #hf_transform = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_preprocessor')
+        #model_hf = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_1_vit_large_384')
         model_hf.to(device).eval()
         huggingface_flag = True
+
     else:
         pass
 
     img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
-    print(hf_transform.crop_size["height"], 'height')
+    if pt_key == '21vitl':
+        #img_size = 384
+        pass
+    print(img_size, 'height')
     # Initialize the PyTorch model, load pretrained weights
     
-    if pt_key == 'vitg':
+    if pt_key == 'vitg': # or pt_key == '21vitl' :
         model_pt = vit_giant_xformers_rope(img_size=(img_size, img_size), num_frames=batch_size)
         #model_pt.embed_dim = hidden_dim
         model_pt.to(device).eval()
-        load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
+        if pt_key == 'vitg':
+            load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
 
-    elif pt_key == 'vitl' or pt_key == '21vitl':
+    elif pt_key == 'vitl'  or pt_key == '21vitl':
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
         model_pt.to(device).eval()
-        load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
+        if pt_key == 'vitl':
+            load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
 
     # Build PyTorch preprocessing transform
     pt_video_transform = build_pt_video_transform(img_size=img_size)
@@ -392,6 +402,7 @@ def run_sample_inference():
 
             )
         
+        print(hidden_dim, 'hidden_dim')
         #print(model_pt.embed_dim, 'embed_dim')
         classifier = (
             AttentiveClassifier(embed_dim=hidden_dim, num_heads=16, depth=4, num_classes=num_classes).to(device).eval()
