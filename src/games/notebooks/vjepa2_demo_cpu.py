@@ -37,6 +37,14 @@ IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 #print(os.environ["HF_TOKEN"])
 
+#facebook/vjepa2-vitl-fpc64-256
+PT_FILENAME = {
+    'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' ],
+    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
+    '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt']
+}
+pt_key = '21vitl'
+
 old_num_classes = 174 
 num_classes =  6 ## 174 
 out_classifier = None
@@ -57,7 +65,7 @@ args_foldername = 'train'
 home_dir = os.path.expanduser('~')
 LOCAL_FILE_STORE = 'workspace/VJEPA2_FILES/demo/'
 output_path_filenumber = 0 
-output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_vitl_ckpt_classifier.pt")
+output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
 output_path_list = glob.glob(output_path + '*')
 if len(output_path_list) > 0:
     output_path_filenumber = len(output_path_list)
@@ -68,14 +76,6 @@ encoder_flag = False
 eval_flag = False
 classifier_flag = False
 huggingface_flag = False
-
-#facebook/vjepa2-vitl-fpc64-256
-PT_FILENAME = {
-    'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' ],
-    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
-    '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt']
-}
-pt_key = '21vitl'
 
 def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
     global encoder_flag 
