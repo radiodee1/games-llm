@@ -370,8 +370,8 @@ def run_sample_inference():
         model_pt = vit_giant_xformers_rope(img_size=(img_size, img_size), num_frames=batch_size)
         #model_pt.embed_dim = hidden_dim
         model_pt.to(device).eval()
-        if pt_key == 'vitg':
-            load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
+        #if pt_key == 'vitg':
+        load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
 
     elif pt_key == 'vitl'  or pt_key == '21vitl':
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
