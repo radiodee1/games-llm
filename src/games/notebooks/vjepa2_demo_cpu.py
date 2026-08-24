@@ -43,7 +43,7 @@ PT_FILENAME = {
     'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
     '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt']
 }
-pt_key = '21vitl'
+pt_key = 'vitl'
 
 old_num_classes = 174 
 num_classes =  6 ## 174 
