@@ -78,7 +78,7 @@ def train_simple(model, out_patch_features_pt):
     optimizer = optim.AdamW(
         #model.parameters()
         filter(lambda p: p.requires_grad, model.parameters())
-        , lr=5e-3, weight_decay=0.01) ## lr=1e-3
+        , lr=1e-1, weight_decay=0.1) ## lr=1e-3
 
     #pretrained_dict = model.state_dict()
 
@@ -104,7 +104,7 @@ def train_simple(model, out_patch_features_pt):
         train_loss += loss.item() * inputs.size(0)
         
     epoch_train_loss = train_loss / len(out_patch_features_pt[0])
-    print(f"Train Loss: {epoch_train_loss:.4f} len(out_patch_features_pt) = {len(out_patch_features_pt)}")
+    print(f"Train Loss: {epoch_train_loss:.4f} len out_patch_features_pt = {len(out_patch_features_pt)}")
     train_loss_past.append(round(epoch_train_loss, 3))
 
     print('past train_loss', train_loss_past )
