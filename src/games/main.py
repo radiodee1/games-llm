@@ -252,9 +252,9 @@ if __name__ == "__main__":
                         #ticks = 15
                         #plugin_class.fps.tick(ticks)
 
-                    print('==>', xx)
+                    #print('==>', xx)
                     xx = plugin_class.scrape(xx)
-                    print('-->', xx)
+                    #print('-->', xx)
 
                     if plugin_class.make_corpus > 0:
                         a = plugin_class.action_string
