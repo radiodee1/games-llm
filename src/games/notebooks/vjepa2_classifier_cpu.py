@@ -24,6 +24,10 @@ csv_output_pic_filenumber = 0
 load_checkpoint = False
 save_checkpoint = False
 
+criterion = None
+optimizer = None
+optimizer_flag = False
+
 def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_key='vitl', foldername='train'):
     global load_checkpoint, save_checkpoint, output_path, csv_output_pic_folder, csv_output_pic_filenumber
     global output_path_filenumber
@@ -60,7 +64,7 @@ def show_keys(in_dict):
 
 
 def train_simple(model, out_patch_features_pt):
-    global train_loss, train_loss_past
+    global train_loss, train_loss_past, criterion, optimizer, optimizer_flag
 
     print('train_simple')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -73,12 +77,14 @@ def train_simple(model, out_patch_features_pt):
             param.requires_grad = False
             #print('not requires_grad', name)
 
-    criterion = nn.CrossEntropyLoss()
-    #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    optimizer = optim.AdamW(
-        #model.parameters()
-        filter(lambda p: p.requires_grad, model.parameters())
-        , lr=1e-1, weight_decay=0.1) ## lr=1e-3
+    if not optimizer_flag:
+        criterion = nn.CrossEntropyLoss()
+        #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
+        optimizer = optim.AdamW(
+            #model.parameters()
+            filter(lambda p: p.requires_grad, model.parameters())
+            , lr=1e-1, weight_decay=0.1) ## lr=1e-3
+        optimizer_flag = True
 
     #pretrained_dict = model.state_dict()
 
