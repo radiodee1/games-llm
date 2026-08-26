@@ -84,8 +84,10 @@ def train_simple(model, out_patch_features_pt):
             #model.parameters()
             filter(lambda p: p.requires_grad, model.parameters())
             , lr=1e-1, weight_decay=0.1) ## lr=1e-3
+        print('optimizer init')
         optimizer_flag = True
-
+    else:
+        print('not optimizer init')
     #pretrained_dict = model.state_dict()
 
     #model.load_state_dict(pretrained_dict, strict=False)
