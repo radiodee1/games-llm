@@ -83,7 +83,7 @@ class BreakoutAgent( DefaultPlugin ):
             self.l_score += int(abs(self.reward))
         return x 
 
-class PongSSv2Agent (PongAgent):
+class PongVjepa2Agent (PongAgent):
 
     def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
         super().__init__(mode, inverse_size, show_image)

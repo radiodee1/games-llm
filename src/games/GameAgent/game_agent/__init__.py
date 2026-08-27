@@ -1,6 +1,6 @@
 from .default import DefaultPlugin, DefaultBare 
 from .pygame_pong import PygamePongAgent
-from .agent import LunarLanderAgent, PongAgent, BreakoutAgent, PongSSv2Agent
+from .agent import LunarLanderAgent, PongAgent, BreakoutAgent, PongVjepa2Agent
 from .pygame_dots import PygameDotAgent
 from .chat import ChatAgent
 
@@ -12,7 +12,7 @@ pluginlist = {
     'breakout'          : 'BreakoutAgent',
     'dots'              : 'PygameDotAgent',
     'chat'              : 'ChatAgent',
-    'ssv'               : 'PongSSv2Agent'
+    'ssv'               : 'PongVjepa2Agent'
 }
 
 pygamelist = [ 'pygamepong', 'pygame', 'dots' , 'chat']
