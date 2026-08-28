@@ -96,16 +96,18 @@ def train_simple(model, out_patch_features_pt):
     #show_shape(pretrained_dict, 'linear.bias')
 
     #show_keys(model.state_dict())
-
+    print(out_patch_features_pt)
+    print(len(out_patch_features_pt))
     model.train()
     train_loss = 0.0
-    for inputs, labels in out_patch_features_pt : ## test values
+    for inputs, labels in  out_patch_features_pt  : ## test values
         inputs, labels = inputs.to(device), labels.to(device)
         
+        print(inputs.shape, labels.shape, 'inputs, labels')
         optimizer.zero_grad()
         outputs = model(inputs)
-        print(labels.long())
-        loss = criterion(outputs, labels.long())
+        print(labels)
+        loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
@@ -136,9 +138,9 @@ def eval_simple(model, out_patch_features_pt):
             inputs, labels = inputs.to(device), labels.to(device)
             
             outputs = model(inputs)
-            print(labels.long())
+            print(labels)
             
-            loss = criterion(outputs, labels.long())
+            loss = criterion(outputs, labels)
             test_loss += loss.item() * inputs.size(0)
 
     epoch_test_loss = test_loss / len(out_patch_features_pt[0])

@@ -263,6 +263,8 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
     global image_span, choose_img, args_foldername, VIDEO_PONG_CLASSES
 
     out_patch_features_pt = []
+    out_patch_labels_pt = []
+    out_patch_images_pt = []
     out_patch_features_hf = []
 
     for _ in range(image_batch_size + 0):
@@ -290,12 +292,18 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
         x_pt = pt_transform(video).cpu().unsqueeze(0)
         x_hf = hf_transform(video, return_tensors="pt")["pixel_values_videos"].to(device)
         # Extract the patch-wise features from the last layer
-        out_patch_features_pt += [[model_pt(x_pt), torch.Tensor([int(x)])]]
+        out_patch_labels_pt +=  [ torch.LongTensor([int(x)]) ]
+        out_patch_images_pt +=  [ model_pt(x_pt) ]
         out_patch_features_hf += [model_hf.get_vision_features(x_hf)]
 
+    out_patch_features_pt += [ [ torch.stack(out_patch_images_pt).squeeze(1),  torch.stack(out_patch_labels_pt).squeeze(1)] ]
+
+    print(out_patch_images_pt[0].shape, out_patch_labels_pt[0].shape)
+    
     if image_span <= 1:
         print(choose_img, 'choose_img')
-        return out_patch_features_pt[0], out_patch_features_hf[0]
+        return out_patch_features_hf[0], out_patch_features_pt[0]
+
     return out_patch_features_hf, out_patch_features_pt
 
 
@@ -306,9 +314,9 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
-    print(f"Classifier output shape: {out_patch_features_pt.shape}")
+    print(f"Classifier output shape: {out_patch_features_pt[0].shape}")
     with torch.inference_mode():
-        out_classifier = classifier(out_patch_features_pt)
+        out_classifier = classifier(out_patch_features_pt[0])
 
     print("Top 6 predicted class names:\n-----\n")
     high_id = ""
@@ -394,7 +402,7 @@ def run_sample_inference():
                 f"""
                 Inference results on video:
                 HuggingFace output shape: {out_patch_features_hf[0].shape}
-                PyTorch output shape:     {out_patch_features_pt[0].shape}
+                PyTorch output shape:     {out_patch_features_pt[0][0].shape}
                 """
                 #Absolute difference sum:  {torch.abs(out_patch_features_pt[0] - out_patch_features_hf[0]).sum():.6f}
                 #Close: {torch.allclose(out_patch_features_pt[0], out_patch_features_hf[0], atol=1e-3, rtol=1e-3)}
