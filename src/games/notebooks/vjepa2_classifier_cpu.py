@@ -96,8 +96,6 @@ def train_simple(model, out_patch_features_pt):
     #show_shape(pretrained_dict, 'linear.bias')
 
     #show_keys(model.state_dict())
-    print(out_patch_features_pt)
-    print(len(out_patch_features_pt))
     model.train()
     train_loss = 0.0
     for inputs, labels in  out_patch_features_pt  : ## test values
