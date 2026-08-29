@@ -35,7 +35,8 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
 
     pt_key = size_key
     csv_output_pic_folder = foldername
-    i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', foldername, 'csv_*'))
+    i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv'))
+
     print(i)
     if len(i) > 0:
         csv_output_pic_filenumber = len(i)
