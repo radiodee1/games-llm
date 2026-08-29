@@ -16,6 +16,7 @@ train_loss = 0.0
 train_loss_past = []
 test_loss = 0.0 
 test_loss_past = []
+pt_key = 'vitl'
 
 output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_vitl_ckpt_classifier.pt")
 output_path_filenumber = 0
@@ -30,7 +31,9 @@ optimizer_flag = False
 
 def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_key='vitl', foldername='train'):
     global load_checkpoint, save_checkpoint, output_path, csv_output_pic_folder, csv_output_pic_filenumber
-    global output_path_filenumber
+    global output_path_filenumber, pt_key
+
+    pt_key = size_key
     csv_output_pic_folder = foldername
     i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', foldername, 'csv_*'))
     print(i)
@@ -165,11 +168,12 @@ def load_simple(model):
         return model
 
 def csv_simple(loss_past, csv_name=None):
+    global pt_key
     if csv_name != None:
         tag = csv_name
     else: 
         tag = 'train'
-    csv_output_path = os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' + tag + '.csv')
+    csv_output_path = os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + tag + '.csv')
     if csv_output_pic_filenumber > 0:
         csv_output_path = csv_output_path + '.' + str(csv_output_pic_filenumber) + '.csv'
     with open(csv_output_path, 'w') as w:
