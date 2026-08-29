@@ -125,6 +125,8 @@ def parse():
 
     plugin_class.foldername = args.foldername
 
+    plugin_class.key = "vitl"
+
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
             print('model not in whitelist')

@@ -61,6 +61,7 @@ class DefaultLLM:
         self.word_frequency = {}
         self.foldername = 'train'
         self.use_short_path = True
+        self.key = 'vitl'
         self.print('Default', model)
         pass
 
