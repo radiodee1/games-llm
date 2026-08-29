@@ -61,6 +61,7 @@ def parse():
     parser.add_argument('--no_pic', action='store_true', help="Do not display picture from rom. Useful for gnome.")
     parser.add_argument('--show_payload', action='store_true', help="Show payload")
     parser.add_argument('--foldername', type=str, default='train', help="store corpus to named folder.")
+    parser.add_argument('--key', type=str, default='vitl', help='vjepa model key: vitl, vitg, 21vitl')
     if os.getenv('GAME_LAUNCH_ARGS') != None:
         GAME_LAUNCH_ARGS = str(os.getenv('GAME_LAUNCH_ARGS'))
     launch_args = []
@@ -125,7 +126,7 @@ def parse():
 
     plugin_class.foldername = args.foldername
 
-    plugin_class.key = "vitl"
+    plugin_class.key = args.key # "vitl"
 
     if  plugin_class.no_llm <= 0 or plugin_class.make_corpus > -1:
         if model not in whitelist:
