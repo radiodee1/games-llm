@@ -76,6 +76,22 @@ encoder_flag = False
 eval_flag = False
 classifier_flag = False
 huggingface_flag = False
+filesort_flag = False
+
+def init_filesort(key):
+    global pt_key, output_path_filenumber, filesort_flag
+    pt_key = key
+
+    if filesort_flag:
+        return
+    output_path_filenumber = 0 
+    output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+    output_path_list = glob.glob(output_path + '*')
+    if len(output_path_list) > 0:
+        output_path_filenumber = len(output_path_list)
+    output_path_list.sort()  
+    filesort_flag = True
+
 
 def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
     global encoder_flag 
@@ -332,9 +348,15 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     return SOME_CLASSES[str(high_id)]
 
 
-def run_sample_inference():
+def run_sample_inference(key=None):
     global  demo_weights, video_list, choose_img, args_foldername, VIDEO_PONG_CLASSES
-    global model_hf, hf_transform, huggingface_flag
+    global model_hf, hf_transform, huggingface_flag, pt_key
+    if key is None:
+        pt_key = 'vitl'
+    else:
+        pt_key = key
+
+    init_filesort(pt_key)
 
     VIDEO_PONG_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
    
@@ -444,6 +466,7 @@ if __name__ == "__main__":
     parser.add_argument('--foldername', type=str, default='train', help='Use "name" as folder for datasets.')
     parser.add_argument('--testset', action='store_true', help='use data for test set/evaluation.')
     parser.add_argument('--checkpoint', type=str, default='vjepa2.pt', help='choose from saved checkpoint files.')
+    parser.add_argument('--key', type=str, default='vitl', help='choose "vitl", "vitg", or "21vitl" ')
     args = parser.parse_args()
 
     if args.single:
@@ -460,7 +483,9 @@ if __name__ == "__main__":
     
     if args.checkpoint != 'vjepa2.pt':
         output_path_list = [args.checkpoint]
+    
+    pt_key = args.key 
 
     checkpoint_options(args.load_checkpoint, args.save_checkpoint, pt_key, args_foldername)
-    x = run_sample_inference()
+    x = run_sample_inference(args.key)
     print(x)
