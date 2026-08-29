@@ -65,11 +65,11 @@ args_foldername = 'train'
 home_dir = os.path.expanduser('~')
 LOCAL_FILE_STORE = 'workspace/VJEPA2_FILES/demo/'
 output_path_filenumber = 0 
-output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
-output_path_list = glob.glob(output_path + '*')
-if len(output_path_list) > 0:
-    output_path_filenumber = len(output_path_list)
-output_path_list.sort()  
+output_path = None # os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+output_path_list = [] #glob.glob(output_path + '*')
+#if len(output_path_list) > 0:
+#    output_path_filenumber = len(output_path_list)
+#output_path_list.sort()  
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
 
 encoder_flag = False
@@ -79,7 +79,7 @@ huggingface_flag = False
 filesort_flag = False
 
 def init_filesort(key):
-    global pt_key, output_path_filenumber, filesort_flag
+    global pt_key, output_path_filenumber, filesort_flag, output_path, output_path_list
     pt_key = key
 
     if filesort_flag:
@@ -129,7 +129,7 @@ def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
 
 
 def load_pretrained_vjepa_classifier_weights(classifier):
-    global demo_weights, output_path_list, classifier_flag
+    global demo_weights, output_path_list, classifier_flag, pt_key
     save_weights = False
 
     if classifier_flag == True:
@@ -362,7 +362,7 @@ def run_sample_inference(key=None):
    
     batch_size = 64 
     hidden_dim = 1408
-    if (pt_key == 'vitl' or pt_key == '21vitl') and change_hidden_dim:
+    if (pt_key == 'vitl' or pt_key == '21vitl' ) and change_hidden_dim:
         hidden_dim = 1024 
     # HuggingFace model repo name
     hf_model_name = PT_FILENAME[pt_key][1] # 
@@ -486,6 +486,7 @@ if __name__ == "__main__":
     
     pt_key = args.key 
 
+    print(pt_key, 'pt_key')
     checkpoint_options(args.load_checkpoint, args.save_checkpoint, pt_key, args_foldername)
     x = run_sample_inference(args.key)
     print(x)
