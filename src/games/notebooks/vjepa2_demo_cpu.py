@@ -65,11 +65,8 @@ args_foldername = 'train'
 home_dir = os.path.expanduser('~')
 LOCAL_FILE_STORE = 'workspace/VJEPA2_FILES/demo/'
 output_path_filenumber = 0 
-output_path = None # os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+output_path = None 
 output_path_list = [] #glob.glob(output_path + '*')
-#if len(output_path_list) > 0:
-#    output_path_filenumber = len(output_path_list)
-#output_path_list.sort()  
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
 
 encoder_flag = False
@@ -467,6 +464,7 @@ if __name__ == "__main__":
     parser.add_argument('--testset', action='store_true', help='use data for test set/evaluation.')
     parser.add_argument('--checkpoint', type=str, default='vjepa2.pt', help='choose from saved checkpoint files.')
     parser.add_argument('--key', type=str, default='vitl', help='choose "vitl", "vitg", or "21vitl" ')
+    parser.add_argument('--batch', type=int, default=2, help='choose batch size')
     args = parser.parse_args()
 
     if args.single:
@@ -484,6 +482,8 @@ if __name__ == "__main__":
     if args.checkpoint != 'vjepa2.pt':
         output_path_list = [args.checkpoint]
     
+    image_batch_size = args.batch 
+
     pt_key = args.key 
 
     print(pt_key, 'pt_key')
