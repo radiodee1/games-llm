@@ -120,7 +120,7 @@ def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
     pretrained_dict = {k.replace("module.", ""): v for k, v in pretrained_dict.items()}
     pretrained_dict = {k.replace("backbone.", ""): v for k, v in pretrained_dict.items()}
     msg = model.load_state_dict(pretrained_dict, strict=False)
-    print(msg, 'msg vitl')
+    print(msg, 'msg vitX')
     #print(pretrained_dict, '\n-----')
     encoder_flag = True
 
