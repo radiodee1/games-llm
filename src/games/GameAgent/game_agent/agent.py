@@ -92,4 +92,5 @@ class PongVjepa2Agent (PongAgent):
 
     def scrape(self, txt, replace=False):
         self.action_string = ''
+        self.action = None
         return super().scrape(txt, replace)
