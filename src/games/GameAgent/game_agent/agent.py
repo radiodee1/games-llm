@@ -89,6 +89,7 @@ class PongVjepa2Agent (PongAgent):
         super().__init__(mode, inverse_size, show_image)
         self.meaning = [ 'wait', 'serve', 'right.move.up', 'right.move.down' , 'left.move.up', 'left.move.down']
         self.agent = 'ALE/Pong-v5'
+        self.prompt_string = ''
 
     def scrape(self, txt, replace=False):
         self.action_string = ''
