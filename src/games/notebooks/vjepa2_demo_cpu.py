@@ -68,6 +68,8 @@ output_path_filenumber = 0
 output_path = None 
 output_path_list = [] #glob.glob(output_path + '*')
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
+skip_huggingface = False
+
 
 encoder_flag = False
 eval_flag = False
@@ -303,11 +305,12 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
             print('no record')
         video = torch.from_numpy(video).permute(0, 3, 1, 2)  # T x C x H x W
         x_pt = pt_transform(video).cpu().unsqueeze(0)
-        x_hf = hf_transform(video, return_tensors="pt")["pixel_values_videos"].to(device)
         # Extract the patch-wise features from the last layer
         out_patch_labels_pt +=  [ torch.LongTensor([int(x)]) ]
         out_patch_images_pt +=  [ model_pt(x_pt) ]
-        out_patch_features_hf += [model_hf.get_vision_features(x_hf)]
+        if not skip_huggingface:
+            x_hf = hf_transform(video, return_tensors="pt")["pixel_values_videos"].to(device)
+            out_patch_features_hf += [model_hf.get_vision_features(x_hf)]
 
     out_patch_features_pt += [ [ torch.stack(out_patch_images_pt).squeeze(1),  torch.stack(out_patch_labels_pt).squeeze(1)] ]
 
@@ -382,7 +385,7 @@ def run_sample_inference(key=None):
     num = 0 
 
     # Initialize the HuggingFace model, load pretrained weights
-    if not huggingface_flag and pt_key in ['vitg', 'vitl', '21vitl']:
+    if not huggingface_flag and pt_key in ['vitg', 'vitl', '21vitl'] and not skip_huggingface:
         model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True, trust_remote_code=True, token=os.environ['HF_TOKEN']) 
         model_hf.to(device).eval()
         hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim, trust_remote_code=True, token=os.environ['HF_TOKEN'])
