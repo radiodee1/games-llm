@@ -9,6 +9,8 @@ from torchvision import datasets, models, transforms
 import os 
 import glob
 
+from peft import LoraConfig, get_peft_model
+
 model = None
 home_dir = os.path.expanduser('~')
 LOCAL_FILE_STORE = 'workspace/VJEPA2_FILES/demo/'
@@ -24,6 +26,9 @@ csv_output_pic_folder = 'train'
 csv_output_pic_filenumber = 0 
 load_checkpoint = False
 save_checkpoint = False
+model = None
+model_peft = None
+use_lora = False
 
 criterion = None
 optimizer = None
@@ -67,8 +72,8 @@ def show_keys(in_dict):
     print('-----')
 
 
-def train_simple(model, out_patch_features_pt):
-    global train_loss, train_loss_past, criterion, optimizer, optimizer_flag
+def train_simple(model_input, out_patch_features_pt):
+    global train_loss, train_loss_past, criterion, optimizer, optimizer_flag, model_peft, model
 
     print('train_simple')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -89,6 +94,23 @@ def train_simple(model, out_patch_features_pt):
             filter(lambda p: p.requires_grad, model.parameters())
             , lr=1e-1, weight_decay=0.1) ## lr=1e-3
         print('optimizer init')
+        
+        model = model_input
+
+        if use_lora:
+            peft_config = LoraConfig(
+                r=8,  # LoRA rank
+                lora_alpha=16,  # Scaling parameter
+                target_modules=["query", "value"],  # Modules to inject adapters into
+                lora_dropout=0.1,
+                bias="none",
+                task_type="SEQ_CLS",  # Sequence classification task type
+            )
+
+            model_peft = get_peft_model(model, peft_config)
+            model_peft.print_trainable_parameters()
+            model = model_peft
+
         optimizer_flag = True
     else:
         print('not optimizer init')
