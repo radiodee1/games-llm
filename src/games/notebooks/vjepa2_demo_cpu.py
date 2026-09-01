@@ -338,9 +338,6 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
     max = out_classifier.argmax(-1)
     print(max, 'max')
-    if argmax_user:
-        return SOME_CLASSES[str(max.item())]
-
     print("Top 6 predicted class names:\n-----")
     high_id = ""
     high_prob = 0 
@@ -352,6 +349,9 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
         if prob > high_prob: # or high_prob == 0:
             high_id = str_idx 
             high_prob = prob
+    if argmax_user:
+        return SOME_CLASSES[str(max.item())]
+
     return SOME_CLASSES[str(high_id)]
 
 
