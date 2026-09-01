@@ -78,30 +78,34 @@ def train_simple(model_input, out_patch_features_pt):
     print('train_simple')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
    
-    for name, param in model.named_parameters():
-        if 'linear.weight' in name or 'linear.bias' in name:
-            param.requires_grad = True
-            print('requires_grad', name)
-        else:
-            param.requires_grad = False
-            #print('not requires_grad', name)
-
     if not optimizer_flag:
+
+        model = model_input
+
+        for name, param in model.named_parameters():
+            if 'linear.weight' in name or 'linear.bias' in name:
+                param.requires_grad = True
+                print('requires_grad', name)
+            else:
+                param.requires_grad = False
+                #print('not requires_grad', name)
+
+
+
         criterion = nn.CrossEntropyLoss()
         #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
         optimizer = optim.AdamW(
             #model.parameters()
             filter(lambda p: p.requires_grad, model.parameters())
             , lr=1e-1, weight_decay=0.1) ## lr=1e-3
+
         print('optimizer init')
         
-        model = model_input
-
         if use_lora:
             peft_config = LoraConfig(
                 r=8,  # LoRA rank
                 lora_alpha=16,  # Scaling parameter
-                target_modules=["query", "value"],  # Modules to inject adapters into
+                target_modules= [r".*vjepa21?\.encoder\.layer\.\d+\.attention\.(query|key|value|proj)$"], #["query", "value"],  # Modules to inject adapters into
                 lora_dropout=0.1,
                 bias="none",
                 task_type="SEQ_CLS",  # Sequence classification task type
