@@ -322,7 +322,7 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
 
 def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     #global out_classifier
-
+    argmax_user = True
     print('classification_results')
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
@@ -331,14 +331,19 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     with torch.inference_mode():
         out_classifier = classifier(out_patch_features_pt[0])
 
-    print("Top 6 predicted class names:\n-----\n")
+    max = out_classifier.argmax(-1)
+    print(max, 'max')
+    if argmax_user:
+        return SOME_CLASSES[str(max.item())]
+
+    print("Top 6 predicted class names:\n-----")
     high_id = ""
     high_prob = 0 
-    top5_indices = out_classifier.topk(num_classes).indices[0]
-    top5_probs = F.softmax(out_classifier.topk(num_classes).values[0]) * 100.0  # convert to percentage
-    for idx, prob in zip(top5_indices, top5_probs):
+    top6_indices = out_classifier.topk(num_classes).indices[0]
+    top6_probs = F.softmax(out_classifier.topk(num_classes).values[0]) * 100.0  # convert to percentage
+    for idx, prob in zip(top6_indices, top6_probs):
         str_idx = str(idx.item())
-        print(f"{SOME_CLASSES[str_idx]} ({prob}%)")
+        print(f"{SOME_CLASSES[str_idx]} ({prob}%)  {str_idx}")
         if prob > high_prob: # or high_prob == 0:
             high_id = str_idx 
             high_prob = prob
