@@ -105,7 +105,7 @@ def train_simple(model_input, out_patch_features_pt):
             peft_config = LoraConfig(
                 r=8,  # LoRA rank
                 lora_alpha=16,  # Scaling parameter
-                target_modules= [r".*vjepa21?\.encoder\.layer\.\d+\.attention\.(query|key|value|proj)$"], #["query", "value"],  # Modules to inject adapters into
+                #target_modules= [r".*vjepa21?\.encoder\.layer\.\d+\.attention\.(query|key|value|proj)$"], #["query", "value"],  # Modules to inject adapters into
                 lora_dropout=0.1,
                 bias="none",
                 task_type="SEQ_CLS",  # Sequence classification task type
