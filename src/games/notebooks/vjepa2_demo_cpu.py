@@ -334,6 +334,8 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     with torch.inference_mode():
         out_classifier = classifier(out_patch_features_pt[0])
 
+    print(out_classifier, 'out_classifier')
+
     max = out_classifier.argmax(-1)
     print(max, 'max')
     if argmax_user:
