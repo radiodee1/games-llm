@@ -176,7 +176,7 @@ class DefaultBare:
                 .run(capture_stdout=True, capture_stderr=True)
             )
 
-            print("Done!")
+            #print("Done!")
         except ffmpeg.Error as e:
             print("ffmpeg error:",  e.stderr.decode())
 
