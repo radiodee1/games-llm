@@ -39,9 +39,9 @@ os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 
 #facebook/vjepa2-vitl-fpc64-256
 PT_FILENAME = {
-    'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' ],
-    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt' ],
-    '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt']
+    'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' , 256],
+    'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt', 384 ],
+    '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt', 384]
 }
 pt_key = 'vitl'
 
@@ -68,7 +68,7 @@ output_path_filenumber = 0
 output_path = None 
 output_path_list = [] #glob.glob(output_path + '*')
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
-skip_huggingface = False
+skip_huggingface = True
 
 
 encoder_flag = False
@@ -350,6 +350,7 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
             high_id = str_idx 
             high_prob = prob
     if argmax_user:
+        print('max')
         return SOME_CLASSES[str(max.item())]
 
     return SOME_CLASSES[str(high_id)]
@@ -391,12 +392,14 @@ def run_sample_inference(key=None):
         model_hf = AutoModel.from_pretrained(hf_model_name, num_labels=num_classes, ignore_mismatched_sizes=True, trust_remote_code=True, token=os.environ['HF_TOKEN']) 
         model_hf.to(device).eval()
         hf_transform = AutoVideoProcessor.from_pretrained(hf_model_name, hidden_size=hidden_dim, trust_remote_code=True, token=os.environ['HF_TOKEN'])
+        img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
         huggingface_flag = True
 
-    else:
+    else:    
+        img_size = PT_FILENAME[pt_key][3] # hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
         pass
 
-    img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
+    #img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
     if pt_key == '21vitl':
         #img_size = 384
         pass
