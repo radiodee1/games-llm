@@ -318,7 +318,7 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
     
     if image_span <= 1:
         print(choose_img, 'choose_img')
-        return out_patch_features_hf[0], out_patch_features_pt[0]
+        return [0], out_patch_features_pt[0]
 
     return out_patch_features_hf, out_patch_features_pt
 
@@ -433,12 +433,11 @@ def run_sample_inference(key=None):
             print(
                 f"""
                 Inference results on video:
-                HuggingFace output shape: {out_patch_features_hf[0].shape}
                 PyTorch output shape:     {out_patch_features_pt[0][0].shape}
                 """
                 #Absolute difference sum:  {torch.abs(out_patch_features_pt[0] - out_patch_features_hf[0]).sum():.6f}
                 #Close: {torch.allclose(out_patch_features_pt[0], out_patch_features_hf[0], atol=1e-3, rtol=1e-3)}
-
+                #HuggingFace output shape: {out_patch_features_hf[0].shape}
             )
         
         classifier = (
