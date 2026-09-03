@@ -82,15 +82,6 @@ def train_simple(model_input, out_patch_features_pt):
 
         model = model_input
 
-        for name, param in model.named_parameters():
-            if 'linear.weight' in name or 'linear.bias' in name:
-                param.requires_grad = True
-                print('requires_grad', name)
-            else:
-                param.requires_grad = False
-                #print('not requires_grad', name)
-
-
 
         criterion = nn.CrossEntropyLoss()
         #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
@@ -118,6 +109,16 @@ def train_simple(model_input, out_patch_features_pt):
         optimizer_flag = True
     else:
         print('not optimizer init')
+
+    for name, param in model.named_parameters():
+        if 'linear.weight' in name or 'linear.bias' in name:
+            param.requires_grad = True
+            print('requires_grad', name)
+        else:
+            param.requires_grad = False
+            #print('not requires_grad', name)
+
+
     #pretrained_dict = model.state_dict()
 
     #model.load_state_dict(pretrained_dict, strict=False)

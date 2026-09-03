@@ -421,6 +421,12 @@ def run_sample_inference(key=None):
 
     # Build PyTorch preprocessing transform
     pt_video_transform = build_pt_video_transform(img_size=img_size)
+    
+    classifier = (
+        AttentiveClassifier(embed_dim=hidden_dim, num_heads=16, depth=4, num_classes=num_classes).to(device).eval()
+    )
+    classifier = load_pretrained_vjepa_classifier_weights(classifier)
+
 
     while len(choose_img) > 0 and num < 1000:
 
@@ -439,16 +445,11 @@ def run_sample_inference(key=None):
                 #Close: {torch.allclose(out_patch_features_pt[0], out_patch_features_hf[0], atol=1e-3, rtol=1e-3)}
                 #HuggingFace output shape: {out_patch_features_hf[0].shape}
             )
-        
-        classifier = (
-            AttentiveClassifier(embed_dim=hidden_dim, num_heads=16, depth=4, num_classes=num_classes).to(device).eval()
-        )
-        classifier = load_pretrained_vjepa_classifier_weights(classifier)
 
         if image_span > 1:
             if not eval_flag:
                 print('must train here')
-                classifier = train_simple(classifier, out_patch_features_pt)
+                train_simple(classifier, out_patch_features_pt)
             else:
                 print('must eval here')
                 eval_simple(classifier, out_patch_features_pt)
