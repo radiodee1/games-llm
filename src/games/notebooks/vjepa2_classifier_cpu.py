@@ -109,7 +109,8 @@ def train_simple(model_input, out_patch_features_pt):
                 )
 
                 model_peft = get_peft_model(model, peft_config)
-            model_peft.print_trainable_parameters()
+            
+            #model_peft.print_trainable_parameters()
             model = model_peft
 
         for name, param in model.named_parameters():
@@ -117,8 +118,11 @@ def train_simple(model_input, out_patch_features_pt):
                 param.requires_grad = True
                 print('requires_grad', name)
             else:
-                param.requires_grad = False
+                pass 
+                #param.requires_grad = False
                 #print('not requires_grad', name)
+
+        model.print_trainable_parameters()
 
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.AdamW(
@@ -138,7 +142,6 @@ def train_simple(model_input, out_patch_features_pt):
             print('requires_grad', name)
         else:
             #param.requires_grad = False
-            #print('not requires_grad', name)
             pass 
 
     #pretrained_dict = model.state_dict()
@@ -212,6 +215,8 @@ def load_lora_path():
         j = output_path_local.split('/')[:-1]
         output_path_local = '/'.join(j)  + '/lora.' + i 
         g = glob.glob(output_path_local + '*')
+        if len(g) < 1:
+            return None
         g.sort()
         if g[-1].endswith(str(output_path_filenumber)):
             return g[-1]
