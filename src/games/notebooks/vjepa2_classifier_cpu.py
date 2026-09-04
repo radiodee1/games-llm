@@ -90,22 +90,27 @@ def train_simple(model_input, out_patch_features_pt):
                 print(name)
 
         if use_lora:
-            peft_config = LoraConfig(
-                r=8,  # LoRA rank
-                lora_alpha=16,  # Scaling parameter
-                target_modules=r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
-                #target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
-                #modules_to_save=["classifier", "pooler"], 
-                lora_dropout=0.1,
-                bias="none",
-                #task_type="SEQ_CLS",  # Sequence classification task type
-            )
 
-            model_peft = get_peft_model(model, peft_config)
+            lora_path = load_lora_path()
+            if (lora_path is not None) :
+                model_peft = PeftModel.from_pretrained(model, lora_path, is_trainable=True)
+            
+            else:
+
+                peft_config = LoraConfig(
+                    r=8,  # LoRA rank
+                    lora_alpha=16,  # Scaling parameter
+                    target_modules=r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
+                    #target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
+                    #modules_to_save=["classifier", "pooler"], 
+                    lora_dropout=0.1,
+                    bias="none",
+                    #task_type="SEQ_CLS",  # Sequence classification task type
+                )
+
+                model_peft = get_peft_model(model, peft_config)
             model_peft.print_trainable_parameters()
             model = model_peft
-
-
 
         for name, param in model.named_parameters():
             if 'linear.weight' in name or 'linear.bias' in name:
@@ -116,7 +121,6 @@ def train_simple(model_input, out_patch_features_pt):
                 #print('not requires_grad', name)
 
         criterion = nn.CrossEntropyLoss()
-        #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
         optimizer = optim.AdamW(
             #model.parameters()
             filter(lambda p: p.requires_grad, model.parameters())
@@ -137,7 +141,6 @@ def train_simple(model_input, out_patch_features_pt):
             #print('not requires_grad', name)
             pass 
 
-
     #pretrained_dict = model.state_dict()
 
     #model.load_state_dict(pretrained_dict, strict=False)
@@ -145,7 +148,6 @@ def train_simple(model_input, out_patch_features_pt):
     #show_shape(pretrained_dict, 'linear.weight')
     #show_shape(pretrained_dict, 'linear.bias')
 
-    #show_keys(model.state_dict())
     model.train()
     train_loss = 0.0
     for inputs, labels in  out_patch_features_pt  : ## test values
@@ -199,6 +201,23 @@ def eval_simple(model, out_patch_features_pt):
     print('past test_loss', test_loss_past)
 
 
+def load_lora_path():
+    global use_lora, output_path
+
+    if use_lora:
+        output_path_local = output_path
+        if output_path_filenumber > 0:
+            output_path_local = output_path + '.' + str(output_path_filenumber)
+        i = output_path_local.split('/')[-1]
+        j = output_path_local.split('/')[:-1]
+        output_path_local = '/'.join(j)  + '/lora.' + i 
+        g = glob.glob(output_path_local + '*')
+        g.sort()
+        if g[-1].endswith(str(output_path_filenumber)):
+            return g[-1]
+    return None
+
+
 def save_lora(peft_modal):
     global use_lora, output_path
     if not use_lora:
@@ -207,7 +226,10 @@ def save_lora(peft_modal):
         output_path_local = output_path
         if output_path_filenumber > 0:
             output_path_local = output_path + '.' + str(output_path_filenumber)
-        output_path_local += '.lora.pt' 
+        i = output_path_local.split('/')[-1]
+        j = output_path_local.split('/')[:-1]
+        output_path_local = '/'.join(j)  + '/lora.' + i 
+        print(output_path_local, 'output_path_local')
         peft_modal.save_pretrained(output_path_local)
         print('output_path_local', output_path_local)
         return
