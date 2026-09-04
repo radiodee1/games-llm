@@ -82,6 +82,37 @@ def train_simple(model_input, out_patch_features_pt):
 
         model = model_input
 
+        show_keys(model.state_dict())
+
+        # Run this to look at the exact names of your linear layers
+        for name, module in model.named_modules():
+            if isinstance(module, torch.nn.Linear):
+                print(name)
+
+        if use_lora:
+            peft_config = LoraConfig(
+                r=8,  # LoRA rank
+                lora_alpha=16,  # Scaling parameter
+                target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
+                modules_to_save=["classifier", "pooler"], 
+                lora_dropout=0.1,
+                bias="none",
+                task_type="SEQ_CLS",  # Sequence classification task type
+            )
+
+            model_peft = get_peft_model(model, peft_config)
+            model_peft.print_trainable_parameters()
+            model = model_peft
+
+
+
+        for name, param in model.named_parameters():
+            if 'linear.weight' in name or 'linear.bias' in name:
+                param.requires_grad = True
+                print('requires_grad', name)
+            else:
+                param.requires_grad = False
+                #print('not requires_grad', name)
 
         criterion = nn.CrossEntropyLoss()
         #optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
@@ -92,20 +123,6 @@ def train_simple(model_input, out_patch_features_pt):
 
         print('optimizer init')
         
-        if use_lora:
-            peft_config = LoraConfig(
-                r=8,  # LoRA rank
-                lora_alpha=16,  # Scaling parameter
-                #target_modules= [r".*vjepa21?\.encoder\.layer\.\d+\.attention\.(query|key|value|proj)$"], #["query", "value"],  # Modules to inject adapters into
-                lora_dropout=0.1,
-                bias="none",
-                task_type="SEQ_CLS",  # Sequence classification task type
-            )
-
-            model_peft = get_peft_model(model, peft_config)
-            model_peft.print_trainable_parameters()
-            model = model_peft
-
         optimizer_flag = True
     else:
         print('not optimizer init')
@@ -115,8 +132,9 @@ def train_simple(model_input, out_patch_features_pt):
             param.requires_grad = True
             print('requires_grad', name)
         else:
-            param.requires_grad = False
+            #param.requires_grad = False
             #print('not requires_grad', name)
+            pass 
 
 
     #pretrained_dict = model.state_dict()
