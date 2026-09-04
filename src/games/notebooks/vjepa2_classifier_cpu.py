@@ -9,7 +9,7 @@ from torchvision import datasets, models, transforms
 import os 
 import glob
 
-from peft import LoraConfig, get_peft_model
+from peft import LoraConfig, get_peft_model, PeftModel 
 
 model = None
 home_dir = os.path.expanduser('~')
@@ -168,6 +168,7 @@ def train_simple(model_input, out_patch_features_pt):
     print('past train_loss', train_loss_past )
     if save_checkpoint:
         save_simple(model.state_dict())
+        save_lora(model)
 
     return model
 
@@ -198,8 +199,21 @@ def eval_simple(model, out_patch_features_pt):
     print('past test_loss', test_loss_past)
 
 
+def save_lora(peft_modal):
+    global use_lora, output_path
+    if not use_lora:
+        return
+    else:
+        output_path_local = output_path
+        if output_path_filenumber > 0:
+            output_path_local = output_path + '.' + str(output_path_filenumber)
+        output_path_local += '.lora.pt' 
+        peft_modal.save_pretrained(output_path_local)
+        print('output_path_local', output_path_local)
+        return
+
 def save_simple(model_weights):
-    global train_loss_past, output_path_filenumber
+    global train_loss_past, output_path_filenumber, output_path
     output_path_local = output_path
     if output_path_filenumber > 0:
         output_path_local = output_path + '.' + str(output_path_filenumber)
