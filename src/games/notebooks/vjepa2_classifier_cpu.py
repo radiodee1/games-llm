@@ -40,8 +40,7 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
 
     pt_key = size_key
     csv_output_pic_folder = foldername
-    i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv'))
-
+    i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv*'))
     if len(i) > 0:
         csv_output_pic_filenumber = len(i)
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
@@ -280,14 +279,14 @@ def load_simple(model):
         return model
 
 def csv_simple(loss_past, csv_name=None):
-    global pt_key
+    global pt_key, csv_output_pic_filenumber
     if csv_name != None:
         tag = csv_name
     else: 
         tag = 'train'
+       #if csv_output_pic_filenumber > 0:
     csv_output_path = os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + tag + '.csv')
-    if csv_output_pic_filenumber > 0:
-        csv_output_path = csv_output_path + '.' + str(csv_output_pic_filenumber) + '.csv'
+    csv_output_path = csv_output_path + '.' + str(csv_output_pic_filenumber + 1) + '.csv'
     with open(csv_output_path, 'w') as w:
         for i in loss_past:
             w.write(str(i) + ',')
