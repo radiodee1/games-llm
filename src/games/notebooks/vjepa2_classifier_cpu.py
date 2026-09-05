@@ -42,18 +42,35 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
     csv_output_pic_folder = foldername
     i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv'))
 
-    print(i)
+    #print(i)
     if len(i) > 0:
         csv_output_pic_filenumber = len(i)
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
     i = glob.glob(output_path + '*')
-    print('output_path', i)
+    i.sort() 
+    #print('output_path', i)
     if len(i) > 0:
-        output_path_filenumber = len(i)
+        output_path_filenumber = highest_number(output_path) + 1  # len(i)
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
     load_checkpoint = load_checkpoint_in
     save_checkpoint = save_checkpoint_in
-    print(output_path, 'path set')
+    #print(output_path, 'path set')
+
+def highest_number(search_name):
+    j = glob.glob(search_name + "*")
+    x_list = []
+    for i in j:
+        j = i.split('/')[-1]
+        try:
+            ii = j.split('.')[-1]
+            j = float(ii)
+            x_list.append( int(j) )
+        except ValueError:
+            pass 
+    x_list.sort()
+    if len(x_list) < 1:
+        x_list = [0]
+    return x_list[-1]
 
 def show_shape(in_dict, key):
     print('-----')

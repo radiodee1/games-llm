@@ -22,11 +22,12 @@ import src.datasets.utils.video.volume_transforms as volume_transforms
 from src.models.attentive_pooler import AttentiveClassifier
 from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope
 
-from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple
+from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple, load_lora_path
 import argparse
 
 from dotenv import load_dotenv
 #import time
+from peft import PeftModel 
 
 user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
@@ -327,6 +328,11 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     #global out_classifier
     argmax_user = True
     print('classification_results')
+
+    lora_path = load_lora_path()
+    if (lora_path is not None) :
+        classifier = PeftModel.from_pretrained(classifier, lora_path, is_trainable=True)
+            
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
