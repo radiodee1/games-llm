@@ -22,7 +22,7 @@ import src.datasets.utils.video.volume_transforms as volume_transforms
 from src.models.attentive_pooler import AttentiveClassifier
 from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope
 
-from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple, load_lora_path
+from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple, load_lora_path, highest_number
 import argparse
 
 from dotenv import load_dotenv
@@ -88,7 +88,7 @@ def init_filesort(key):
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     output_path_list = glob.glob(output_path + '*')
     if len(output_path_list) > 0:
-        output_path_filenumber = len(output_path_list)
+        output_path_filenumber = highest_number(output_path) + 1  #len(output_path_list)
     output_path_list.sort()  
     filesort_flag = True
 
@@ -192,7 +192,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     print("Pretrained weights loaded with msg: {}".format( msg))
     print('regular weights')
 
-    if save_weights:
+    if save_weights and weight_path_used != weight_path_ckpt:
         save_classifier_weights(pretrained_dict)
     
     classifier_flag = True
@@ -331,8 +331,8 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
     lora_path = load_lora_path()
     if (lora_path is not None) :
-        classifier = PeftModel.from_pretrained(classifier, lora_path, is_trainable=True)
-            
+        classifier = PeftModel.from_pretrained(classifier, lora_path ) #, is_trainable=True)
+        print('peft', lora_path) 
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
