@@ -270,9 +270,14 @@ def save_simple(model_weights):
         xstring = '0000000000'
         ystring = (xstring + str(output_path_filenumber))[-5:]
         output_path_local = output_path + '.' +  ystring # str(output_path_filenumber)
-    torch.save(model_weights, output_path_local)
-    print('save some model checkpoint')
-    csv_simple(train_loss_past, 'train')
+    try:
+        torch.save(model_weights, output_path_local)
+        print('save some model checkpoint')
+        csv_simple(train_loss_past, 'train')
+    except KeyboardInterrupt:
+        torch.save(model_weights, output_path_local)
+        csv_simple(train_loss_past, 'train')
+
     
 def load_simple(model):
     if  os.path.exists(output_path):
