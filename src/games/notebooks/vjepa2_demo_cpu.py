@@ -192,7 +192,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     print("Pretrained weights loaded with msg: {}".format( msg))
     print('regular weights')
 
-    if save_weights and weight_path_used != weight_path_ckpt:
+    if save_weights and weight_path_used == weight_path_pretrain:
         save_classifier_weights(pretrained_dict)
     
     classifier_flag = True
@@ -330,9 +330,10 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     print('classification_results')
 
     lora_path = load_lora_path()
+    print('peft', lora_path) 
+    
     if (lora_path is not None) :
         classifier = PeftModel.from_pretrained(classifier, lora_path ) #, is_trainable=True)
-        print('peft', lora_path) 
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
