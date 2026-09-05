@@ -102,7 +102,6 @@ def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
         return
     pretrained_dict = torch.load(pretrained_weights, weights_only=True, map_location="cpu")["encoder"]
     #show_keys(pretrained_dict)
-    print(pt_key)
 
     pretrained_dict = {k.replace("module.", ""): v for k, v in pretrained_dict.items()}
     pretrained_dict = {k.replace("backbone.", ""): v for k, v in pretrained_dict.items()}
@@ -124,7 +123,6 @@ def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
     pretrained_dict = {k.replace("backbone.", ""): v for k, v in pretrained_dict.items()}
     msg = model.load_state_dict(pretrained_dict, strict=False)
     print(msg, 'msg vitX')
-    #print(pretrained_dict, '\n-----')
     encoder_flag = True
 
 
@@ -220,7 +218,6 @@ def save_classifier_weights(model_weights):
 def build_pt_video_transform(img_size):
     short_side_size = int(256.0 / 224 * img_size)
     # Eval transform has no random cropping nor flip
-    #print(short_side_size, 'short_side_size',  img_size)
     eval_transform = video_transforms.Compose(
         [
             video_transforms.Resize(short_side_size, interpolation="bilinear"),
@@ -240,7 +237,6 @@ def prep_choose_img_list():
         j = j.split('.')[0]
         choose_img.append(int(j))
     choose_img.sort()
-    #print('choose_img', choose_img)
 
 
 def get_filename(num):
@@ -315,8 +311,6 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
 
     out_patch_features_pt += [ [ torch.stack(out_patch_images_pt).squeeze(1),  torch.stack(out_patch_labels_pt).squeeze(1)] ]
 
-    print(out_patch_images_pt[0].shape, out_patch_labels_pt[0].shape)
-    
     if image_span <= 1:
         print(choose_img, 'choose_img')
         return [0], out_patch_features_pt[0]
@@ -330,10 +324,9 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     print('classification_results')
 
     lora_path = load_lora_path(output_path)
-    print('peft', lora_path) 
     
     if (lora_path is not None) :
-        classifier = PeftModel.from_pretrained(classifier, lora_path ) #, is_trainable=True)
+        classifier = PeftModel.from_pretrained(classifier, lora_path , is_trainable=False)
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
@@ -341,10 +334,9 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     with torch.inference_mode():
         out_classifier = classifier(out_patch_features_pt[0])
 
-    print(out_classifier, 'out_classifier')
+    #print(out_classifier, 'out_classifier')
 
     max = out_classifier.argmax(-1)
-    print(max, 'max')
     print("Top 6 predicted class names:\n-----")
     high_id = ""
     high_prob = 0 
@@ -388,7 +380,6 @@ def run_sample_inference(key=None):
 
     sample_video_path = os.path.join(os.getcwd(), "pic/output_0.mp4")
     if image_span == 1:
-        print(image_span, 'image_span')
         file_pattern = sample_video_path
     video_list = glob.glob(file_pattern)
     prep_choose_img_list()
@@ -506,7 +497,6 @@ if __name__ == "__main__":
 
     pt_key = args.key 
 
-    print(pt_key, 'pt_key')
     checkpoint_options(args.load_checkpoint, args.save_checkpoint, pt_key, args_foldername)
     x = run_sample_inference(args.key)
     print(x)

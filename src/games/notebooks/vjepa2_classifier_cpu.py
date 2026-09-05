@@ -42,7 +42,6 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
     csv_output_pic_folder = foldername
     i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv'))
 
-    #print(i)
     if len(i) > 0:
         csv_output_pic_filenumber = len(i)
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
@@ -173,7 +172,7 @@ def train_simple(model_input, out_patch_features_pt):
     for inputs, labels in  out_patch_features_pt  : ## test values
         inputs, labels = inputs.to(device), labels.to(device)
         
-        print(inputs.shape, labels.shape, 'inputs, labels')
+        #print(inputs.shape, labels.shape, 'inputs, labels')
         optimizer.zero_grad()
         outputs = model(inputs)
         print(labels)
@@ -224,24 +223,19 @@ def eval_simple(model, out_patch_features_pt):
 def load_lora_path(path=None):
     global use_lora, output_path, output_path_filenumber
     if use_lora:
-        print('use_lora')
         if path is not None:
             output_path_local = path
         else:
             output_path_local = output_path
-        print('output_path_local', output_path_local)
         if output_path_filenumber > 0:
             xstring = '0000000000'
             ystring = (xstring + str(highest_number(output_path_local)))[-5:]
-            print(ystring)
 
             output_path_local = output_path + '.' + str( ystring ) # + str(output_path_filenumber)
         i = output_path_local.split('/')[-1]
         j = output_path_local.split('/')[:-1]
         output_path_local = '/'.join(j)  + '/lora.' + i 
-        print('output_path_local', output_path_local)
         g = glob.glob(output_path_local + '*')
-        print(g, 'g glob')
         if len(g) < 1:
             return None
         g.sort()
@@ -259,15 +253,12 @@ def save_lora(peft_modal):
         if output_path_filenumber > 0:
             xstring = '0000000000'
             ystring = (xstring + str(highest_number(output_path_local)))[-5:]
-            print(ystring)
 
             output_path_local = output_path + '.' + str(ystring)
         i = output_path_local.split('/')[-1]
         j = output_path_local.split('/')[:-1]
         output_path_local = '/'.join(j)  + '/lora.' + i 
-        print(output_path_local, 'output_path_local')
         peft_modal.save_pretrained(output_path_local)
-        print('output_path_local', output_path_local)
         return
 
 def save_simple(model_weights):
@@ -276,7 +267,6 @@ def save_simple(model_weights):
     if output_path_filenumber > 0:
         xstring = '0000000000'
         ystring = (xstring + str(output_path_filenumber))[-5:]
-        print(ystring)
         output_path_local = output_path + '.' +  ystring # str(output_path_filenumber)
     torch.save(model_weights, output_path_local)
     print('save some model checkpoint')
