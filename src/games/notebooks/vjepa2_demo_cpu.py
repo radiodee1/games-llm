@@ -70,7 +70,7 @@ output_path = None
 output_path_list = [] #glob.glob(output_path + '*')
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
 skip_huggingface = True
-
+use_lora = True
 
 encoder_flag = False
 eval_flag = False
@@ -329,7 +329,7 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     argmax_user = True
     print('classification_results')
 
-    lora_path = load_lora_path()
+    lora_path = load_lora_path(output_path)
     print('peft', lora_path) 
     
     if (lora_path is not None) :
@@ -494,7 +494,7 @@ if __name__ == "__main__":
             image_span = args.image_span
 
 
-    if args.foldername != 'train':
+    if args.foldername != 'train' or True:
         args_foldername = args.foldername
 
     eval_flag = args.testset

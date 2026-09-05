@@ -221,21 +221,31 @@ def eval_simple(model, out_patch_features_pt):
     print('past test_loss', test_loss_past)
 
 
-def load_lora_path():
-    global use_lora, output_path
-
+def load_lora_path(path=None):
+    global use_lora, output_path, output_path_filenumber
     if use_lora:
-        output_path_local = output_path
+        print('use_lora')
+        if path is not None:
+            output_path_local = path
+        else:
+            output_path_local = output_path
+        print('output_path_local', output_path_local)
         if output_path_filenumber > 0:
-            output_path_local = output_path + '.' + str(output_path_filenumber)
+            xstring = '0000000000'
+            ystring = (xstring + str(highest_number(output_path_local)))[-5:]
+            print(ystring)
+
+            output_path_local = output_path + '.' + str( ystring ) # + str(output_path_filenumber)
         i = output_path_local.split('/')[-1]
         j = output_path_local.split('/')[:-1]
         output_path_local = '/'.join(j)  + '/lora.' + i 
+        print('output_path_local', output_path_local)
         g = glob.glob(output_path_local + '*')
+        print(g, 'g glob')
         if len(g) < 1:
             return None
         g.sort()
-        if g[-1].endswith(str(output_path_filenumber)):
+        if g[-1].endswith(str(highest_number(output_path_local))) :
             return g[-1]
     return None
 
@@ -247,7 +257,11 @@ def save_lora(peft_modal):
     else:
         output_path_local = output_path
         if output_path_filenumber > 0:
-            output_path_local = output_path + '.' + str(output_path_filenumber)
+            xstring = '0000000000'
+            ystring = (xstring + str(highest_number(output_path_local)))[-5:]
+            print(ystring)
+
+            output_path_local = output_path + '.' + str(ystring)
         i = output_path_local.split('/')[-1]
         j = output_path_local.split('/')[:-1]
         output_path_local = '/'.join(j)  + '/lora.' + i 
@@ -260,7 +274,10 @@ def save_simple(model_weights):
     global train_loss_past, output_path_filenumber, output_path
     output_path_local = output_path
     if output_path_filenumber > 0:
-        output_path_local = output_path + '.' + str(output_path_filenumber)
+        xstring = '0000000000'
+        ystring = (xstring + str(output_path_filenumber))[-5:]
+        print(ystring)
+        output_path_local = output_path + '.' +  ystring # str(output_path_filenumber)
     torch.save(model_weights, output_path_local)
     print('save some model checkpoint')
     csv_simple(train_loss_past, 'train')
