@@ -40,9 +40,10 @@ def checkpoint_options(load_checkpoint_in=False, save_checkpoint_in=False, size_
 
     pt_key = size_key
     csv_output_pic_folder = foldername
-    i = glob.glob(os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv*'))
+    csv_path = os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + foldername + '.csv*')
+    i = glob.glob(csv_path + '*')
     if len(i) > 0:
-        csv_output_pic_filenumber = len(i)
+        csv_output_pic_filenumber = highest_number(csv_path)
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + size_key + "_ckpt_classifier.pt")
     i = glob.glob(output_path + '*')
     i.sort() 
@@ -58,6 +59,8 @@ def highest_number(search_name):
     j = glob.glob(search_name + "*")
     x_list = []
     for i in j:
+        if i.endswith('.csv'):
+            i = i[: - len('.csv')]
         j = i.split('/')[-1]
         try:
             ii = j.split('.')[-1]
@@ -287,7 +290,7 @@ def csv_simple(loss_past, csv_name=None):
        #if csv_output_pic_filenumber > 0:
     csv_output_path = os.path.join(home_dir, LOCAL_FILE_STORE, 'pic', csv_output_pic_folder , 'csv_' +  pt_key + '_' + tag + '.csv')
     csv_output_path = csv_output_path + '.' + str(csv_output_pic_filenumber + 1) + '.csv'
-    with open(csv_output_path, 'w') as w:
+    with open(csv_output_path , 'w') as w:
         for i in loss_past:
             w.write(str(i) + ',')
     print('save some cvs train data', csv_output_path)
