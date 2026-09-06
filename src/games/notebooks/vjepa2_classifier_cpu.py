@@ -100,8 +100,6 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
 
         model = model_input
 
-        show_keys(model.state_dict())
-
         # Run this to look at the exact names of your linear layers
         for name, module in model.named_modules():
             if isinstance(module, torch.nn.Linear):
