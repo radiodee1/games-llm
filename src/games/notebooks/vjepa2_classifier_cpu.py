@@ -90,7 +90,7 @@ def show_keys(in_dict):
     print('-----')
 
 
-def train_simple(model_input, out_patch_features_pt):
+def train_simple(model_input, linear_classifier, out_patch_features_pt):
     global train_loss, train_loss_past, criterion, optimizer, optimizer_flag, model_peft, model
 
     print('train_simple')
@@ -131,36 +131,26 @@ def train_simple(model_input, out_patch_features_pt):
             #model_peft.print_trainable_parameters()
             model = model_peft
 
-        for name, param in model.named_parameters():
-            if 'linear.weight' in name or 'linear.bias' in name:
-                param.requires_grad = True
-                print('requires_grad', name)
-            else:
-                pass 
-                #param.requires_grad = False
-                #print('not requires_grad', name)
+        for parameter in linear_classifier.parameters():
+            parameter.requires_grad = True
 
         model.print_trainable_parameters()
 
         criterion = nn.CrossEntropyLoss()
+        
+        trainable_params = list(model.parameters()) + list(linear_classifier.parameters())
+
         optimizer = optim.AdamW(
             #model.parameters()
-            filter(lambda p: p.requires_grad, model.parameters())
+            #filter(lambda p: p.requires_grad, model.parameters())
+            trainable_params
             , lr=1e-1, weight_decay=0.1) ## lr=1e-3
-
+            
         print('optimizer init')
         
         optimizer_flag = True
     else:
         print('not optimizer init')
-
-    for name, param in model.named_parameters():
-        if 'linear.weight' in name or 'linear.bias' in name:
-            param.requires_grad = True
-            print('requires_grad', name)
-        else:
-            #param.requires_grad = False
-            pass 
 
     #pretrained_dict = model.state_dict()
 
@@ -170,6 +160,8 @@ def train_simple(model_input, out_patch_features_pt):
     #show_shape(pretrained_dict, 'linear.bias')
 
     model.train()
+    linear_classifier.train()
+
     train_loss = 0.0
     for inputs, labels in  out_patch_features_pt  : ## test values
         inputs, labels = inputs.to(device), labels.to(device)
@@ -177,8 +169,9 @@ def train_simple(model_input, out_patch_features_pt):
         #print(inputs.shape, labels.shape, 'inputs, labels')
         optimizer.zero_grad()
         outputs = model(inputs)
+        out = linear_classifier(outputs)
         print(labels)
-        loss = criterion(outputs, labels)
+        loss = criterion(out, labels)
         loss.backward()
         optimizer.step()
 
@@ -190,12 +183,12 @@ def train_simple(model_input, out_patch_features_pt):
 
     print('past train_loss', train_loss_past )
     if save_checkpoint:
-        save_simple(model.state_dict())
+        save_simple(linear_classifier.state_dict())
         save_lora(model)
 
     return model
 
-def eval_simple(model, out_patch_features_pt):
+def eval_simple(model, linear_classifier, out_patch_features_pt):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     criterion = nn.CrossEntropyLoss()
 
@@ -210,9 +203,10 @@ def eval_simple(model, out_patch_features_pt):
             inputs, labels = inputs.to(device), labels.to(device)
             
             outputs = model(inputs)
+            out = linear_classifier(outputs)
             print(labels)
             
-            loss = criterion(outputs, labels)
+            loss = criterion(out, labels)
             test_loss += loss.item() * inputs.size(0)
 
     epoch_test_loss = test_loss / len(out_patch_features_pt[0])

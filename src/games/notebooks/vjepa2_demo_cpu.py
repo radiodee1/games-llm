@@ -71,6 +71,7 @@ output_path_list = [] #glob.glob(output_path + '*')
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
 skip_huggingface = True
 use_lora = True
+linear_classifier = None
 
 encoder_flag = False
 eval_flag = False
@@ -127,7 +128,7 @@ def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
 
 
 def load_pretrained_vjepa_classifier_weights(classifier):
-    global demo_weights, output_path_list, classifier_flag, pt_key
+    global demo_weights, output_path_list, classifier_flag, pt_key, linear_classifier
     save_weights = False
 
     if classifier_flag == True:
@@ -140,68 +141,42 @@ def load_pretrained_vjepa_classifier_weights(classifier):
         weight_path_ckpt = output_path_list[-1]
 
     weight_path_used = ''
-    if os.path.exists(weight_path_ckpt):
-        pretrained_dict = torch.load(weight_path_ckpt, weights_only=True, map_location="cpu")
-        weight_path_used = weight_path_ckpt
-        print('checkpoint', weight_path_ckpt)
-    else:
-        pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
-        weight_path_used = weight_path_pretrain
-        print('pretrained', weight_path_pretrain)
+    pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
+    weight_path_used = weight_path_pretrain
+    print('pretrained', weight_path_pretrain)
 
     pretrained_dict = edit_weights(pretrained_dict)
     print('before del')
     #show_keys(pretrained_dict)
     print(weight_path_used, 'weight_path_used')
 
-    if 'linear.weight' not in  pretrained_dict or pretrained_dict['linear.weight'].shape[0] != num_classes:
-        print('adjust num_classes')
-        in_features = classifier.linear.in_features
+    #in_features = classifier.linear.in_features
+    out_features = classifier.linear.out_features
 
-        if weight_path_used == weight_path_ckpt :
-            print('pretrained_dict weight shape', pretrained_dict['base_linear.weight'].shape)
-            print('pretrained_dict bias shape', pretrained_dict['base_linear.bias'].shape)
-        #print('pretrained_dict shape', pretrained_dict['linear.weight'].shape)
+    linear_classifier = nn.Linear(out_features, num_classes)
+    print(linear_classifier)
 
-        print('weight_path_used', weight_path_used)
+    if os.path.exists(weight_path_ckpt):
+        print('checkpoint', weight_path_ckpt, output_path_list)
+        linear_classifier_dict = torch.load(weight_path_ckpt, weights_only=False, map_location="cpu")
+        linear_classifier.load_state_dict(linear_classifier_dict)
 
-        pretrained_dict['linear.weight'] = torch.zeros([num_classes , in_features])
-        pretrained_dict['linear.bias'] = torch.zeros([num_classes])
+    print('no adjust num_classes')
 
-        msg = classifier.load_state_dict(pretrained_dict, strict=False)
-        print('msg', msg)
+    msg = classifier.load_state_dict(pretrained_dict, strict=False)
 
-        save_weights = True
-    else:
-        print('no adjust num_classes')
-
-        #show_keys(pretrained_dict) 
-
-        msg = classifier.load_state_dict(pretrained_dict, strict=False)
-
-    if False : #weight_path_used == weight_path_pretrain:# not os.path.exists(weight_path_ckpt) and not os.path.exists(weight_path_custom):
-        print('weight_path_pretrain', weight_path_pretrain)
-        in_features = classifier.linear.in_features
-
-        #classifier = ModelWithLayer(classifier)
-        pretrained_dict = classifier.state_dict()
-        pretrained_dict = edit_weights(pretrained_dict, True)
-
-        pretrained_dict['linear.weight'] = torch.zeros([num_classes , in_features])
-        pretrained_dict['linear.bias'] = torch.zeros([num_classes])
-        classifier.load_state_dict(pretrained_dict, strict=False)
-
-        save_weights = True
+    save_weights = True
     
     print("Pretrained weights loaded with msg: {}".format( msg))
     print('regular weights')
 
-    if save_weights and weight_path_used == weight_path_pretrain:
-        save_classifier_weights(pretrained_dict)
+    if save_weights: # and weight_path_used == weight_path_pretrain:
+        save_classifier_weights(linear_classifier.state_dict())
     
     classifier_flag = True
     return classifier
 
+## do not use ##
 def edit_weights(pretrained_dict, rm_linear=False):
     pretrained_dict = {k.replace("module.", ""): v for k, v in pretrained_dict.items()}
     pretrained_dict = {k.replace("model.", ""): v for k, v in pretrained_dict.items()}
@@ -324,8 +299,8 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
     return out_patch_features_hf, out_patch_features_pt
 
 
-def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
-    #global out_classifier
+def get_vjepa_video_classification_results(classifier,  out_patch_features_pt):
+    global linear_classifier
     argmax_user = True
     print('classification_results')
 
@@ -343,15 +318,15 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     print(f"Classifier output shape: {out_patch_features_pt[0].shape}")
     with torch.inference_mode():
         out_classifier = classifier(out_patch_features_pt[0])
-
+        out = linear_classifier(out_classifier)
     #print(out_classifier, 'out_classifier')
 
-    max = out_classifier.argmax(-1)
+    max = out.argmax(-1)
     print("Top 6 predicted class names:\n-----")
     high_id = ""
     high_prob = 0 
-    top6_indices = out_classifier.topk(num_classes).indices[0]
-    top6_probs = F.softmax(out_classifier.topk(num_classes).values[0]) * 100.0  # convert to percentage
+    top6_indices = out.topk(num_classes).indices[0]
+    top6_probs = F.softmax(out.topk(num_classes).values[0]) * 100.0  # convert to percentage
     for idx, prob in zip(top6_indices, top6_probs):
         str_idx = str(idx.item())
         print(f"{SOME_CLASSES[str_idx]} ({prob}%)  {str_idx}")
@@ -367,7 +342,7 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
 
 def run_sample_inference(key=None):
     global  demo_weights, video_list, choose_img, args_foldername, VIDEO_PONG_CLASSES
-    global model_hf, hf_transform, huggingface_flag, pt_key
+    global model_hf, hf_transform, huggingface_flag, pt_key, linear_classifier
     if key is None:
         pt_key = 'vitl'
     else:
@@ -379,6 +354,8 @@ def run_sample_inference(key=None):
    
     batch_size = 64 
     hidden_dim = 1408
+    ssv2_dim = 174
+
     if (pt_key == 'vitl' or pt_key == '21vitl' ) and change_hidden_dim:
         hidden_dim = 1024 
     # HuggingFace model repo name
@@ -431,7 +408,7 @@ def run_sample_inference(key=None):
     pt_video_transform = build_pt_video_transform(img_size=img_size)
     
     classifier = (
-        AttentiveClassifier(embed_dim=hidden_dim, num_heads=16, depth=4, num_classes=num_classes).to(device).eval()
+        AttentiveClassifier(embed_dim=hidden_dim, num_heads=16, depth=4, num_classes=ssv2_dim).to(device).eval()
     )
     classifier = load_pretrained_vjepa_classifier_weights(classifier)
 
@@ -457,10 +434,10 @@ def run_sample_inference(key=None):
         if image_span > 1:
             if not eval_flag:
                 print('must train here')
-                train_simple(classifier, out_patch_features_pt)
+                train_simple(classifier, linear_classifier, out_patch_features_pt)
             else:
                 print('must eval here')
-                eval_simple(classifier, out_patch_features_pt)
+                eval_simple(classifier, linear_classifier, out_patch_features_pt)
         num += 1
         
     if image_span > 1:
