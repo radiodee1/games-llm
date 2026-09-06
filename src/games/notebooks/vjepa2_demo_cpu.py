@@ -132,27 +132,21 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     global demo_weights, output_path_list, classifier_flag, pt_key, linear_classifier
     save_weights = False
 
-    if classifier_flag == True:
+    if classifier_flag == True and image_span != 1:
         print('load classifier no')
         return classifier
     weight_path_pretrain = os.path.join(home_dir, LOCAL_FILE_STORE , PT_FILENAME[pt_key][0] )# 'ssv2-vitg-384-64x2x3.pt')
     weight_path_ckpt = load_classifier_filename()
 
     #weight_path_ckpt =  os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+    print('exists', os.path.exists(weight_path_ckpt))
 
-    if len(output_path_list) > 0 and False:
-        weight_path_ckpt = output_path_list[-1]
-        pass 
-
-    weight_path_used = ''
     pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
-    weight_path_used = weight_path_pretrain
     print('pretrained', weight_path_pretrain)
 
     pretrained_dict = edit_weights(pretrained_dict)
     print('before del')
     #show_keys(pretrained_dict)
-    print(weight_path_used, 'weight_path_used')
 
     #in_features = classifier.linear.in_features
     out_features = classifier.linear.out_features
@@ -160,12 +154,12 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     linear_classifier = nn.Linear(out_features, num_classes)
     print(linear_classifier)
 
+    linear_classifier_dict = {}
+
     if os.path.exists(weight_path_ckpt):
-        print('checkpoint', weight_path_ckpt, output_path_list)
+        print('checkpoint xxxx', weight_path_ckpt, output_path_list)
         linear_classifier_dict = torch.load(weight_path_ckpt, weights_only=False, map_location="cpu")
         linear_classifier.load_state_dict(linear_classifier_dict)
-
-    print('no adjust num_classes')
 
     msg = classifier.load_state_dict(pretrained_dict, strict=False)
 
@@ -174,8 +168,8 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     print("Pretrained weights loaded with msg: {}".format( msg))
     print('regular weights')
 
-    if save_weights: # and weight_path_used == weight_path_pretrain:
-        save_classifier_weights(linear_classifier.state_dict())
+    if save_weights and image_span == 1: # and weight_path_used == weight_path_pretrain:
+        save_classifier_weights(linear_classifier_dict)
     
     classifier_flag = True
     return classifier
