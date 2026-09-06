@@ -116,12 +116,12 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
             else:
 
                 peft_config = LoraConfig(
-                    r=8,  # LoRA rank
-                    lora_alpha=16,  # Scaling parameter
+                    r=16,  # LoRA rank
+                    lora_alpha=32,  # Scaling parameter
                     target_modules=r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
                     #target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
                     #modules_to_save=["classifier", "pooler"], 
-                    lora_dropout=0.1,
+                    lora_dropout=0.05,
                     bias="none",
                     #task_type="SEQ_CLS",  # Sequence classification task type
                 )

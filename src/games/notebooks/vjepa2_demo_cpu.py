@@ -284,7 +284,7 @@ def forward_vjepa_video(model_hf, model_pt, hf_transform, pt_transform ):
             x = 0 
             print('no record')
         video = torch.from_numpy(video).permute(0, 3, 1, 2)  # T x C x H x W
-        x_pt = pt_transform(video).cpu().unsqueeze(0)
+        x_pt = pt_transform(video).to(device).unsqueeze(0)
         # Extract the patch-wise features from the last layer
         out_patch_labels_pt +=  [ torch.LongTensor([int(x)]) ]
         out_patch_images_pt +=  [ model_pt(x_pt) ]
@@ -318,8 +318,8 @@ def get_vjepa_video_classification_results(classifier,  out_patch_features_pt):
     #if True :
     print(f"Classifier output shape: {out_patch_features_pt[0].shape}")
     with torch.inference_mode():
-        out_classifier = classifier(out_patch_features_pt[0])
-        out = linear_classifier(out_classifier)
+        out_classifier = classifier(out_patch_features_pt[0])#.eval()
+        out = linear_classifier(out_classifier)#.eval()
     #print(out_classifier, 'out_classifier')
 
     max = out.argmax(-1)
