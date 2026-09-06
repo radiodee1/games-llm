@@ -190,8 +190,13 @@ def save_classifier_weights(model_weights):
     global train_loss_past, output_path_filenumber
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     output_path_local = output_path
+
+
     if output_path_filenumber > 0:
-        output_path_local = output_path + '.' + str(output_path_filenumber)
+        xstring = '0000000000'
+        ystring = (xstring + str(1 + highest_number(output_path_local)))[-5:]
+
+        output_path_local = output_path + '.' + str(ystring)  #str(output_path_filenumber)
     torch.save(model_weights, output_path_local)
     print('save some model checkpoint')
 
