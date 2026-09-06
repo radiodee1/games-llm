@@ -114,11 +114,14 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
                 model_peft = PeftModel.from_pretrained(model, lora_path, is_trainable=True)
             
             else:
+                
+                target_modules = r".*pooler\.blocks\.\d+\.(attn|mlp)\.(qkv|q|kv|query|key|value|proj|fc1|fc2)$"
+                print(target_modules)
 
                 peft_config = LoraConfig(
                     r=16,  # LoRA rank
                     lora_alpha=32,  # Scaling parameter
-                    target_modules=r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
+                    target_modules=target_modules,  # r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
                     #target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
                     #modules_to_save=["classifier", "pooler"], 
                     lora_dropout=0.05,
@@ -139,6 +142,8 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
         criterion = nn.CrossEntropyLoss()
         
         trainable_params = list(model.parameters()) + list(linear_classifier.parameters())
+        
+        print( 'trainable_params')
 
         optimizer = optim.AdamW(
             #model.parameters()
