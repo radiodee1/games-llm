@@ -274,6 +274,7 @@ def save_simple(model_weights):
     except KeyboardInterrupt:
         torch.save(model_weights, output_path_local)
         csv_simple(train_loss_past, 'train')
+        exit()
 
     
 def load_simple(model):

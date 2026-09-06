@@ -88,8 +88,9 @@ def init_filesort(key):
     output_path_filenumber = 0 
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     output_path_list = glob.glob(output_path + '*')
+    output_path_list.sort()
     if len(output_path_list) > 0:
-        output_path_filenumber = highest_number(output_path) + 1  #len(output_path_list)
+        output_path_filenumber = highest_number(output_path)   #len(output_path_list)
     output_path_list.sort()  
     filesort_flag = True
 
@@ -135,10 +136,13 @@ def load_pretrained_vjepa_classifier_weights(classifier):
         print('load classifier no')
         return classifier
     weight_path_pretrain = os.path.join(home_dir, LOCAL_FILE_STORE , PT_FILENAME[pt_key][0] )# 'ssv2-vitg-384-64x2x3.pt')
-    weight_path_ckpt =  os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+    weight_path_ckpt = load_classifier_filename()
 
-    if len(output_path_list) > 0:
+    #weight_path_ckpt =  os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+
+    if len(output_path_list) > 0 and False:
         weight_path_ckpt = output_path_list[-1]
+        pass 
 
     weight_path_used = ''
     pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
@@ -193,10 +197,20 @@ def save_classifier_weights(model_weights):
     if output_path_filenumber > 0:
         xstring = '0000000000'
         ystring = (xstring + str(1 + highest_number(output_path_local)))[-5:]
-        output_path_local = output_path + '.' + str(ystring)  #str(output_path_filenumber)
+        output_path_local = output_path + '.' + str(ystring)  
     torch.save(model_weights, output_path_local)
     print('save some model checkpoint')
 
+
+def load_classifier_filename():
+    global train_loss_past, output_path_filenumber
+    output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
+    output_path_local = output_path
+    if output_path_filenumber > 0:
+        xstring = '0000000000'
+        ystring = (xstring + str( highest_number(output_path_local)))[-5:]
+        output_path_local = output_path + '.' + str(ystring)  
+    return output_path_local
 
 def build_pt_video_transform(img_size):
     short_side_size = int(256.0 / 224 * img_size)
