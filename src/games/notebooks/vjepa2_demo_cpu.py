@@ -190,12 +190,9 @@ def save_classifier_weights(model_weights):
     global train_loss_past, output_path_filenumber
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     output_path_local = output_path
-
-
     if output_path_filenumber > 0:
         xstring = '0000000000'
         ystring = (xstring + str(1 + highest_number(output_path_local)))[-5:]
-
         output_path_local = output_path + '.' + str(ystring)  #str(output_path_filenumber)
     torch.save(model_weights, output_path_local)
     print('save some model checkpoint')
@@ -310,13 +307,12 @@ def get_vjepa_video_classification_results(classifier,  out_patch_features_pt):
     print('classification_results')
 
     lora_path = load_lora_path(output_path)
-    show_keys(classifier.state_dict())
-    print(lora_path, 'lora_path 1', output_path)
 
     if (lora_path is not None) :
         classifier = PeftModel.from_pretrained(classifier, lora_path , is_trainable=False)
-        print(lora_path, 'lora_path 2')
-        show_keys(classifier.state_dict())
+        #show_keys(classifier.state_dict())
+    else:
+        print('must train model!!')
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
