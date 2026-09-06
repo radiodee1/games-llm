@@ -256,8 +256,11 @@ def save_lora(peft_modal):
             output_path_local = output_path + '.' + str(ystring)
         i = output_path_local.split('/')[-1]
         j = output_path_local.split('/')[:-1]
-        output_path_local = '/'.join(j)  + '/lora.' + i 
-        peft_modal.save_pretrained(output_path_local)
+        output_path_local = '/'.join(j)  + '/lora.' + i
+        try:
+            peft_modal.save_pretrained(output_path_local)
+        except KeyboardInterrupt:
+            peft_modal.save_pretrained(output_path_local)
         return
 
 def save_simple(model_weights):
@@ -274,7 +277,7 @@ def save_simple(model_weights):
     except KeyboardInterrupt:
         torch.save(model_weights, output_path_local)
         csv_simple(train_loss_past, 'train')
-        exit()
+    return
 
     
 def load_simple(model):
