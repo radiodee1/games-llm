@@ -144,7 +144,7 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
             #model.parameters()
             #filter(lambda p: p.requires_grad, model.parameters())
             trainable_params
-            , lr=1e-1, weight_decay=0.1) ## lr=1e-3
+            , lr=1e-4, weight_decay=0.01) ## lr=1e-3
             
         print('optimizer init')
         
