@@ -241,7 +241,7 @@ def load_lora_path(path=None):
         if len(g) < 1:
             return None
         g.sort()
-        if g[-1].endswith(str(highest_number(output_path_local))) :
+        if g[-1].endswith(str(highest_number(output_path_local))) or highest_number(output_path_local) == 0 :
             return g[-1]
     return None
 

@@ -156,14 +156,20 @@ def load_pretrained_vjepa_classifier_weights(classifier):
 
     if 'linear.weight' not in  pretrained_dict or pretrained_dict['linear.weight'].shape[0] != num_classes:
         print('adjust num_classes')
-        pretrained_dict_a = classifier.state_dict()
-        pretrained_dict_a = edit_weights(pretrained_dict_a, True)
-       
-        msg = classifier.load_state_dict(pretrained_dict_a, strict=False)
+        in_features = classifier.linear.in_features
+
+        if weight_path_used == weight_path_ckpt :
+            print('pretrained_dict weight shape', pretrained_dict['base_linear.weight'].shape)
+            print('pretrained_dict bias shape', pretrained_dict['base_linear.bias'].shape)
+        #print('pretrained_dict shape', pretrained_dict['linear.weight'].shape)
+
+        print('weight_path_used', weight_path_used)
+
+        pretrained_dict['linear.weight'] = torch.zeros([num_classes , in_features])
+        pretrained_dict['linear.bias'] = torch.zeros([num_classes])
+
+        msg = classifier.load_state_dict(pretrained_dict, strict=False)
         print('msg', msg)
-        print('classifier.state_dict()')
-        #show_keys(classifier.state_dict())
-        pretrained_dict = classifier.state_dict()
 
         save_weights = True
     else:
@@ -173,7 +179,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
 
         msg = classifier.load_state_dict(pretrained_dict, strict=False)
 
-    if weight_path_used == weight_path_pretrain:# not os.path.exists(weight_path_ckpt) and not os.path.exists(weight_path_custom):
+    if False : #weight_path_used == weight_path_pretrain:# not os.path.exists(weight_path_ckpt) and not os.path.exists(weight_path_custom):
         print('weight_path_pretrain', weight_path_pretrain)
         in_features = classifier.linear.in_features
 
@@ -324,9 +330,13 @@ def get_vjepa_video_classification_results(classifier, out_patch_features_pt):
     print('classification_results')
 
     lora_path = load_lora_path(output_path)
-    
+    show_keys(classifier.state_dict())
+    print(lora_path, 'lora_path 1', output_path)
+
     if (lora_path is not None) :
         classifier = PeftModel.from_pretrained(classifier, lora_path , is_trainable=False)
+        print(lora_path, 'lora_path 2')
+        show_keys(classifier.state_dict())
 
     SOME_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "json/classes_pong.json"), "r"))
     #if True :
