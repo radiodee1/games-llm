@@ -157,7 +157,6 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     linear_classifier_dict = {}
 
     if os.path.exists(weight_path_ckpt):
-        print('checkpoint xxxx', weight_path_ckpt, output_path_list)
         linear_classifier_dict = torch.load(weight_path_ckpt, weights_only=False, map_location="cpu")
         linear_classifier.load_state_dict(linear_classifier_dict)
 
