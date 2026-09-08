@@ -261,7 +261,7 @@ def save_lora(peft_modal):
             peft_modal.save_pretrained(output_path_local)
         except KeyboardInterrupt:
             peft_modal.save_pretrained(output_path_local)
-        return
+            exit() 
 
 def save_simple(model_weights):
     global train_loss_past, output_path_filenumber, output_path
@@ -277,7 +277,8 @@ def save_simple(model_weights):
     except KeyboardInterrupt:
         torch.save(model_weights, output_path_local)
         csv_simple(train_loss_past, 'train')
-    return
+        exit() 
+    
 
     
 def load_simple(model):
