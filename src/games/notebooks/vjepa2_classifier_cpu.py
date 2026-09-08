@@ -113,7 +113,7 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
             
             else:
                 
-                target_modules = r".*pooler\.blocks\.\d+\.(attn|mlp)\.(qkv|q|kv|query|key|value|proj|fc1|fc2)$"
+                target_modules = r".*pooler\.cross_attention_block\.(xattn|mlp)\.(q|kv|fc1|fc2)|.*pooler\.blocks\.\d+\.(attn|mlp)\.(qkv|q|kv|query|key|value|proj|fc1|fc2)$"
                 print(target_modules)
 
                 peft_config = LoraConfig(
