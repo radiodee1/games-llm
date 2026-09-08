@@ -4,4 +4,4 @@
 
 #conda activate vjepa2-310
 
-uv run python -m notebooks.vjepa2_demo_cpu --image_span 166 --save_checkpoint --load_checkpoint --foldername train2
+uv run python -m notebooks.vjepa2_demo_cpu --image_span 5000 --save_checkpoint --key vitl --foldername train2
