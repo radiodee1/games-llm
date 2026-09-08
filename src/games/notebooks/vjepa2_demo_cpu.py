@@ -26,8 +26,8 @@ from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options
 import argparse
 
 from dotenv import load_dotenv
-#import time
 from peft import PeftModel 
+from PIL import Image 
 
 user_env = os.path.expanduser('~') + '/.llm.env'
 load_dotenv(user_env)
@@ -71,6 +71,7 @@ output_path_list = [] #glob.glob(output_path + '*')
 VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
 skip_huggingface = True
 use_lora = True
+use_pil = False
 linear_classifier = None
 
 encoder_flag = False
@@ -258,6 +259,12 @@ def get_video( num=0 ):
     #frame_idx = np.arange(0, 128, 2)
 
     video = vr.get_batch(frame_idx).asnumpy()
+    
+    if use_pil:
+        frame = video[0]
+        Image.fromarray(frame).save("./pic/video_frame_0.png")
+        exit()
+
     return video
 
 
