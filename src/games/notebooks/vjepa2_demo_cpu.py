@@ -20,7 +20,7 @@ import torch.nn as nn
 import src.datasets.utils.video.transforms as video_transforms
 import src.datasets.utils.video.volume_transforms as volume_transforms
 from src.models.attentive_pooler import AttentiveClassifier
-from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope, vit_giant
+from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope, vit_giant_xformers, vit_large, vit_giant_rope , vit_giant
 
 from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple, load_lora_path, highest_number
 import argparse
@@ -38,11 +38,13 @@ IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 #print(os.environ["HF_TOKEN"])
 
-#facebook/vjepa2-vitl-fpc64-256
+#facebook/vjepa2-vitl-fpc64-256 #vjepa2_1_vitg_384.pt
 PT_FILENAME = {
     'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' , 256],
     'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt', 384 ],
-    '21vitl': ['ssv2-vitg-384-64x2x3.pt', 'apiantonio/vjepa2.1-vit-large-384', 'vjepa2_1_vitl_dist_vitG_384.pt', 384]
+    '21vitl': ['ssv2-vitg-384-64x2x3.pt', '', 'vitl.pt', 384, 'vjepa2_1_vitl_dist_vitG_384.pt', 384],
+    '21vitg': ['ssv2-vitg-384-64x2x3.pt', '','vjepa2_1_vitg_384.pt', 384]
+
 }
 pt_key = 'vitl'
 
@@ -67,8 +69,8 @@ home_dir = os.path.expanduser('~')
 LOCAL_FILE_STORE = 'workspace/VJEPA2_FILES/demo/'
 output_path_filenumber = 0 
 output_path = None 
-output_path_list = [] #glob.glob(output_path + '*')
-VIDEO_PONG_CLASSES = {} # json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
+output_path_list = [] #
+VIDEO_PONG_CLASSES = {} #
 skip_huggingface = True
 use_lora = True
 use_pil = False
@@ -95,7 +97,6 @@ def init_filesort(key):
     output_path_list.sort()  
     filesort_flag = True
 
-
 def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
     global encoder_flag 
     # Load weights of the VJEPA2 encoder
@@ -108,7 +109,6 @@ def load_pretrained_vjepa_pt_weights_vitg(model, pretrained_weights):
 
     pretrained_dict = {k.replace("module.", ""): v for k, v in pretrained_dict.items()}
     pretrained_dict = {k.replace("backbone.", ""): v for k, v in pretrained_dict.items()}
-    
     
     msg = model.load_state_dict(pretrained_dict, strict=False)
     #print(pretrained_dict, '\n-----')
@@ -128,7 +128,6 @@ def load_pretrained_vjepa_pt_weights_vitl(model, model_path=''):
     print(msg, 'msg vitX')
     encoder_flag = True
 
-
 def load_pretrained_vjepa_classifier_weights(classifier):
     global demo_weights, output_path_list, classifier_flag, pt_key, linear_classifier
     save_weights = False
@@ -139,7 +138,6 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     weight_path_pretrain = os.path.join(home_dir, LOCAL_FILE_STORE , PT_FILENAME[pt_key][0] )# 'ssv2-vitg-384-64x2x3.pt')
     weight_path_ckpt = load_classifier_filename()
 
-    #weight_path_ckpt =  os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     print('exists', os.path.exists(weight_path_ckpt))
 
     pretrained_dict = torch.load(weight_path_pretrain, weights_only=True, map_location="cpu")["classifiers"][0]
@@ -174,7 +172,6 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     classifier_flag = True
     return classifier
 
-## do not use ##
 def edit_weights(pretrained_dict, rm_linear=False):
     pretrained_dict = {k.replace("module.", ""): v for k, v in pretrained_dict.items()}
     pretrained_dict = {k.replace("model.", ""): v for k, v in pretrained_dict.items()}
@@ -421,15 +418,18 @@ def run_sample_inference(key=None):
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
         #model_pt.embed_dim = hidden_dim
         model_pt.to(device).eval()
-        #if pt_key == 'vitl':
         load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
-    elif  pt_key == '21vitl':
-        model_pt = vit_giant(img_size=(img_size, img_size),  num_frames=batch_size)
-        #model_pt.embed_dim = hidden_dim
+    elif  pt_key == '21vitg': ## <--  21vitl is not working ...
+        model_pt = vit_giant_xformers(img_size=(img_size, img_size),  num_frames=batch_size)
         model_pt.to(device).eval()
-        #if pt_key == 'vitl':
         load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
-
+    elif  pt_key == '21vitl': ## <--  21vitl is not working ...
+        #model_pt = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_1_vit_large_384', token=os.environ['HF_TOKEN'])
+        #model_pt = torch.hub.load('facebookresearch/vjepa2', 'vjepa2_preprocessor')
+        model_pt = vit_giant(img_size=(img_size, img_size),  num_frames=batch_size)
+        print(model_pt.embed_dim, hidden_dim, 'embed_dim')
+        model_pt.to(device).eval()
+        load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
 
     # Build PyTorch preprocessing transform
     pt_video_transform = build_pt_video_transform(img_size=img_size)
