@@ -20,7 +20,7 @@ import torch.nn as nn
 import src.datasets.utils.video.transforms as video_transforms
 import src.datasets.utils.video.volume_transforms as volume_transforms
 from src.models.attentive_pooler import AttentiveClassifier
-from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope
+from src.models.vision_transformer import vit_giant_xformers_rope, vit_large_rope, vit_giant
 
 from .vjepa2_classifier_cpu import  train_simple, show_shape, checkpoint_options, show_keys, eval_simple, load_lora_path, highest_number
 import argparse
@@ -371,11 +371,15 @@ def run_sample_inference(key=None):
     hidden_dim = 1408
     ssv2_dim = 174
 
-    if (pt_key == 'vitl' or pt_key == '21vitl' ) and change_hidden_dim:
+    if (pt_key == 'vitl' ) and change_hidden_dim:
         hidden_dim = 1024 
+
+    if pt_key == "21vitl" and change_hidden_dim:
+        hidden_dim = 1408 
+
     # HuggingFace model repo name
     hf_model_name = PT_FILENAME[pt_key][1] # 
-    file_pattern = os.path.join(os.path.expanduser('~'), LOCAL_FILE_STORE, 'pic/' + args_foldername + '/output_00*.mp4')
+    file_pattern = os.path.join(os.path.expanduser('~'), LOCAL_FILE_STORE, 'pic/' + args_foldername + '/output_0*.mp4')
 
     # Path to local PyTorch weights
     pt_model_path = os.path.join(home_dir, LOCAL_FILE_STORE, PT_FILENAME[pt_key][2] )# "vitg-384.pt")
@@ -406,18 +410,26 @@ def run_sample_inference(key=None):
     print(img_size, 'height')
     # Initialize the PyTorch model, load pretrained weights
     
-    if pt_key == 'vitg': # or pt_key == '21vitl' :
+    if pt_key == 'vitg' : #or pt_key == '21vitl' :
         model_pt = vit_giant_xformers_rope(img_size=(img_size, img_size), num_frames=batch_size)
         #model_pt.embed_dim = hidden_dim
         model_pt.to(device).eval()
         #if pt_key == 'vitg':
         load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
 
-    elif pt_key == 'vitl'  or pt_key == '21vitl':
+    elif pt_key == 'vitl':
         model_pt = vit_large_rope(img_size=(img_size, img_size), num_frames=batch_size)
+        #model_pt.embed_dim = hidden_dim
         model_pt.to(device).eval()
         #if pt_key == 'vitl':
         load_pretrained_vjepa_pt_weights_vitl(model_pt, pt_model_path)
+    elif  pt_key == '21vitl':
+        model_pt = vit_giant(img_size=(img_size, img_size),  num_frames=batch_size)
+        #model_pt.embed_dim = hidden_dim
+        model_pt.to(device).eval()
+        #if pt_key == 'vitl':
+        load_pretrained_vjepa_pt_weights_vitg(model_pt, pt_model_path)
+
 
     # Build PyTorch preprocessing transform
     pt_video_transform = build_pt_video_transform(img_size=img_size)
@@ -428,7 +440,7 @@ def run_sample_inference(key=None):
     classifier = load_pretrained_vjepa_classifier_weights(classifier)
 
 
-    while len(choose_img) > 0 and num < 1000:
+    while len(choose_img) > 0 and num < 10000:
 
 
         out_patch_features_hf, out_patch_features_pt = forward_vjepa_video(
