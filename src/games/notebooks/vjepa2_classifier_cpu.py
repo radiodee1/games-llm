@@ -315,7 +315,7 @@ def csv_simple(loss_past, csv_name=None):
     with open(csv_output_path , 'w') as w:
         for i in loss_past:
             w.write(str(i) + ',')
-    print('save some cvs train data', csv_output_path)
+    print('save some csv train data', csv_output_path)
 
 def make_load_checkpoint_name(chkpt):
     i = glob.glob(chkpt + '*')
