@@ -91,7 +91,7 @@ def show_keys(in_dict):
 
 
 def train_simple(model_input, linear_classifier, out_patch_features_pt):
-    global train_loss, train_loss_past, criterion, optimizer, optimizer_flag, model_peft, model
+    global train_loss, train_loss_past, criterion, optimizer, optimizer_flag, model_peft, model, output_path
 
     print('train_simple')
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -150,7 +150,13 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
             , lr=1e-4, weight_decay=0.01) ## lr=1e-3
             
         print('optimizer init')
-        
+    
+        path = make_load_checkpoint_name(output_path)
+        optimizer_input = load_simple(path, 'optimizer_state_dict')
+        if optimizer_input is not None:
+            optimizer.load_state_dict(optimizer_input)
+            print('optimizer_input', path)
+
         optimizer_flag = True
     else:
         print('not optimizer init')
@@ -186,7 +192,7 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
 
     print('past train_loss', train_loss_past )
     if save_checkpoint:
-        save_simple(linear_classifier.state_dict())
+        save_simple(linear_classifier.state_dict(), optimizer.state_dict())
         save_lora(model)
 
     return model
@@ -263,30 +269,39 @@ def save_lora(peft_modal):
             peft_modal.save_pretrained(output_path_local)
             exit() 
 
-def save_simple(model_weights):
+def save_simple(model_weights, optimizer_weights):
     global train_loss_past, output_path_filenumber, output_path
+
+    checkpoint = {
+        'model_state_dict': model_weights,
+        'optimizer_state_dict': optimizer_weights
+    }
+
     output_path_local = output_path
     if output_path_filenumber > 0:
         xstring = '0000000000'
         ystring = (xstring + str(output_path_filenumber))[-5:]
         output_path_local = output_path + '.' +  ystring # str(output_path_filenumber)
     try:
-        torch.save(model_weights, output_path_local)
+        torch.save(checkpoint, output_path_local)
         print('save some model checkpoint')
         csv_simple(train_loss_past, 'train')
     except KeyboardInterrupt:
-        torch.save(model_weights, output_path_local)
+        torch.save(checkpoint, output_path_local)
         csv_simple(train_loss_past, 'train')
         exit() 
     
 
     
-def load_simple(model):
+def load_simple(output_path, dict_name):
     if  os.path.exists(output_path):
         pretrained_dict = torch.load(output_path, weights_only=True, map_location="cpu")    
-        model.load_state_dict(pretrained_dict, strict=False)
+        if dict_name in pretrained_dict:
+            pretrained_dict = pretrained_dict[dict_name]
         print('load checkpoint')
-        return model
+        return pretrained_dict
+    else:
+        return None
 
 def csv_simple(loss_past, csv_name=None):
     global pt_key, csv_output_pic_filenumber
@@ -302,4 +317,15 @@ def csv_simple(loss_past, csv_name=None):
             w.write(str(i) + ',')
     print('save some cvs train data', csv_output_path)
 
+def make_load_checkpoint_name(chkpt):
+    i = glob.glob(chkpt + '*')
+    i.sort() 
+    output_path_local = i[-1] 
+    output_path_filenumber = len(i)
+    if output_path_filenumber > 0:
+        xstring = '0000000000'
+        ystring = (xstring + str(highest_number(output_path_local)))[-5:]
+        output_path_local = output_path + '.' + str( ystring ) # + str(output_path_filenumber)
+    return output_path_local 
 
+    pass

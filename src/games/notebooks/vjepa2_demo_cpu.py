@@ -157,6 +157,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
 
     if os.path.exists(weight_path_ckpt):
         linear_classifier_dict = torch.load(weight_path_ckpt, weights_only=False, map_location="cpu")
+        linear_classifier_dict = linear_classifier_dict['model_state_dict']
         linear_classifier.load_state_dict(linear_classifier_dict, strict=False)
 
     msg = classifier.load_state_dict(pretrained_dict, strict=False)
