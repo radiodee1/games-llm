@@ -167,7 +167,7 @@ def load_pretrained_vjepa_classifier_weights(classifier):
     print("Pretrained weights loaded with msg: {}".format( msg))
     print('regular weights')
 
-    if save_weights and image_span == 1: # and weight_path_used == weight_path_pretrain:
+    if save_weights and image_span == 1 and False: # and weight_path_used == weight_path_pretrain:
         save_classifier_weights(linear_classifier_dict)
     
     classifier_flag = True
@@ -184,13 +184,17 @@ def edit_weights(pretrained_dict, rm_linear=False):
 
 def save_classifier_weights(model_weights):
     global train_loss_past, output_path_filenumber
+    checkpoint = {
+        'model_state_dict': model_weights,
+        'optimizer_state_dict': None
+    }
     output_path = os.path.join(home_dir, LOCAL_FILE_STORE, "vjepa2_" + pt_key + "_ckpt_classifier.pt")
     output_path_local = output_path
     if output_path_filenumber > 0:
         xstring = '0000000000'
         ystring = (xstring + str(1 + highest_number(output_path_local)))[-5:]
         output_path_local = output_path + '.' + str(ystring)  
-    torch.save(model_weights, output_path_local)
+    torch.save(checkpoint, output_path_local)
     print('save some model checkpoint')
 
 
