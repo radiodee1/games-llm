@@ -42,7 +42,7 @@ os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 PT_FILENAME = {
     'vitl': ['ssv2-vitl-16x2x3.pt',   'facebook/vjepa2-vitl-fpc16-256-ssv2', 'vitl.pt' , 256],
     'vitg': ['ssv2-vitg-384-64x2x3.pt', 'facebook/vjepa2-vitg-fpc64-384', 'vitg-384.pt', 384 ],
-    '21vitl': ['ssv2-vitg-384-64x2x3.pt', '', 'vitl.pt', 384, 'vjepa2_1_vitl_dist_vitG_384.pt', 384],
+    '21vitl': ['ssv2-vitg-384-64x2x3.pt', '','vjepa2_1_vitl_dist_vitG_384.pt', 384],
     '21vitg': ['ssv2-vitg-384-64x2x3.pt', '','vjepa2_1_vitg_384.pt', 384]
 
 }
