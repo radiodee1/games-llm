@@ -400,10 +400,6 @@ def run_sample_inference(key=None):
         img_size = PT_FILENAME[pt_key][3] # hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
         pass
 
-    #img_size = hf_transform.crop_size["height"]  # E.g. 384, 256, etc.
-    if pt_key == '21vitl':
-        #img_size = 384
-        pass
     print(img_size, 'height')
     # Initialize the PyTorch model, load pretrained weights
     
@@ -471,9 +467,6 @@ def run_sample_inference(key=None):
         exit() 
 
     # Download SSV2 classes if not already present
-    ssv2_classes_path = os.path.join(home_dir, LOCAL_FILE_STORE , "json/classes_pong.json")
-    if not os.path.exists(ssv2_classes_path):
-        print("Download classes")
 
     x = get_vjepa_video_classification_results(classifier, out_patch_features_pt)
     return x 
