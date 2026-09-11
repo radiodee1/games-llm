@@ -319,8 +319,11 @@ def csv_simple(loss_past, csv_name=None):
 
 def make_load_checkpoint_name(chkpt):
     i = glob.glob(chkpt + '*')
-    i.sort() 
-    output_path_local = i[-1] 
+    i.sort()
+    if len(i) > 1:
+        output_path_local = i[-1] 
+    else:
+        output_path_local = chkpt
     output_path_filenumber = len(i)
     if output_path_filenumber > 0:
         xstring = '0000000000'
