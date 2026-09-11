@@ -320,7 +320,7 @@ def csv_simple(loss_past, csv_name=None):
 def make_load_checkpoint_name(chkpt):
     i = glob.glob(chkpt + '*')
     i.sort()
-    if len(i) > 1:
+    if len(i) > 0:
         output_path_local = i[-1] 
     else:
         output_path_local = chkpt
