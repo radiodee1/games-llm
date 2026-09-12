@@ -39,6 +39,14 @@ cd ~/workspace/vjepa2/
 uv init 
 ```
 
+## Project Status 
+
+It is clear that the `vjepa2` project cannot play pong on its own right out of the box. Some amount of training must be done. At this stage of the project, we use LoRA to train some characteristics into the model. With 500 - 1,000 training samples we still don't have the model operating as we would like. It may be that the model doesn't respond to training until some larger number of samples is provided. This number might be 2,000 or even 20,000 or more. 
+
+We are using a computer with no gpu, and our batch size is 2 images. The training would be categorized as 'Reinforcement Learning.' Essentially we show the model video of a computer playing pong, and then we give it the input of the computer to the game that would produce the movements on the screen. Finally we usually only show the model video where the ball is in play with the computer. In other words, we show the ball when it is being hit on the player's side. We do not show the ball when it is being fielded by the game.
+
+Because our training takes so long, we don't expect exemplary results. We are fighting with time and temperature.
+
 ## Follow this link to the original 'vjepa2' project.
 
 https://github.com/facebookresearch/vjepa2
