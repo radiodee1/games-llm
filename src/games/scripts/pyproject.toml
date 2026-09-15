@@ -61,8 +61,8 @@ dependencies = [
     "webdataset>=1.0.2",
 ]
 
-[tool.uv]
-environments = ["sys_platform == 'linux'"]
+#[tool.uv]
+#environments = ["sys_platform == 'linux'"]
 
 #[dependencies]
 #torch = "==2.6.0+cpu"  # adjust to your target version

@@ -366,8 +366,10 @@ def run_sample_inference(key=None):
         pt_key = key
 
     init_filesort(pt_key)
-
-    VIDEO_PONG_CLASSES = json.load(open(os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json"), "r"))
+    
+    video_pong_path = os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json")
+    if os.path.exists(video_pong_path):
+        VIDEO_PONG_CLASSES = json.load(open(video_pong_path, "r"))
    
     batch_size = 64 
     hidden_dim = 1408

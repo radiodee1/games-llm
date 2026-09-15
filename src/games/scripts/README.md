@@ -31,6 +31,9 @@ sudo pacman -S swig hdf5 vtk
 #sudo apt update && sudo apt install -y swig libhdf5-dev libvtk9-dev
 
 ```
+## Preperation 
+
+You must set up python 3.10. You must also have a set of images in the `pic` folder. The script number is `13_corpus_1000_mt.sh`. When you run this the `pic` folder is created.
 
 ## vjepa2 scripts
 
