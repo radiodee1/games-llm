@@ -28,6 +28,8 @@ git clone https://github.com/facebookresearch/vjepa2.git
 
 ```
 sudo pacman -S swig hdf5 vtk
+#sudo apt update && sudo apt install -y swig libhdf5-dev libvtk9-dev
+
 ```
 
 ## vjepa2 scripts
