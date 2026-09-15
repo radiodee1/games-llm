@@ -1,4 +1,10 @@
-# Project File Setup
+# Further Pong Projects 
+
+Originally this project and repository were focused on using Large Language Models to play Pong. After following this course for some time the project focus moved to playing Pong with `vjepa2`. All the scripts in this folder, along with the scripts in the `notebooks` folder are somehow related to `vjepa2.` 
+
+There is a common design philosophy that says pick one function for your coding and when you implement it, implement it well. We have not used that philosophy here. We do not use LLMs in all our code, but even when we do not use LLMs and instead we use vjepa2, we continue to focus on playing Pong.
+
+## Project File Setup
 
 For this set of scripts it is assumed that the user will set up a directory on their system called `workspace`. On modern Linux distros there is a `Projects` directory but the author of this repo does not use that name. Instead, all code goes into the `workspace` folder.
 
