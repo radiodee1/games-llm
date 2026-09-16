@@ -1,8 +1,5 @@
 {
   "0": "wait",
-  "1": "serve",
-  "2": "right.move.up",
-  "3": "right.move.down",
-  "4": "left.move.up",
-  "5": "left.move.down"
+  "1": "right.move.up",
+  "2": "right.move.down"
 }

@@ -87,7 +87,7 @@ class PongVjepa2Agent (PongAgent):
 
     def __init__(self, mode="rgb_array", inverse_size=4, show_image=True) -> None:
         super().__init__(mode, inverse_size, show_image)
-        self.meaning = [ 'wait', 'serve', 'right.move.up', 'right.move.down' , 'left.move.up', 'left.move.down']
+        self.meaning = [ 'wait', None, 'right.move.up', 'right.move.down' , None, None]
         self.agent ='PongNoFrameskip-v4' 
         self.prompt_string = ''
 

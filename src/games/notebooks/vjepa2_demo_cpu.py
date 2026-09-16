@@ -49,7 +49,7 @@ PT_FILENAME = {
 pt_key = 'vitl'
 
 old_num_classes = 174 
-num_classes =  6 ## 174 
+num_classes =  3 ## 174 
 out_classifier = None
 classifier = None
 model_hf = None
@@ -339,12 +339,12 @@ def get_vjepa_video_classification_results(classifier,  out_patch_features_pt):
     #print(out_classifier, 'out_classifier')
 
     max = out.argmax(-1)
-    print("Top 6 predicted class names:\n-----")
+    print("Top X predicted class names:\n-----")
     high_id = ""
     high_prob = 0 
-    top6_indices = out.topk(num_classes).indices[0]
-    top6_probs = F.softmax(out.topk(num_classes).values[0]) * 100.0  # convert to percentage
-    for idx, prob in zip(top6_indices, top6_probs):
+    top_x_indices = out.topk(num_classes).indices[0]
+    top_x_probs = F.softmax(out.topk(num_classes).values[0]) * 100.0  # convert to percentage
+    for idx, prob in zip(top_x_indices, top_x_probs):
         str_idx = str(idx.item())
         print(f"{SOME_CLASSES[str_idx]} ({prob}%)  {str_idx}")
         if prob > high_prob: # or high_prob == 0:
@@ -370,10 +370,12 @@ def run_sample_inference(key=None):
     video_pong_path = os.path.join(home_dir, LOCAL_FILE_STORE, "pic/" + args_foldername + "/video_image_label.json")
     if os.path.exists(video_pong_path):
         VIDEO_PONG_CLASSES = json.load(open(video_pong_path, "r"))
-   
+    else:
+        print('no VIDEO_PONG_CLASSES file found')
+
     batch_size = 64 
     hidden_dim = 1408
-    ssv2_dim = 174
+    ssv2_dim = old_num_classes
 
     if (pt_key == 'vitl' ) and change_hidden_dim:
         hidden_dim = 1024 

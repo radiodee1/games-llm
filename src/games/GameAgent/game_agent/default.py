@@ -214,11 +214,11 @@ class DefaultBare:
             self.action_meaning = []
             num = 0
             for i in range(len(x)):
-                if self.meaning == None or len(self.meaning) == 0:
+                if self.meaning is None or len(self.meaning) == 0:
                     m = x[i]
                 else:
                     m = self.meaning[i]
-                if m != None: 
+                if m is not None: 
                     self.action_meaning += [ { 'name' : x[i], 'num': num, 'meaning': m  } ]
                 num += 1 
             #print(self.action_meaning, 'read_actions')
