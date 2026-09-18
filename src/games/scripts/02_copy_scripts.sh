@@ -8,4 +8,6 @@ cp classes_pong.json ../../../../VJEPA2_FILES/demo/json/.
 
 cp ../notebooks/* ../../../../vjepa2/notebooks/.
 
+cp -r ../http ../../../../vjepa2/.
+
 echo "cp to vjepa2 folder"

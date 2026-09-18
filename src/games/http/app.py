@@ -13,7 +13,9 @@ app = Flask(__name__)
 PNG_FILE = os.path.abspath("../pic/figure_0.png")
 
 # Python program to run
-PYTHON_APP = os.path.abspath("worker.py")
+PYTHON_APP = "notebooks.vjepa2_demo_cpu" # os.path.abspath("../notebooks/vjepa2_demo_cpu.py")
+
+TARGET_DIR = os.path.abspath("..")
 
 process = None
 output_queue = queue.Queue()
@@ -48,7 +50,8 @@ def start():
             return jsonify({"status": "already running"})
 
         process = subprocess.Popen(
-            ["python", "-u", PYTHON_APP],
+            ["uv", "run", "python", "-u", "-m", PYTHON_APP],
+            cwd=TARGET_DIR,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -107,5 +110,6 @@ def image_info():
         return jsonify({"modified": modified})
     except FileNotFoundError:
         return jsonify({"modified": 0})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=False)
