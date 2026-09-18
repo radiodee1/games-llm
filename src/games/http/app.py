@@ -19,7 +19,7 @@ KEY_VALUE = 'vitl'
 
 VIDEO_VALUE = '4'
 
-PYTHON_APP_ARRAY = [ i for i in ('uv run ' + PYTHON_APP +' --model vjepa --plugin ssv  --inverse_size 4 --video ' + VIDEO_VALUE + ' --no_pic --key ' + KEY_VALUE).split(' ') ]
+PYTHON_APP_ARRAY = [ i for i in ('uv run python -u ' + PYTHON_APP +' --model vjepa --plugin ssv  --inverse_size 4 --video ' + VIDEO_VALUE + ' --no_pic --key ' + KEY_VALUE).split(' ') ]
 
 TARGET_DIR = os.path.abspath("..")
 
