@@ -13,7 +13,13 @@ app = Flask(__name__)
 PNG_FILE = os.path.abspath("../pic/figure_0.png")
 
 # Python program to run
-PYTHON_APP = "notebooks.vjepa2_demo_cpu" # os.path.abspath("../notebooks/vjepa2_demo_cpu.py")
+PYTHON_APP = os.path.abspath("../main.py")  #"notebooks.vjepa2_demo_cpu" 
+
+KEY_VALUE = 'vitl'
+
+VIDEO_VALUE = '4'
+
+PYTHON_APP_ARRAY = [ i for i in ('uv run ' + PYTHON_APP +' --model vjepa --plugin ssv  --inverse_size 4 --video ' + VIDEO_VALUE + ' --no_pic --key ' + KEY_VALUE).split(' ') ]
 
 TARGET_DIR = os.path.abspath("..")
 
@@ -50,7 +56,7 @@ def start():
             return jsonify({"status": "already running"})
 
         process = subprocess.Popen(
-            ["uv", "run", "python", "-u", "-m", PYTHON_APP],
+            PYTHON_APP_ARRAY,
             cwd=TARGET_DIR,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
