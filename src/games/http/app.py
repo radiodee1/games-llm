@@ -1,0 +1,111 @@
+
+from flask import Flask, render_template, jsonify, send_file
+import subprocess
+import threading
+import queue
+import os
+import time
+import signal
+
+app = Flask(__name__)
+
+# Path to the PNG displayed by the browser
+PNG_FILE = os.path.abspath("../pic/figure_0.png")
+
+# Python program to run
+PYTHON_APP = os.path.abspath("worker.py")
+
+process = None
+output_queue = queue.Queue()
+process_lock = threading.Lock()
+
+
+def read_output(proc):
+    """Read output from the Python app and place it in a queue."""
+    for line in iter(proc.stdout.readline, ''):
+        output_queue.put(line)
+
+    proc.stdout.close()
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/image")
+def image():
+    """Return the current PNG file."""
+    return send_file(PNG_FILE, mimetype="image/png")
+
+
+@app.route("/start", methods=["POST"])
+def start():
+    global process
+
+    with process_lock:
+        if process is not None and process.poll() is None:
+            return jsonify({"status": "already running"})
+
+        process = subprocess.Popen(
+            ["python", "-u", PYTHON_APP],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+
+        threading.Thread(
+            target=read_output,
+            args=(process,),
+            daemon=True
+        ).start()
+
+    return jsonify({"status": "started"})
+
+
+@app.route("/stop", methods=["POST"])
+def stop():
+    global process
+
+    with process_lock:
+        if process is not None and process.poll() is None:
+            process.terminate()
+
+            try:
+                process.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                process.kill()
+
+            output_queue.put("[Server] Python app stopped.\n")
+            return jsonify({"status": "stopped"})
+
+    return jsonify({"status": "not running"})
+
+
+@app.route("/output")
+def output():
+    """Return any new output from the Python app."""
+    lines = []
+
+    while True:
+        try:
+            lines.append(output_queue.get_nowait())
+        except queue.Empty:
+            break
+
+    return jsonify({
+        "output": "".join(lines),
+        "running": process is not None and process.poll() is None
+    })
+
+@app.route("/image_info")
+def image_info():
+    """Return the PNG modification time."""
+    try:
+        modified = os.path.getmtime(PNG_FILE)
+        return jsonify({"modified": modified})
+    except FileNotFoundError:
+        return jsonify({"modified": 0})
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=False)

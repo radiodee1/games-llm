@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Python App Monitor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #graphics {
+            display: block;
+            width: 320px;
+            height: auto;
+            border: 1px solid #aaa;
+            margin-bottom: 15px;
+        }
+
+        #output {
+            width: 600px;
+            height: 220px;
+            overflow-y: auto;
+            background: #111;
+            color: #0f0;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            border: 1px solid #555;
+        }
+
+        button {
+            margin: 5px 5px 15px 0;
+            padding: 8px 15px;
+        }
+
+        #status {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Python App Monitor</h2>
+
+    <h3>Graphics</h3>
+    <img id="graphics" src="/image" alt="Graphics">
+
+    <button onclick="startApp()">Start Python App</button>
+    <button onclick="stopApp()">Halt Python App</button>
+
+    <div id="status">Status: unknown</div>
+
+    <h3>Application Output</h3>
+    <div id="output"></div>
+
+    <script>
+        let lastImageTimestamp = 0;
+
+        // Check whether the PNG has changed on disk.
+        // The server returns the file's modification time.
+        async function checkImage() {
+            try {
+                const response = await fetch("/image_info");
+                const data = await response.json();
+
+                if (data.modified !== lastImageTimestamp) {
+                    lastImageTimestamp = data.modified;
+
+                    // Cache-busting query parameter forces browser refresh.
+                    document.getElementById("graphics").src =
+                        "/image?t=" + data.modified;
+                }
+            } catch (error) {
+                console.error("Image update error:", error);
+            }
+        }
+
+        async function startApp() {
+            const response = await fetch("/start", {
+                method: "POST"
+            });
+
+            const data = await response.json();
+            document.getElementById("status").textContent =
+                "Status: " + data.status;
+        }
+
+        async function stopApp() {
+            const response = await fetch("/stop", {
+                method: "POST"
+            });
+
+            const data = await response.json();
+            document.getElementById("status").textContent =
+                "Status: " + data.status;
+        }
+
+        async function updateOutput() {
+            try {
+                const response = await fetch("/output");
+                const data = await response.json();
+
+                if (data.output) {
+                    const output = document.getElementById("output");
+
+                    output.textContent += data.output;
+
+                    // Keep the window scrolled to the newest output.
+                    output.scrollTop = output.scrollHeight;
+                }
+
+                document.getElementById("status").textContent =
+                    "Status: " + (data.running ? "running" : "stopped");
+
+            } catch (error) {
+                console.error("Output update error:", error);
+            }
+        }
+
+        // Poll for changes every second.
+        setInterval(checkImage, 1000);
+        setInterval(updateOutput, 500);
+
+        checkImage();
+        updateOutput();
+    </script>
+</body>
+</html>
