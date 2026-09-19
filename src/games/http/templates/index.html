@@ -61,8 +61,12 @@
     <img id="graph" src="/graph" alt="CSV Graph">
 
 
+    <button onclick="checkGraph()">Show Graph</button>
+
+    <br>
     <button onclick="startApp()">Start Python App</button>
     <button onclick="stopApp()">Halt Python App</button>
+
 
     <div id="status">Status: unknown</div>
 
@@ -146,11 +150,11 @@
         setInterval(updateOutput, 500);
 
         // CSV graph
-        setInterval(checkGraph, 1000);
+        // setInterval(checkGraph, 1000);
 
 
         checkImage();
-        checkGraph();
+        //checkGraph();
         updateOutput();
     </script>
 </body>
