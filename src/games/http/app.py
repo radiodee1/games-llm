@@ -107,11 +107,14 @@ def graph():
             return "CSV must contain at least two columns", 400
 
         # First column = X
-        x = df.iloc[:, 0]
+        #x = df.iloc[:, 0]
 
+        y = df.iloc[0, :]
         # Second column = Y
-        y = df.iloc[:, 1]
+        #y = df.iloc[:, 1]
 
+        x = [ i for i in range(len(y))]
+        
         # Create figure
         fig, ax = plt.subplots(figsize=(7, 4))
 
