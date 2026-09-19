@@ -10,6 +10,14 @@
             margin: 20px;
         }
 
+        #graph {
+            display: block;
+            width: 700px;
+            height: auto;
+            border: 1px solid #aaa;
+            margin-bottom: 15px;
+        }
+
         #graphics {
             display: block;
             width: 160px;
@@ -48,6 +56,15 @@
     <h3>Graphics</h3>
     <img id="graphics" src="/image" alt="Graphics">
 
+    <h3>CSV Graph</h3>
+
+    <img
+        id="graph"
+        src="/graph"
+        alt="CSV Graph"
+    >
+
+
     <button onclick="startApp()">Start Python App</button>
     <button onclick="stopApp()">Halt Python App</button>
 
@@ -76,6 +93,14 @@
             } catch (error) {
                 console.error("Image update error:", error);
             }
+        }
+
+        function checkGraph() {
+
+            document.getElementById("graph").src =
+                "/graph?t=" +
+                new Date().getTime();
+
         }
 
         async function startApp() {
@@ -124,7 +149,12 @@
         setInterval(checkImage, 1000);
         setInterval(updateOutput, 500);
 
+        // CSV graph
+        setInterval(checkGraph, 1000);
+
+
         checkImage();
+        checkGraph();
         updateOutput();
     </script>
 </body>

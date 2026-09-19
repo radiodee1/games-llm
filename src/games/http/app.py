@@ -9,6 +9,9 @@ import signal
 
 app = Flask(__name__)
 
+# CSV file used to create the graph
+CSV_FILE = os.path.abspath("../pic/data.csv")
+
 # Path to the PNG displayed by the browser
 PNG_FILE = os.path.abspath("../pic/figure_0.png")
 
@@ -75,6 +78,79 @@ def start():
         ).start()
 
     return jsonify({"status": "started"})
+
+@app.route("/graph")
+def graph():
+    """
+    Read the CSV file and generate a graph.
+
+    Expected CSV format:
+
+        time,value
+        0,10
+        1,20
+        2,15
+        3,30
+    """
+
+    try:
+        # Read CSV
+        df = pd.read_csv(CSV_FILE)
+
+        if len(df.columns) < 2:
+            return "CSV must contain at least two columns", 400
+
+        # First column = X
+        x = df.iloc[:, 0]
+
+        # Second column = Y
+        y = df.iloc[:, 1]
+
+        # Create figure
+        fig, ax = plt.subplots(figsize=(7, 4))
+
+        ax.plot(
+            x,
+            y,
+            marker="o",
+            linewidth=2
+        )
+
+        ax.set_xlabel(df.columns[0])
+        ax.set_ylabel(df.columns[1])
+
+        ax.set_title("CSV Data")
+
+        ax.grid(True)
+
+        fig.tight_layout()
+
+        # Write PNG into memory instead of creating a file
+        image_data = io.BytesIO()
+
+        fig.savefig(
+            image_data,
+            format="png",
+            dpi=100
+        )
+
+        plt.close(fig)
+
+        image_data.seek(0)
+
+        return send_file(
+            image_data,
+            mimetype="image/png"
+        )
+
+    except FileNotFoundError:
+
+        return "CSV file not found: " + CSV_FILE, 404
+
+    except Exception as e:
+
+        return "Error creating graph: " + str(e), 500
+
 
 
 @app.route("/stop", methods=["POST"])
