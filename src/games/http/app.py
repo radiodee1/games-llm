@@ -6,6 +6,12 @@ import queue
 import os
 import time
 import signal
+import io 
+
+import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
