@@ -112,10 +112,10 @@ def graph(foldername):
             linewidth=2
         )
 
-        ax.set_xlabel(df.columns[0])
-        ax.set_ylabel(df.columns[1])
+        ax.set_ylabel('Loss')
+        ax.set_xlabel('Batches')
 
-        ax.set_title("CSV Data")
+        ax.set_title("CSV Data - " + foldername)
 
         ax.grid(True)
 
