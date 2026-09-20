@@ -93,26 +93,15 @@ def graph(foldername):
     try:
         # Read CSV
         csv_path = CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
-        print(csv_path)
-        df = pd.read_csv(csv_path)
+        df = pd.read_csv(csv_path, header=None)
 
         if len(df.columns) < 2:
             return "CSV must contain at least two columns", 400
 
-        # First column = X
-        #x = df.iloc[:, 0]
-        print('before error')
-        
-        
         y = df.iloc[0, :]
-        # Second column = Y
-        #y = df.iloc[:, 1]
-        print(y, 'y values')
 
         x = [ i for i in range(len(y))]
         
-        print(x, y, 'x,y')
-
         # Create figure
         fig, ax = plt.subplots(figsize=(7, 4))
 
