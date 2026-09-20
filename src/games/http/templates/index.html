@@ -61,7 +61,10 @@
     <img id="graph" src="/graph" alt="CSV Graph">
 
 
-    <button onclick="checkGraph()">Show Graph</button>
+    <button onclick="checkGraph('train')">Show Graph</button>
+    <button onclick="checkGraph('train2')">Show Graph2</button>
+    <button onclick="checkGraph('train3')">Show Graph3</button>
+    <button onclick="checkGraph('train4')">Show Graph4</button>
 
     <br>
     <button onclick="startApp()">Start Python App</button>
@@ -95,10 +98,10 @@
             }
         }
 
-        function checkGraph() {
-
+        function checkGraph(id_string) {
+            console.log(id_string)
             document.getElementById("graph").src =
-                "/graph?t=" +
+                "/graph/" + id_string + "?t=" +
                 new Date().getTime();
 
         }

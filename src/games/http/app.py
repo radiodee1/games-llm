@@ -16,7 +16,9 @@ import matplotlib.pyplot as plt
 app = Flask(__name__)
 
 # CSV file used to create the graph
-CSV_FILE = os.path.abspath("../pic/data.csv")
+CSV_FILE = os.path.abspath('../pic/')
+
+CSV_PATH = os.path.expanduser('~') + "/workspace/VJEPA2_FILES/demo/pic/"
 
 # Path to the PNG displayed by the browser
 PNG_FILE = os.path.abspath("../pic/figure_0.png")
@@ -85,36 +87,32 @@ def start():
 
     return jsonify({"status": "started"})
 
-@app.route("/graph")
-def graph():
-    """
-    Read the CSV file and generate a graph.
-
-    Expected CSV format:
-
-        time,value
-        0,10
-        1,20
-        2,15
-        3,30
-    """
+@app.route("/graph/<foldername>")
+def graph(foldername):
 
     try:
         # Read CSV
-        df = pd.read_csv(CSV_FILE)
+        csv_path = CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
+        print(csv_path)
+        df = pd.read_csv(csv_path)
 
         if len(df.columns) < 2:
             return "CSV must contain at least two columns", 400
 
         # First column = X
         #x = df.iloc[:, 0]
-
+        print('before error')
+        
+        
         y = df.iloc[0, :]
         # Second column = Y
         #y = df.iloc[:, 1]
+        print(y, 'y values')
 
         x = [ i for i in range(len(y))]
         
+        print(x, y, 'x,y')
+
         # Create figure
         fig, ax = plt.subplots(figsize=(7, 4))
 
@@ -154,7 +152,7 @@ def graph():
 
     except FileNotFoundError:
 
-        return "CSV file not found: " + CSV_FILE, 404
+        return "CSV file not found: " + csv_path, 404
 
     except Exception as e:
 
