@@ -15,27 +15,15 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-# CSV file used to create the graph
-CSV_FILE = os.path.abspath('../pic/')
-
+#CSV_FILE = os.path.abspath('../pic/')
 CSV_PATH = os.path.expanduser('~') + "/workspace/VJEPA2_FILES/demo/pic/"
-
-# Path to the PNG displayed by the browser
 PNG_FILE = os.path.abspath("../pic/figure_0.png")
-
-# Python program to run
 PYTHON_APP = os.path.abspath("../main.py")  #"notebooks.vjepa2_demo_cpu" 
-
 KEY_VALUE = 'vitl'
-
 VIDEO_VALUE = '4'
-
 PLUGIN_VALUE = 'ssv'
-
 MODEL_VALUE = 'vjepa'
-
 PYTHON_APP_ARRAY = [ i for i in ('uv run python -u ' + PYTHON_APP +' --model ' + MODEL_VALUE + ' --plugin ' + PLUGIN_VALUE + ' --inverse_size 4 --video ' + VIDEO_VALUE + ' --no_pic --key ' + KEY_VALUE).split(' ') ]
-
 TARGET_DIR = os.path.abspath("..")
 
 process = None
