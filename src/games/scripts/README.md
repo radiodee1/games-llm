@@ -58,7 +58,7 @@ It is clear that the `vjepa2` project cannot play pong on its own right out of t
 
 We are using a computer with no gpu, and our batch size is 2 images. The training would be categorized as 'Reinforcement Learning.' Essentially we show the model video of a computer playing pong, and then we give it the input of the computer to the game that would produce the movements on the screen. Finally we usually only show the model video where the ball is in play with the computer. In other words, we show the ball when it is being hit on the player's side. We do not show the ball when it is being fielded by the game.
 
-Because our training takes so long, we don't expect exemplary results. We are fighting with time and temperature.
+Because our training takes so long, we don't expect exemplary results. We are using a laptop with nothing more than a CPU to do our initial testing. The training is very slow and the laptop heats up during the testing. We are fighting with time and temperature to complete this training. In the future we would like to train on a platform like `runpod` to see if our demo works.
 
 ## Follow this link to the original 'vjepa2' project.
 
