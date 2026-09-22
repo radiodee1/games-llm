@@ -19,6 +19,8 @@ Another image. This is from `pygame_dots.py`
 
 There are 9 dots in this image.
 
+### Notes:
+
 add yourself to the 'input' group.
 
 > sudo usermod -a -G input $USER
