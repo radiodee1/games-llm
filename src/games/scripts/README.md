@@ -47,7 +47,9 @@ Do this after copying all the `vjepa2` scripts to the `vjepa2` folder. The autho
 
 ```
 cd ~/workspace/vjepa2/ 
-uv init 
+uv init
+## or 
+uv sync
 ```
 
 ## Project Status 
