@@ -55,19 +55,20 @@ class Vjepa2MT (DefaultLLM):
     def do(self, image=None, context=None, text=None):
         x = self.pygame_mechanical()
 
-        print(x , 'get_single_key here')
+        #print(x , 'get_single_key here')
         return x 
 
 
     def pygame_mechanical(self):
         import pygame 
         pygame.init()
-        screen = pygame.display.set_mode((320, 420))
+        #print(self.inverse_size, 'inverse_size')
+        screen = pygame.display.set_mode((320 / (self.inverse_size / 2), 420 / (self.inverse_size / 2)))
         pygame.display.set_caption("Escape Key to quit.")
         try:
             image = pygame.image.load("./pic/figure_0.png")
         except pygame.error:
-            image = pygame.Surface((320, 420))
+            image = pygame.Surface((320 / (self.inverse_size / 2), 420 / (self.inverse_size / 2 )))
             image.fill((200, 50, 50))
 
         screen.fill((255, 255, 255))  # White background

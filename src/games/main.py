@@ -153,6 +153,7 @@ def parse():
         model_class.smaller = plugin_class.smaller
         model_class.foldername = args.foldername
         model_class.key = args.key
+        model_class.inverse_size = args.inverse_size
 
         temp_path = os.path.join(os.getcwd(), 'pic', args.foldername )
         print(temp_path)

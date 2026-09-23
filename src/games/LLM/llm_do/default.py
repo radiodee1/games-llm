@@ -62,6 +62,7 @@ class DefaultLLM:
         self.foldername = 'train'
         self.use_short_path = True
         self.key = 'vitl'
+        self.inverse_size = 1 
         self.print('Default', model)
         pass
 

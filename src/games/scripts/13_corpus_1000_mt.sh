@@ -3,6 +3,7 @@
 mkdir -p ./pic/train
 mkdir -p ./pic/train2
 mkdir -p ./pic/train3
+mkdir -p ./pic/train4
 
 rm ./pic/train/output_0*.mp4
 
