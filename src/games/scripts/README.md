@@ -60,6 +60,16 @@ We are using a computer with no gpu, and our batch size is 2 images. The trainin
 
 Because our training takes so long, we don't expect exemplary results. We are using a laptop with nothing more than a CPU to do our initial testing. The training is very slow and the laptop heats up during the testing. We are fighting with time and temperature to complete this training. In the future we would like to train on a platform like `runpod` to see if our demo works.
 
+## Training Data 
+
+Below are some numbered steps for generating training data. Training data is important. Here I've tried to describe a good way to generate lots of mp4 video.
+
+1. Review the contents of the file `./13_corpus_1000_mt.sh`. This file will run in the `vjepa2` folder, generating 1000 mp4 files. Each video will have 4 frames and a number in their file name that will identify them. Later we edit these files, so it might be better to run the command from the `./13_corpus_1000_mt.sh` file with something like 3000 for the corpus number.
+2. After starting the command from the file, use the arrow keys to move the right paddle and play the game. During this time the up key moves the paddle up, the down key moves the paddle down, and every other key passes the 'wait' or 'no-op' signal to the program. The escape key will exit the program prematurely. This process takes some time, especially if you set the corpus number to something like 3000.
+3. When the program ends you will have a folder at `~/workspace/vjepa2/pic/train/` that will contain what amounts to a recording of you playing pong with the computer. Also in that folder is a json file that contains all the labels for your movements during the game. Do not delete the label file.
+4. Now we use Nautilus, the Linux/Gnome File Manager, to edit the files in one further step. First open the File Manager and navigate to the directory `~/workspace/vjepa2/pic/train/`. You will see all your mp4 files and importantly the thumbnails for each of those files. Here we use the keyboard to delete some files. Place the cursor on the first file and click it to highlight it. Now use the Right arrow and the delete key to edit the files. You want to delete files showing the ball traveling to the left paddle. The left paddle is the computer's paddle. You want to leave all files showing the ball traveling to the right paddle. The right paddle is the player's paddle.
+5. You can get through the list of files quickly if you put one finger on the 'right' key and one finger on the 'delete' key. Start with the first thumbnail and make your way through all the files in order. Delete all files where the ball is in the left side of the field. This process can take some time. You will end up with approximately half of the files you started with.
+
 ## Follow this link to the original 'vjepa2' project.
 
 https://github.com/facebookresearch/vjepa2
