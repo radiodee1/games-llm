@@ -13,7 +13,7 @@ This list shows the first set of launcher scripts. More may be added later witho
 - `ale_70_gemma4_pong.sh` - More pong.
 - `ale_80_test_dots.sh` - Test dots.
 
-These launcher scripts are for local LLMs and remote LLMs with the pygame Pong code.
+These launcher scripts are for local LLMs and remote LLMs with the pygame Pong code...
 
 - `do_10_ollama.sh` - Setup ollama on your computer.
 - `do_20_pixtral_large.sh` - Try pixtral with pygame Pong code.
