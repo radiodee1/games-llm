@@ -10,4 +10,10 @@ cp -v ../notebooks/vjepa2_classifier_cpu.py ../notebooks/vjepa2_demo_cpu.py ../.
 
 cp -r ../http ../../../../vjepa2/.
 
+mkdir -p ~/workspace/VJEPA2_FILES/demo/pic/train ~/workspace/VJEPA2_FILES/demo/pic/train2 ~/workspace/VJEPA2_FILES/demo/pic/train3 ~/workspace/VJEPA2_FILES/demo/pic/train4
+
+cd ~/workspace/vjepa2/pic
+
+mkdir -p train train2 train3 train4
+
 echo "cp to vjepa2 folder"
