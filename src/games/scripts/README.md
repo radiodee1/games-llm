@@ -1,6 +1,6 @@
-# Further Pong Projects 
+# Further Pong Projects With vjepa2 
 
-Originally this project and repository were focused on using Large Language Models to play Pong. After following this course for some time the project focus moved to playing Pong with `vjepa2`. All the scripts in this folder, along with the scripts in the `notebooks` folder are somehow related to `vjepa2.` 
+Originally this project and repository were focused on using Large Language Models to play Pong. After following this course for some time the project focus moved to playing Pong with `vjepa2`. All the scripts in this folder, along with the scripts in the `notebooks` and the `http` folder are somehow related to `vjepa2.` 
 
 There is a common design philosophy that says pick one function for your coding and when you implement it, implement it well. We have not used that philosophy here. We do not use LLMs in all our code, but even when we do not use LLMs and instead we use vjepa2, we continue to focus on playing Pong.
 
