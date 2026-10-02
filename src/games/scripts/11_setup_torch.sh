@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "Install pyproject.toml for entire system. Use system torch."
+echo "Do not use 'uv sync' or 'uv lock'."
 
 uv pip install --system -r pyproject.toml
 
