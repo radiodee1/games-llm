@@ -20,8 +20,8 @@ cd ~/workspace/vjepa2/pic
 
 mkdir -p train train2 train3 train4
 
-cd ~/workspace/VJEPA2_FILES/demo/pic
+#cd ~/workspace/VJEPA2_FILES/demo/pic
 
-mkdir -p train train2 train3 train4
+#mkdir -p train train2 train3 train4
 
 echo "cp to vjepa2 folder"
