@@ -17,6 +17,6 @@ Another image. This is from `pygame_dots.py`
 
 ![Dots](./pic/dots.png)
 
-There are nine dots in this image.
+There are nine (9) dots in this image.
 
 
