@@ -2,6 +2,8 @@
 
 shopt -s extglob
 
+mkdir -p ~/workspace/VJEPA2_FILES/demo/pic ~/workspace/VJEPA2_FILES/demo/json
+
 cp -r !(02_copy_scripts.sh|03_copy_games.sh|README.md) ../../../../vjepa2/.
 
 cp classes_pong.json ../../../../VJEPA2_FILES/demo/json/.
