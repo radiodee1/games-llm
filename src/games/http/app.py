@@ -25,6 +25,7 @@ PLUGIN_VALUE = 'ssv'
 MODEL_VALUE = 'vjepa'
 PYTHON_APP_ARRAY = [ i for i in ('uv run python -u ' + PYTHON_APP +' --model ' + MODEL_VALUE + ' --plugin ' + PLUGIN_VALUE + ' --inverse_size 4 --video ' + VIDEO_VALUE + ' --no_pic --key ' + KEY_VALUE).split(' ') ]
 TARGET_DIR = os.path.abspath("..")
+CSV_FOLDERS = [ 'train', 'train2', 'train3', 'train4']
 
 process = None
 output_queue = queue.Queue()
@@ -80,13 +81,24 @@ def graph(foldername):
 
     try:
         # Read CSV
-        csv_path = CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
-        df = pd.read_csv(csv_path, header=None)
+        csv_path = get_folder_path(foldername) #  CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
+        
+        if csv_path is not None:
+            df = pd.read_csv(csv_path, header=None)
 
-        if len(df.columns) < 2:
-            return "CSV must contain at least two columns", 400
+            if len(df.columns) < 2:
+                return "CSV must contain at least two columns", 400
 
-        y = df.iloc[0, :]
+            y = df.iloc[0, :]
+        else:
+            y = []
+            for i in CSV_FOLDERS:
+                csv_path = get_folder_path(i)
+                if csv_path is not None:
+                    df = pd.read_csv(csv_path, header=None)
+                    y.extend(df.iloc[0,:])
+
+        print(y)
 
         x = [ i for i in range(len(y))]
         
@@ -135,7 +147,13 @@ def graph(foldername):
 
         return "Error creating graph: " + str(e), 500
 
-
+def get_folder_path(foldername):
+    csv_path = CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
+    if os.path.exists(csv_path):
+        return csv_path
+    else:
+        return None
+    pass 
 
 @app.route("/stop", methods=["POST"])
 def stop():
