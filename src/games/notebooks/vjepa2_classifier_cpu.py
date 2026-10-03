@@ -198,6 +198,7 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
     return model
 
 def eval_simple(model, linear_classifier, out_patch_features_pt):
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     criterion = nn.CrossEntropyLoss()
 
@@ -221,7 +222,7 @@ def eval_simple(model, linear_classifier, out_patch_features_pt):
     epoch_test_loss = test_loss / len(out_patch_features_pt[0])
     print(f"Train Loss: {epoch_test_loss:.4f} len(out_patch_features_pt) = {len(out_patch_features_pt)}")
     test_loss_past.append(round(epoch_test_loss, 3))
-    csv_simple(test_loss_past, 'test')
+    csv_simple(test_loss_past, csv_output_pic_folder)
     print('past test_loss', test_loss_past)
 
 
@@ -270,7 +271,7 @@ def save_lora(peft_modal):
             exit() 
 
 def save_simple(model_weights, optimizer_weights):
-    global train_loss_past, output_path_filenumber, output_path
+    global train_loss_past, output_path_filenumber, output_path, csv_output_pic_folder
 
     checkpoint = {
         'model_state_dict': model_weights,
@@ -285,10 +286,10 @@ def save_simple(model_weights, optimizer_weights):
     try:
         torch.save(checkpoint, output_path_local)
         print('save some model checkpoint')
-        csv_simple(train_loss_past, 'train')
+        csv_simple(train_loss_past, csv_output_pic_folder)
     except KeyboardInterrupt:
         torch.save(checkpoint, output_path_local)
-        csv_simple(train_loss_past, 'train')
+        csv_simple(train_loss_past, csv_output_pic_folder)
         exit() 
     
 
@@ -305,7 +306,7 @@ def load_simple(output_path, dict_name):
 
 def csv_simple(loss_past, csv_name=None):
     global pt_key, csv_output_pic_filenumber
-    if csv_name != None:
+    if csv_name is not None:
         tag = csv_name
     else: 
         tag = 'train'

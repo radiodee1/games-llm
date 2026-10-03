@@ -93,6 +93,7 @@ def graph(foldername):
             for i in CSV_FOLDERS:
                 csv_path = get_folder_path(i)
                 if csv_path is not None:
+                    print(csv_path)
                     df = pd.read_csv(csv_path, header=None)
                     y.extend(df.iloc[0,:])
 
