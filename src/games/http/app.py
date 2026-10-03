@@ -85,10 +85,8 @@ def graph(foldername):
         
         if csv_path is not None:
             df = pd.read_csv(csv_path, header=None)
-
             if len(df.columns) < 2:
                 return "CSV must contain at least two columns", 400
-
             y = df.iloc[0, :]
         else:
             y = []
