@@ -95,7 +95,7 @@ def graph(foldername):
                 if csv_path is not None:
                     print(csv_path)
                     df = pd.read_csv(csv_path, header=None)
-                    y.extend(df.iloc[0,:])
+                    y.extend([x for x in df.iloc[0,:] if x == x])
 
         print(y)
 
