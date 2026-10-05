@@ -110,7 +110,7 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
             lora_path = load_lora_path()
             if (lora_path is not None) :
                 model_peft = PeftModel.from_pretrained(model, lora_path, is_trainable=True)
-                print('load model_peft here.') 
+
             else:
                 
                 target_modules = r".*pooler\.cross_attention_block\.(xattn|mlp)\.(q|kv|fc1|fc2)|.*pooler\.blocks\.\d+\.(attn|mlp)\.(qkv|q|kv|query|key|value|proj|fc1|fc2)$"
