@@ -83,12 +83,13 @@ def graph(foldername):
         # Read CSV
         csv_path = get_folder_path(foldername) #  CSV_PATH  + foldername + '/csv_' + KEY_VALUE + '_' + foldername + '.csv.1.csv'
         
-        if csv_path is not None:
+        if csv_path is not None and foldername in CSV_FOLDERS:
             df = pd.read_csv(csv_path, header=None)
             if len(df.columns) < 2:
                 return "CSV must contain at least two columns", 400
             y = df.iloc[0, :]
-        else:
+
+        elif foldername not in CSV_FOLDERS:
             y = []
             for i in CSV_FOLDERS:
                 csv_path = get_folder_path(i)
@@ -96,8 +97,11 @@ def graph(foldername):
                     print(csv_path)
                     df = pd.read_csv(csv_path, header=None)
                     y.extend([x for x in df.iloc[0,:] if x == x])
+        else:
+            return "CSV file not found: " + csv_path, 404
+            
 
-        print(y)
+        #print(y)
 
         x = [ i for i in range(len(y))]
         
