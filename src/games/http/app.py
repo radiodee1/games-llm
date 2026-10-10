@@ -98,10 +98,7 @@ def graph(foldername):
                     df = pd.read_csv(csv_path, header=None)
                     y.extend([x for x in df.iloc[0,:] if x == x])
         else:
-            return "CSV file not found: " + csv_path, 404
-            
-
-        #print(y)
+            y = []
 
         x = [ i for i in range(len(y))]
         
