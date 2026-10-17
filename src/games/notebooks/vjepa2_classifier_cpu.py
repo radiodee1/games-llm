@@ -99,6 +99,9 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
     if not optimizer_flag:
 
         model = model_input
+        
+        for parameter in model.parameters():
+            parameter.requires_grad = False
 
         # Run this to look at the exact names of your linear layers
         for name, module in model.named_modules():
