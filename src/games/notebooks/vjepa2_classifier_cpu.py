@@ -117,8 +117,8 @@ def train_simple(model_input, linear_classifier, out_patch_features_pt):
                 print(target_modules)
 
                 peft_config = LoraConfig(
-                    r=16,  # LoRA rank
-                    lora_alpha=32,  # Scaling parameter
+                    r=8,  # LoRA rank
+                    lora_alpha=8,  # Scaling parameter
                     target_modules=target_modules,  # r".*pooler\.blocks\.\d+\.attn\.(qkv|q|kv|query|key|value|proj)$",
                     #target_modules=r".*encoder\.layer\.\d+\.attention\.(query|key|value|proj)$", #["query", "value"],  # Modules to inject adapters into
                     #modules_to_save=["classifier", "pooler"], 
