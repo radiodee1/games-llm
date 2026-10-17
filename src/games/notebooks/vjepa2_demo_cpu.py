@@ -142,7 +142,10 @@ def load_pretrained_vjepa_classifier_weights(classifier):
 
     pretrained_dict = edit_weights(pretrained_dict)
     print('before del')
-    #show_keys(pretrained_dict)
+    
+    show_keys(pretrained_dict)
+    show_shape(pretrained_dict, 'linear.weight')
+    show_shape(pretrained_dict, 'linear.bias')
 
     #in_features = classifier.linear.in_features
     out_features = classifier.linear.out_features
